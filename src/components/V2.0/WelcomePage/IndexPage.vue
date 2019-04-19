@@ -46,7 +46,7 @@
                         v-model="signInForm.username"
                         class="sign-input username"
                         placeholder="请输入用户名"
-                        @keyup.enter.native="nextStep('signInForm')"
+                        @keyup.enter.native="nextStep()"
                         clearable
                       ></el-input>
                     </el-col>
@@ -68,7 +68,7 @@
                     </el-col>
                   </el-row>
                 </el-form-item>
-                <el-form-item label prop="password" v-show="showSignInForm">
+                <el-form-item label prop="verifyCode" v-show="showSignInForm">
                   <el-row :gutter="10">
                     <el-col :span="12">
                       <el-input
@@ -100,7 +100,7 @@
                     type="primary"
                     class="btn-submit"
                     round
-                    @click="nextStep('signInForm')"
+                    @click="nextStep()"
                   >设置</el-button>
                   <el-button
                     v-show="showSignInForm"
@@ -152,15 +152,12 @@ export default {
       version: '1.0.0',
       signInForm: {
         server: '',
-        username: window.location.hostname === 'localhost' ? 'qiang' : '',
-        password: window.location.hostname === 'localhost' ? '1qaz@WSX' : '',
+        username: '',
+        password: '',
         verifyCode: '',
         rememberMe: false
       },
       signInFormRules: {
-        server: [
-          { required: true, message: '请输入服务器地址', trigger: 'blur' }
-        ],
         username: [
           { required: true, message: '请输入登陆用户名', trigger: 'blur' }
         ],
@@ -182,18 +179,16 @@ export default {
         this.verifyImage = imgData
       }
     },
-    nextStep (formName) {
-      if (!this.signInForm.server || !this.signInForm.username) {
-        this.submitForm(formName)
-        return false
+    nextStep () {
+      if (this.signInForm.server) {
+        this.setMSS(this.signInForm.server)
       }
-      document.querySelector('#passcode-input').focus()
     },
     submitForm (formName) {
       let _this = this
       _this.$refs[formName].validate(valid => {
         if (valid) {
-          _this.setMSS(_this.signInForm.server)
+          _this.autoLogin()
         } else {
           console.log('error submit!!')
           return false
@@ -205,11 +200,12 @@ export default {
     },
     setMSS (server) {
       let _this = this
+      console.log('set mss server', server)
       Utils.initServerConfig(
         server,
         function () {
           _this.$store.dispatch('serverSetting/setServer', server)
-          _this.autoLogin()
+          _this.showSignInForm = true
         },
         true
       )
@@ -251,8 +247,7 @@ export default {
     },
     getServer: function () {
       this.signInForm.server =
-        this.$store.state.serverSetting.serverAddr ||
-        (window.location.hostname === 'localhost' ? 'dev.fdclouds.com' : '')
+        this.$store.state.serverSetting.serverAddr || ''
       if (this.signInForm.server) {
         this.showSignInForm = true
       }
@@ -265,6 +260,7 @@ export default {
     },
     clearServerSet () {
       this.$store.dispatch('serverSetting/setServer', '')
+      this.signInForm.server = ''
       this.showSignInForm = false
     },
     getAppVersion () {
