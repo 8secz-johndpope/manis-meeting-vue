@@ -134,13 +134,22 @@
           </el-col>
         </el-row>
       </el-main>
+      <el-footer>
+        <el-row :gutter="10" type="flex"  justify="end">
+          <el-col :span="6">
+            <div class="grid-content text-right">
+              <small>{{ version }}</small>
+            </div>
+          </el-col>
+        </el-row>
+      </el-footer>
     </el-container>
   </div>
 </template>
 
 <script>
 import Utils from '../../../utils/utils'
-// const {app} = require('electron').remote
+const {app} = require('electron').remote
 
 export default {
   name: 'v2-login-index-page',
@@ -269,13 +278,13 @@ export default {
        * @BeforePublish
        * uncomment this before publish to repository
        */
-      // let appName = app.getName()
-      // if (appName.indexOf('scmeeting') > -1) {
-      //   this.appName = 'SCMeeting' + this.appName
-      // } else if (appName.indexOf('xiaoqiang') > -1) {
-      //   this.appName += 'SCMeeting' + this.appName
-      // }
-      // this.version = app.getVersion()
+      let appName = app.getName()
+      if (appName.indexOf('scmeeting') > -1) {
+        this.appName = 'SCMeeting' + this.appName
+      } else if (appName.indexOf('xiaoqiang') > -1) {
+        this.appName += 'SCMeeting' + this.appName
+      }
+      this.version = app.getVersion()
     }
   },
   computed: {},
@@ -422,6 +431,10 @@ div.row-sign-in {
 .reset-server {
   color: #ffffff;
   font-size: 12px;
+}
+
+.text-right {
+  text-align: right;
 }
 
 </style>

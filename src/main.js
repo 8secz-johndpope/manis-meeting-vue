@@ -21,4 +21,6 @@ new Vue({
 
 // export default {
 //   render: h => h(App),
+//   router,
+//   store
 // }
