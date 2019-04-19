@@ -1,0 +1,25 @@
+@font-face {
+    font-family: 'SourceHanSansSC-bold';
+    src:  url('../fonts/bold/SOURCEHANSANSSC-BOLD.eot');
+    src:  url('../fonts/bold/SOURCEHANSANSSC-BOLD.eot') format('embedded-opentype'),
+      url('../fonts/bold/SOURCEHANSANSSC-BOLD.ttf') format('truetype'),
+      url('../fonts/bold/SOURCEHANSANSSC-BOLD.woff') format('woff'),
+      url('../fonts/bold/SOURCEHANSANSSC-BOLD.svg') format('svg');
+    font-weight: normal;
+    font-style: normal;
+  }
+
+@font-face {
+    font-family: 'SourceHanSansSC-regular';
+    src:  url('../fonts/regular/SourceHanSansSC-Regular.eot');
+    src:  url('../fonts/regular/SourceHanSansSC-Regular.eot') format('embedded-opentype'),
+        url('../fonts/regular/SourceHanSansSC-Regular.ttf') format('truetype'),
+        url('../fonts/regular/SourceHanSansSC-Regular.woff') format('woff'),
+        url('../fonts/regular/SourceHanSansSC-Regular.svg') format('svg');
+    font-weight: normal;
+    font-style: normal;
+}
+
+html body {
+    font-family: -apple-system, "SF UI Text", "Helvetica Neue", Arial, "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", "WenQuanYi Zen Hei", sans-serif, 'SourceHanSansSC-regular', 'SourceHanSansSC-bold';
+}
