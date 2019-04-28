@@ -5,8 +5,8 @@ const Manis = window.Manis
  * replace this defined before publish to repository
  * @type {null}
  */
-// const Shell = null
-const Shell = require('electron').shell
+const Shell = null
+// const Shell = require('electron').shell
 
 export default {
   /**
@@ -1389,6 +1389,39 @@ export default {
   },
 
   /**
+   * format timestamp
+   * @param timestamp
+   * @returns {*}
+   */
+  formatTimestamp: function (timestamp) {
+    var newDate = new Date()
+    newDate.setTime(timestamp)
+    let timeStamp = this.doFormatDate(newDate, 'yyyy-MM-dd hh:mm')
+    return timeStamp
+  },
+
+  /**
+   * format repeat type
+   * @param type
+   * @returns {string}
+   */
+  repeatType: function (type) {
+    var language = window.localStorage.getItem('defaultLanguage') || 'zh'
+    var str = (language === 'zh') ? '每天重复' : 'Repeat everyday'
+    switch (type) {
+      case 1:
+        str = (language === 'zh') ? '每周重复' : 'Repeat every week'
+        break
+      case 2:
+        str = (language === 'zh') ? '每月重复' : 'Repeat on a monthly basis'
+        break
+      default:
+        str = (language === 'zh') ? '每天重复' : 'Repeat everyday'
+    }
+    return str
+  },
+
+  /**
    * pad left zero
    * @param str
    * @returns {string}
@@ -1416,6 +1449,78 @@ export default {
       returnStr = returnStr.replace('sip:69', 'tel:')
     }
     return returnStr
-  }
+  },
 
+  /**
+   * find operator from participants
+   * @param participants
+   * @returns {*}
+   */
+  findOperator: function (participants) {
+    var operator = null
+    for (var i = 0; i < participants.length; i++) {
+      var participant = participants[i]
+      if (participant.owner === 'CRUO') {
+        operator = participant
+      }
+    }
+    return operator ? operator.userName : '无'
+  },
+
+  /**
+   * calculate conference duration
+   * @param seconds
+   * @returns {number}
+   */
+  calculateDuration: function (seconds) {
+    let minutes = parseInt(seconds) / 60
+    return Math.floor(minutes)
+  },
+
+  /**
+   * format conference type
+   * @param conference
+   * @returns {string}
+   */
+  formatConferenceType: function (conference) {
+    var language = window.localStorage.getItem('defaultLanguage') || 'zh'
+    if (conference.type === 'CTF1') {
+      return language === 'zh' ? '固定会议' : 'Static meeting'
+    }
+    if (conference.cycle === 1) {
+      var endTime = this.formatTimestamp(conference.cycleEndDay)
+      var repeatStr = this.repeatType(conference.cycleDmy)
+      var returnStr = (language === 'zh') ? (endTime + ' 前' + repeatStr) : (repeatStr + 'Before' + endTime)
+      return returnStr
+    } else {
+      return language === 'zh' ? '一次性会议' : 'One-off meeting'
+    }
+  },
+
+  /**
+   * get my private room information
+   * @param apiServer
+   * @param config
+   * @param callBack
+   */
+  getPrivateRoom: function (apiServer, config, callBack) {
+    let _this = this
+    let userId = (config && config.mUserId !== undefined) ? (config.mUserId.toUpperCase()) : ''
+    if (!userId) {
+      return false
+    }
+    let url = 'https://' + apiServer +
+      '/clientApi/users/' + userId
+    window.fetch(url)
+      .then(_this.checkStatus)
+      .then(_this.parseJSON)
+      .then(result => {
+        if (result.mcode === 200) {
+          callBack(result)
+        }
+      }).catch((failed) => {
+        console.error(failed)
+        callBack(failed)
+      })
+  }
 }

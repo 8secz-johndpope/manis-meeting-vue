@@ -241,6 +241,8 @@ export default {
         return _this.$router.push({name: 'v2-participate'})
       }
       let participateMode = _this.$route.params.mode || 'anonymous'
+      let passCode = _this.$route.params.code || ''
+      _this.roomPass = passCode
       if (participateMode === 'anonymous') {
         // join as anonymous
         _this.anonymousParticipant(roomNumber)

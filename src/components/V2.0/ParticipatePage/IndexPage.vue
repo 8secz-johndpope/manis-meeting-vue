@@ -2,6 +2,16 @@
   <div class="wrapper">
     <div class="bg-img"></div>
     <el-container>
+      <el-header class="participate-control-header">
+        <el-button circle :class="{'active': videoMute}" :disabled="!localVideo" @click="switchVideoMute">
+          <i class="icon-icons8_No_Video btn-icon" v-if="videoMute"></i>
+          <i class="icon-icons8_Video_Call btn-icon" v-else></i>
+        </el-button>
+        <el-button circle :class="{'active': audioMute}" :disabled="!localAudio" @click="switchAudioMute">
+          <i class="icon-icons8_Mute_Unmute btn-icon" v-if="audioMute"></i>
+          <i class="icon-icons8_Microphone btn-icon" v-else></i>
+        </el-button>
+      </el-header>
       <el-main>
         <anonymous-page v-show="!authorised"></anonymous-page>
         <authorised-page v-show="authorised"></authorised-page>
@@ -37,7 +47,9 @@ export default {
   data: function () {
     return {
       localVideo: null,
-      localAudio: null
+      localAudio: null,
+      audioMute: false,
+      videoMute: false
     }
   },
   methods: {
@@ -127,7 +139,7 @@ export default {
       navigator.mediaDevices.getUserMedia(constraints)
         .then(function (stream) {
           // localAudioIn.srcObject = stream
-          // _this.localAudio = stream
+          _this.localAudio = stream
           // if (_this.audioOut) {
           //   Utils.attachSinkId(localAudioIn, _this.audioOut)
           // }
@@ -148,6 +160,40 @@ export default {
       // var localAudioElement = document.querySelector('#local-audio')
       // Utils.attachSinkId(localAudioElement, device)
       _this.$store.dispatch('deviceSetting/setAudioOut', device)
+    },
+
+    /**
+     * 开关本地音频
+     */
+    switchAudioMute: function () {
+      console.log('current audio mute status: ', this.audioMute, ' will change to:', !this.audioMute)
+      let _this = this
+      if (_this.localAudio) {
+        let localAudioTracks = _this.localAudio.getAudioTracks()
+        if (localAudioTracks.length > 0) {
+          for (let i = 0; i < localAudioTracks.length; i++) {
+            localAudioTracks[i].enabled = _this.audioMute
+          }
+          _this.audioMute = !_this.audioMute
+        }
+      }
+    },
+
+    /**
+     * 开关本地视频
+     */
+    switchVideoMute: function () {
+      console.log('current video mute status: ', this.videoMute, ' will change to:', !this.videoMute)
+      let _this = this
+      if (_this.localVideo) {
+        let localVideoTracks = _this.localVideo.getVideoTracks()
+        if (localVideoTracks.length > 0) {
+          for (let i = 0; i < localVideoTracks.length; i++) {
+            localVideoTracks[i].enabled = _this.videoMute
+          }
+          _this.videoMute = !_this.videoMute
+        }
+      }
     }
   },
   computed: {
@@ -245,6 +291,33 @@ export default {
     object-fit: contain;
     transition: filter 1s;
     filter: none;
+  }
+
+  .participate-control-header {
+    position: absolute;
+    width: 100%;
+    margin-top: 20px;
+    text-align: center;
+    z-index: 2;
+  }
+
+  .el-button--default.is-circle {
+    padding: 8px;
+  }
+
+  .el-button--default.is-circle>span {
+    width: 24px;
+    height: 24px;
+  }
+
+  .el-button--default.is-circle>span>i {
+    font-size: 2rem;
+  }
+
+  .el-button.is-circle.active {
+    background-color: rgba(48, 202, 119, 1);
+    color: rgba(255, 255, 255, 1);
+    border-color: rgba(48, 202, 119, .6);
   }
 
 </style>

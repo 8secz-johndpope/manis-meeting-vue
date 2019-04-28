@@ -129,6 +129,10 @@ export default {
     color: #ffffff;
   }
 
+  .join-room-form-box .el-form-item .el-input__inner {
+    color: black;
+  }
+
   .custom-form .el-form-item__error {
     position: relative;
   }
@@ -144,6 +148,7 @@ export default {
   .authorised-tabs .el-tabs__item.is-active,
   .device-selector-container .el-form-item__label {
     color: #ffffff;
+    font-size: 12px;
   }
 
   .authorised-tabs .el-tabs__nav.is-top {
@@ -161,6 +166,13 @@ export default {
     position: absolute;
     margin-top: 64px;
     width: 100%;
+  }
+
+  .el-popover{
+    background-color: #0D4A96;
+    border: 0px;
+    color: #ffffff;
+    padding: 0px;
   }
 
 </style>

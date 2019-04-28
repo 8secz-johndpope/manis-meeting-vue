@@ -20,6 +20,7 @@ import {
   DropdownMenu,
   DropdownItem,
   Menu,
+  Popover,
   Submenu,
   MenuItem,
   Tabs,
@@ -58,6 +59,7 @@ Vue.component(Dropdown.name, Dropdown)
 Vue.component(DropdownMenu.name, DropdownMenu)
 Vue.component(DropdownItem.name, DropdownItem)
 Vue.component(Menu.name, Menu)
+Vue.component(Popover.name, Popover)
 Vue.component(Submenu.name, Submenu)
 Vue.component(MenuItem.name, MenuItem)
 Vue.component(Tabs.name, Tabs)

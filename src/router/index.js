@@ -6,7 +6,7 @@ Vue.use(Router)
 export default new Router({
   routes: [
     {
-      path: '/meeting/:roomNumber/:mode',
+      path: '/meeting/:roomNumber/:mode/:code?',
       name: 'meeting',
       component: require('../components/MeetingPage/IndexPage').default
     },

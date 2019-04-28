@@ -35,6 +35,7 @@
                         placeholder="请输入服务器地址"
                         clearable
                         @clear="setServerAddress('')"
+                        @keyup.enter.native="nextStep()"
                       ></el-input>
                     </el-col>
                   </el-row>
@@ -46,8 +47,8 @@
                         v-model="signInForm.username"
                         class="sign-input username"
                         placeholder="请输入用户名"
-                        @keyup.enter.native="nextStep()"
                         clearable
+                        autofocus="true"
                       ></el-input>
                     </el-col>
                   </el-row>
@@ -63,7 +64,6 @@
                         placeholder="请输入用户密码"
                         @keyup.enter.native="submitForm('signInForm')"
                         clearable
-                        autofocus="true"
                       ></el-input>
                     </el-col>
                   </el-row>
@@ -79,7 +79,6 @@
                         placeholder="验证码"
                         @keyup.enter.native="submitForm('signInForm')"
                         clearable
-                        autofocus="true"
                       ></el-input>
                     </el-col>
                     <el-col :span="12">
@@ -134,7 +133,7 @@
           </el-col>
         </el-row>
       </el-main>
-      <el-footer>
+      <!-- <el-footer class="versiton-footer">
         <el-row :gutter="10" type="flex"  justify="end">
           <el-col :span="6">
             <div class="grid-content text-right">
@@ -142,14 +141,14 @@
             </div>
           </el-col>
         </el-row>
-      </el-footer>
+      </el-footer> -->
     </el-container>
   </div>
 </template>
 
 <script>
 import Utils from '../../../utils/utils'
-const {app} = require('electron').remote
+// const {app} = require('electron').remote
 
 export default {
   name: 'v2-login-index-page',
@@ -258,6 +257,7 @@ export default {
       this.signInForm.server =
         this.$store.state.serverSetting.serverAddr || ''
       if (this.signInForm.server) {
+        this.setMSS(this.signInForm.server)
         this.showSignInForm = true
       }
     },
@@ -278,13 +278,13 @@ export default {
        * @BeforePublish
        * uncomment this before publish to repository
        */
-      let appName = app.getName()
-      if (appName.indexOf('scmeeting') > -1) {
-        this.appName = 'SCMeeting' + this.appName
-      } else if (appName.indexOf('xiaoqiang') > -1) {
-        this.appName += 'SCMeeting' + this.appName
-      }
-      this.version = app.getVersion()
+      // let appName = app.getName()
+      // if (appName.indexOf('scmeeting') > -1) {
+      //   this.appName = 'SCMeeting' + this.appName
+      // } else if (appName.indexOf('xiaoqiang') > -1) {
+      //   this.appName += 'SCMeeting' + this.appName
+      // }
+      // this.version = app.getVersion()
     }
   },
   computed: {},
@@ -436,5 +436,9 @@ div.row-sign-in {
 .text-right {
   text-align: right;
 }
+
+/* .versiton-footer {
+  height: 18px !important;
+} */
 
 </style>

@@ -3,7 +3,7 @@
     <el-row :gutter="10">
       <el-col :span="24">
         <el-form :inline="true" :model="deviceForm" label-position="top" size="mini">
-          <el-form-item label="摄像头">
+          <el-form-item class="device-selector-item" label="摄像头">
             <el-select
               v-model="deviceForm.videoInput"
               placeholder="视频输入"
@@ -19,7 +19,7 @@
               </el-option>
             </el-select>
           </el-form-item>
-          <el-form-item label="麦克风">
+          <el-form-item class="device-selector-item" label="麦克风">
             <el-select
               v-model="deviceForm.audioInput"
               placeholder="音频输入"
@@ -35,7 +35,7 @@
               </el-option>
             </el-select>
           </el-form-item>
-          <el-form-item label="扬声器">
+          <el-form-item class="device-selector-item" label="扬声器">
             <el-select
               v-model="deviceForm.audioOutput"
               placeholder="音频输出"
@@ -195,6 +195,14 @@ export default {
 
   .audio-play {
     display: none;
+  }
+
+  .device-selector-container .el-form-item__label {
+    font-size: 12px !important;
+  }
+
+  .device-selector-item {
+    width: 190px;
   }
 
 </style>

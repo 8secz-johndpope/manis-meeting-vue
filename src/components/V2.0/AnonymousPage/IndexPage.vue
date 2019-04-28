@@ -3,11 +3,11 @@
     <div class="participate-container gradual-bg">
       <el-row :gutter="10" class="padding-y-10 padding-x-40">
         <el-col :span="24" class="system-title">
-          <h3 class="h3 text-center">匿名加入会议</h3>
+          <h3 class="h3 text-center anonymous-participate-title">匿名加入会议</h3>
         </el-col>
         <el-col :span="24" class="system-sub-title">
           <div class="text-center">
-            <small>如果您没有账号,请使用提供给您的房间号和口令快速加入会议</small>
+            <small class="anonymous-participate-description">请使用提供给您的房间号和口令快速加入会议</small>
           </div>
         </el-col>
         <el-col :span="24">
@@ -19,20 +19,19 @@
               class="custom-form"
               @submit.native.prevent
             >
-              <el-form-item label prop="server">
-                <el-input
-                  v-model="anonymousForm.server"
-                  class="sign-input server"
-                  placeholder="请输入服务器地址"
-                  clearable
-                  @clear="setServerAddress('')"
-                ></el-input>
-              </el-form-item>
               <el-form-item label prop="roomNumber">
                 <el-input
                   v-model="anonymousForm.roomNumber"
                   class="sign-input roomNumber"
-                  placeholder="请输入房间号"
+                  placeholder="房间号"
+                  clearable
+                ></el-input>
+              </el-form-item>
+              <el-form-item label prop="roomPass">
+                <el-input
+                  v-model="anonymousForm.roomPass"
+                  class="sign-input roomPass"
+                  placeholder="口令(可选)"
                   clearable
                 ></el-input>
               </el-form-item>
@@ -40,7 +39,7 @@
                 <el-input
                   v-model="anonymousForm.nickname"
                   class="sign-input nickname"
-                  placeholder="请输入参会昵称"
+                  placeholder="昵称"
                   @keyup.enter.native="submitForm('anonymousForm')"
                   clearable
                   @clear="setNickname('')"
@@ -49,7 +48,7 @@
               <el-form-item>
                 <el-button
                   type="primary"
-                  class="btn-transparent"
+                  class="btn-submit"
                   round
                   @click="submitForm('anonymousForm')"
                 >加入会议
@@ -61,7 +60,7 @@
             <div class="link anonymous-participate-link text-center">
               <span class="text-gray">已经拥有账号?</span>
               <a href="javascript: void (0);" @click="signInPage">
-                <span>现在登录</span>
+                <span class="link-to-sign-in-page">登录</span>
               </a>
             </div>
           </div>
@@ -76,20 +75,20 @@ import Utils from '../../../utils/utils'
 
 export default {
   name: 'v2-anonymous-index-page',
-  components: {
-  },
+  components: {},
   data: function () {
     return {
+      server: '',
       anonymousForm: {
-        server: '',
         roomNumber: '',
+        roomPass: '',
         nickname: ''
       },
       anonymousFormRules: {
-        server: [
+        roomPass: [
           {
-            required: true,
-            message: '请输入服务器地址',
+            required: false,
+            message: '请输入房间口令',
             trigger: 'blur'
           }
         ],
@@ -102,7 +101,7 @@ export default {
         ],
         nickname: [
           {required: true, message: '请输入昵称', trigger: 'blur'},
-          { min: 1, max: 16, message: '长度在 1 到 16 个字符', trigger: 'blur' }
+          {min: 1, max: 16, message: '长度在 1 到 16 个字符', trigger: 'blur'}
         ]
       }
     }
@@ -112,7 +111,7 @@ export default {
       let _this = this
       _this.$refs[formName].validate(valid => {
         if (valid) {
-          _this.setServerConfig(_this.anonymousForm.server)
+          _this.setServerConfig(_this.server)
         } else {
           console.log('error submit!!')
           return false
@@ -121,10 +120,14 @@ export default {
     },
     setServerConfig (server) {
       let _this = this
+      if (!server) {
+        Utils.notification(_this, '请先配置需要连接的服务器', 'error')
+        _this.signInPage()
+        return false
+      }
       Utils.initServerConfig(
         server,
         function () {
-          _this.$store.dispatch('serverSetting/setServer', server)
           _this.anonymousParticipate()
         },
         true
@@ -137,8 +140,11 @@ export default {
         return false
       }
       _this.$store.dispatch('conferenceRoom/clearData')
-      _this.$store.dispatch('serverSetting/setNickname', _this.anonymousForm.nickname)
-      this.$router.push({
+      _this.$store.dispatch(
+        'serverSetting/setNickname',
+        _this.anonymousForm.nickname
+      )
+      _this.$router.push({
         name: 'meeting',
         params: {
           roomNumber: _this.anonymousForm.roomNumber,
@@ -150,18 +156,13 @@ export default {
       this.$refs[formName].resetFields()
     },
     getNickname () {
-      this.anonymousForm.nickname =
-          this.$store.state.serverSetting.nickname || ''
+      this.anonymousForm.nickname = this.$store.state.serverSetting.nickname || ''
     },
     getServer () {
-      this.anonymousForm.server =
-          this.$store.state.serverSetting.serverAddr || ''
+      this.server = this.$store.state.serverSetting.serverAddr || ''
     },
     signInPage () {
       this.$router.push({name: 'v2-login'})
-    },
-    setServerAddress (server) {
-      this.$store.dispatch('serverSetting/setServer', server)
     },
     setNickname (nickname) {
       this.$store.dispatch('serverSetting/setNickname', nickname)
@@ -192,6 +193,7 @@ export default {
     width: 360px;
     position: fixed;
     z-index: 2;
+    border-radius: 5px;
   }
 
   .system-title,
@@ -244,12 +246,39 @@ export default {
   }
 
   .gradual-bg {
-    background: -webkit-gradient(
-      linear,
-      10% 10%,
-      100% 100%,
-      color-stop(0.34, rgb(62, 68, 89)),
-      color-stop(1, rgb(148, 145, 126))
-    );
+    background: #0D4A96 100%;
+    /*background: -webkit-gradient(*/
+    /*linear,*/
+    /*10% 10%,*/
+    /*100% 100%,*/
+    /*color-stop(0.34, rgb(62, 68, 89)),*/
+    /*color-stop(1, rgb(148, 145, 126))*/
+    /*);*/
+  }
+
+  .anonymous-participate-title {
+    color: rgba(255, 255, 255, 1);
+    font-size: 20px;
+  }
+
+  .anonymous-participate-description, .anonymous-participate-link {
+    height: 18px;
+    color: rgba(255, 255, 255, 1);
+    font-size: 12px;
+  }
+
+  .anonymous-participate-link .link-to-sign-in-page {
+    border-bottom: 1px solid #ffffff;
+  }
+
+  .btn-submit {
+    width: 240px;
+    height: 45px;
+    border-radius: 50px 50px 50px 50px;
+    background-color: rgba(48, 202, 119, 1);
+    color: rgba(255, 255, 255, 1);
+    font-size: 14px;
+    text-align: center;
+    font-family: Microsoft Yahei;
   }
 </style>
