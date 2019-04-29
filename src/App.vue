@@ -169,10 +169,10 @@ export default {
   }
 
   .el-popover{
-    background-color: #0D4A96;
-    border: 0px;
-    color: #ffffff;
-    padding: 0px;
+    background-color: #0D4A96 !important;
+    border: 0px !important;
+    color: #ffffff !important;
+    padding: 0px !important;
   }
 
   .members-btn .el-badge__content.is-fixed {

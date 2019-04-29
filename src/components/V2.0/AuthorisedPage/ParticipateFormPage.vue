@@ -137,13 +137,15 @@ export default {
 </script>
 
 <style scoped>
-  .gradual-bg {
-    background-color: #ffffff;
-    color: black;
-  }
+  /*.gradual-bg {*/
+    /*background-color: #ffffff;*/
+    /*color: black;*/
+  /*}*/
 
   .block-bottom {
     border-radius: 5px;
+    background-color: #ffffff !important;
+    color: black !important;
   }
 
   .join-room-form .el-form-item {

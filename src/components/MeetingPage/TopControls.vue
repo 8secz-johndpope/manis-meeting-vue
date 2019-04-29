@@ -40,8 +40,8 @@
       <div class="top-btn-block right-btn-block">
         <el-row>
           <el-col :span="4">
-            <div class="close-right-btn-container" v-if="showAdminRight || showMembers || showTextMsg || showDeviceSetting">
-              <el-button icon="el-icon-close" circle @click="closeSideBar"></el-button>
+            <div class="close-right-btn-container">
+              <el-button icon="el-icon-close" circle @click="closeSideBar"  v-if="showAdminRight || showMembers || showTextMsg || showDeviceSetting"></el-button>
             </div>
           </el-col>
           <el-col :span="5" class="block-right-text">
@@ -217,7 +217,7 @@ export default {
   }
 
   div.center-btn-block {
-    width: 320px;
+    width: 280px;
     margin: 0 auto;
     z-index: 3;
   }
@@ -228,7 +228,7 @@ export default {
     top: 4px;
     right: 0px;
     float: right;
-    padding-right: 20px;
+    /*padding-right: 20px;*/
     z-index: 3;
   }
 
@@ -303,7 +303,8 @@ export default {
   }
 
   .close-right-btn-container {
-    padding: 12px 0px;
+    width: 40px;
+    padding: 4px 0px;
   }
 
 </style>
