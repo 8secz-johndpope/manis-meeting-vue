@@ -148,7 +148,7 @@
 
 <script>
 import Utils from '../../../utils/utils'
-// const {app} = require('electron').remote
+const {app} = require('electron').remote
 
 export default {
   name: 'v2-login-index-page',
