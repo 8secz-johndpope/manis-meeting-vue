@@ -208,9 +208,15 @@ export default {
     },
     authorised: function () {
       return this.$store.state.userSetting.authorization
+    },
+    serverAddr: function () {
+      return this.$store.state.serverSetting.serverAddr
     }
   },
   mounted: function () {
+    if (!this.serverAddr) {
+      return this.$router.push({name: 'v2-login'})
+    }
   },
   beforeDestroy: function () {
     let _this = this

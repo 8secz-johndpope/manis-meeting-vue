@@ -406,6 +406,7 @@ export default {
   .form-title {
     text-align: center;
     margin-bottom: 40px;
+    color: #333333;
   }
 
   .el-form-item__content .audio-in-level {

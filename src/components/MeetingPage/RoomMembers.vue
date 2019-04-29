@@ -2,26 +2,34 @@
   <div class="room-members">
     <el-row type="flex" justify="center" class="member-row room-info-row">
       <el-col :span="20">
-        <div class="room-info">
+        <el-row class="room-info">
           <el-col :span="11"><span>会议房间号:</span></el-col>
           <el-col :span="13"><span>{{ roomNumber }}</span></el-col>
-        </div>
-        <div class="room-info">
+        </el-row>
+        <el-row class="room-info">
           <el-col :span="11"><span>会议类型:</span></el-col>
           <el-col :span="13"><span>{{ roomNumber | formatRoomType }}</span></el-col>
-        </div>
-        <div class="room-info">
+        </el-row>
+        <el-row class="room-info">
           <el-col :span="11"><span>参会昵称:</span></el-col>
           <el-col :span="13"><span>{{ nickname | getNickname }}</span></el-col>
-        </div>
-        <div class="room-info">
+        </el-row>
+        <el-row class="room-info">
           <el-col :span="11"><span>参会角色:</span></el-col>
           <el-col :span="13"><span>{{ isModerator | formatRole }}</span></el-col>
-        </div>
+        </el-row>
       </el-col>
     </el-row>
     <el-row type="flex" justify="center" class="member-row room-member-row">
       <el-col :span="20">
+        <el-row class="ctl-all-audio-row" :gutter="10" v-show="isModerator">
+          <el-col :span="12">
+            <el-button type="danger" @click="setRoomAudioMute(true)" :disabled="allMute">全员静音</el-button>
+          </el-col>
+          <el-col :span="12">
+            <el-button type="success" @click="setRoomAudioMute(false)" :disabled="!allMute">取消静音</el-button>
+          </el-col>
+        </el-row>
         <el-collapse>
           <el-collapse-item v-for="(item, index ) in members" :key="index">
             <template slot="title">
@@ -94,7 +102,8 @@ export default {
   data: function () {
     return {
       roomNumber: '',
-      textarea: 'https://dev.fdclouds.com/meeting/101220016'
+      textarea: 'https://dev.fdclouds.com/meeting/101220016',
+      allMute: false
     }
   },
   filters: {
@@ -219,6 +228,14 @@ export default {
           }]
         ]
       })
+    },
+
+    setRoomAudioMute: function (status) {
+      let _this = this
+      Utils.switchAllAudioMute(status, function (res) {
+        console.log('handle set room audio status result: ', res)
+        _this.allMute = status
+      })
     }
   },
   mounted: function () {
@@ -241,12 +258,12 @@ export default {
 
   .member-item a {
     text-decoration:none;
-    color: #EEEEEE;
+    color: #333333;
     font-size: 1.2rem;
   }
 
   .member-info, .room-info-row, .el-collapse-item__arrow {
-    color: #EEEEEE;
+    color: #333333;
   }
 
   .room-invite-row {
@@ -254,6 +271,14 @@ export default {
     bottom: 0px;
     width: 360px;
     z-index: 3;
+  }
+
+  .room-member-row {
+    border-top: 1px solid #333333;
+  }
+
+  .ctl-all-audio-row {
+    margin-top: 10px;
   }
 
 </style>

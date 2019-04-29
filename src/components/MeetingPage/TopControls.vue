@@ -14,24 +14,24 @@
       <div class="top-btn-block center-btn-block">
         <el-row>
           <el-col :span="6" class="block-center-text">
-            <el-button circle @click="switchAudioMute" :class="{'active': audioMute}">
+            <el-button circle @click="switchAudioMute" :class="['ctl-btn',{'active': audioMute}]">
               <i class="icon-icons8_Mute_Unmute btn-icon"  v-if="audioMute"></i>
               <i class="icon-icons8_Microphone btn-icon"  v-else></i>
             </el-button>
           </el-col>
           <el-col :span="6" class="block-center-text">
-            <el-button circle @click="switchVideoMute" :class="{'active': videoMute}">
+            <el-button circle @click="switchVideoMute" :class="['ctl-btn',{'active': videoMute}]">
               <i class="icon-icons8_No_Video btn-icon"  v-if="videoMute"></i>
               <i class="icon-icons8_Video_Call btn-icon"  v-else></i>
             </el-button>
           </el-col>
           <el-col :span="6" class="block-center-text">
-            <el-button circle @click="switchScreenShare" :class="{'active': screenShareStatus}" :disabled="!isModerator">
+            <el-button circle @click="switchScreenShare" :class="['ctl-btn', {'active': screenShareStatus}]" :disabled="!isModerator">
               <i class="icon-icons8_Laptop btn-icon"></i>
             </el-button>
           </el-col>
           <el-col :span="6" class="block-center-text">
-            <el-button circle @click="leaveRoom">
+            <el-button circle @click="leaveRoom" class="ctl-btn">
               <i class="icon-icons8_End_Call btn-icon text-danger"></i>
             </el-button>
           </el-col>
@@ -39,25 +39,36 @@
       </div>
       <div class="top-btn-block right-btn-block">
         <el-row>
-          <el-col :span="6" class="block-right-text">
-            <el-button circle @click="switchFetchAdmin" :class="{'active': showAdminRight}">
+          <el-col :span="4">
+            <div class="close-right-btn-container" v-if="showAdminRight || showMembers || showTextMsg || showDeviceSetting">
+              <el-button icon="el-icon-close" circle @click="closeSideBar"></el-button>
+            </div>
+          </el-col>
+          <el-col :span="5" class="block-right-text">
+            <el-button @click="switchFetchAdmin" :class="['right-ctl-btn', {'active': showAdminRight}]">
               <i class="icon-icons8_Moderator btn-icon"></i>
+              <div class="text-center"><small>管理</small></div>
             </el-button>
           </el-col>
-          <el-col :span="6" class="block-right-text">
-            <el-button circle @click="switchRoomMembers" :class="{'active': showMembers}">
-              <i class="icon-icons8_User_Account btn-icon"></i>
-            </el-button>
+          <el-col :span="5" class="block-right-text">
+            <el-badge :value="membersCount" class="members-btn" type="info">
+              <el-button @click="switchRoomMembers" :class="['right-ctl-btn', {'active': showMembers}]">
+                <i class="icon-icons8_User_Account btn-icon"></i>
+                <div class="text-center"><small>参会人</small></div>
+              </el-button>
+            </el-badge>
           </el-col>
-          <el-col :span="6" class="block-right-text">
-            <el-button circle @click="switchTextMsg" :class="{'active': showTextMsg}">
+          <el-col :span="5" class="block-right-text">
+            <el-button @click="switchTextMsg" :class="['right-ctl-btn', {'active': showTextMsg}]">
               <el-badge v-if="unreadMsg" is-dot class="item"><i class="icon-icons8_Chat btn-icon"></i></el-badge>
               <span v-else><i class="icon-icons8_Chat btn-icon"></i></span>
+              <div class="text-center"><small>聊天</small></div>
             </el-button>
           </el-col>
-          <el-col :span="6" class="block-right-text">
-            <el-button circle @click="switchDeviceSetting" :class="{'active': showDeviceSetting}">
+          <el-col :span="5" class="block-right-text">
+            <el-button @click="switchDeviceSetting" :class="['right-ctl-btn', {'active': showDeviceSetting}]">
               <i class="icon-icons8_Settings btn-icon"></i>
+              <div class="text-center"><small>设置</small></div>
             </el-button>
           </el-col>
         </el-row>
@@ -83,16 +94,26 @@ export default {
   },
   data: function () {
     return {
+      membersCount: 1
     }
   },
   methods: {
     leaveRoom: function () {
       this.$emit('leaveRoom')
     },
-    switchRoomMembers: function () {
+    getMembers: function (cb) {
       let _this = this
       Utils.getParticipateMembers(function (members) {
         console.log('handle room members: ', members)
+        _this.membersCount = members.length
+        if (cb && typeof (cb) === 'function') {
+          cb(members)
+        }
+      })
+    },
+    switchRoomMembers: function () {
+      let _this = this
+      _this.getMembers(members => {
         _this.$emit('switchRoomMembers', members)
       })
     },
@@ -104,6 +125,9 @@ export default {
     },
     switchFetchAdmin: function () {
       this.$emit('switchAdminRightManage')
+    },
+    closeSideBar: function () {
+      this.$emit('closeSideBar')
     },
     switchAudioMute: function () {
       let _this = this
@@ -160,7 +184,7 @@ export default {
     }
   },
   mounted: function () {
-
+    this.getMembers()
   }
 }
 </script>
@@ -199,11 +223,12 @@ export default {
   }
 
   div.right-btn-block {
-    width: 320px;
+    width: 380px;
     position: fixed;
     top: 4px;
-    right: 24px;
+    right: 0px;
     float: right;
+    padding-right: 20px;
     z-index: 3;
   }
 
@@ -253,17 +278,32 @@ export default {
     -o-animation: blink 3s linear infinite;
   }
 
-  .el-button, .el-button:hover, .el-button:active, .el-button:focus {
-    background: #333;
+  .el-button.ctl-btn, .el-button.ctl-btn:hover, .el-button.ctl-btn:active, .el-button.ctl-btn:focus {
+    /*background: #333;*/
     border: 2px solid #dcdfe6;
   }
 
-  .el-button.is-disabled, .el-button.is-disabled:focus, .el-button.is-disabled:hover {
+  .el-button.ctl-btn.is-disabled, .el-button.ctl-btn.is-disabled:focus, .el-button.ctl-btn.is-disabled:hover {
     background-color: #aaa;
   }
 
-  button.active {
+  .el-button.ctl-btn.active {
     background: #5ED055;
+    color: #ffffff;
+  }
+
+  .el-button.right-ctl-btn {
+    border: 0px;
+    background: none;
+    color: #ffffff;
+  }
+
+  .el-button.right-ctl-btn.active {
+    color: #5ED055;
+  }
+
+  .close-right-btn-container {
+    padding: 12px 0px;
   }
 
 </style>

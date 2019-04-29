@@ -85,7 +85,7 @@ export default {
   }
 
   .device-setting-form .el-form-item__label, .basic-setting-form  .el-form-item__label{
-    color: #EEEEEE;
+    color: #333333;
   }
 
   .hidden {
@@ -96,7 +96,7 @@ export default {
     display: block !important;
   }
 
-  .ctl-top-row .el-button {
+  .ctl-top-row .el-button.ctl-btn {
     width: 52px !important;
     height: 48px !important;
   }
@@ -173,6 +173,11 @@ export default {
     border: 0px;
     color: #ffffff;
     padding: 0px;
+  }
+
+  .members-btn .el-badge__content.is-fixed {
+    top: 14px;
+    right: 20px;
   }
 
 </style>

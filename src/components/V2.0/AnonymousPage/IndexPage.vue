@@ -148,7 +148,8 @@ export default {
         name: 'meeting',
         params: {
           roomNumber: _this.anonymousForm.roomNumber,
-          mode: 'anonymous'
+          mode: 'anonymous',
+          code: _this.anonymousForm.roomPass
         }
       })
     },

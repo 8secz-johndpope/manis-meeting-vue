@@ -117,7 +117,7 @@
                 <!--<small>忘记密码</small>-->
                 <!--</a>-->
               </div>
-              <div class="link anonymous-participate-link text-center">
+              <div class="link anonymous-participate-link text-center" v-show="serverAddr">
                 <a href="javascript: void (0);" @click="anonymousParticipate">
                   <span class="anonymous-link">匿名入会</span>
                 </a>
@@ -125,7 +125,7 @@
             </div>
           </el-col>
         </el-row>
-        <el-row :gutter="10" class="version-row">
+        <el-row :gutter="10" class="version-row" v-show="serverAddr">
           <el-col :span="24">
             <div class="version text-center">
               <span class="reset-server">更换主站? 点击<a href="javascript: void(0);" @click="clearServerSet"><span>初始化</span></a></span>
@@ -287,7 +287,11 @@ export default {
       // this.version = app.getVersion()
     }
   },
-  computed: {},
+  computed: {
+    serverAddr: function () {
+      return this.$store.state.serverSetting.serverAddr
+    }
+  },
   mounted: function () {
     this.getAppVersion()
     this.getServer()

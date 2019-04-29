@@ -15,6 +15,7 @@
             v-on:switchTextMsg="switchTextMsg"
             v-on:switchDeviceSetting="switchDeviceSetting"
             v-on:switchAdminRightManage="switchAdminRightManage"
+            v-on:closeSideBar="closeSideBar"
             v-on:switchScreenShare="switchScreenShare"
             v-on:stopShareScreen="stopShareScreen"
           ></top-controls>
@@ -182,14 +183,14 @@ export default {
       this.showTextMsg = false
       this.showDeviceSetting = false
       this.showAdminRight = false
-      this.showMembers = !this.showMembers
+      this.showMembers = true
     },
 
     switchTextMsg: function () {
       this.showMembers = false
       this.showDeviceSetting = false
       this.showAdminRight = false
-      this.showTextMsg = !this.showTextMsg
+      this.showTextMsg = true
       this.unreadMsg = false
     },
 
@@ -197,14 +198,21 @@ export default {
       this.showTextMsg = false
       this.showMembers = false
       this.showAdminRight = false
-      this.showDeviceSetting = !this.showDeviceSetting
+      this.showDeviceSetting = true
     },
 
     switchAdminRightManage: function () {
       this.showTextMsg = false
       this.showMembers = false
       this.showDeviceSetting = false
-      this.showAdminRight = !this.showAdminRight
+      this.showAdminRight = true
+    },
+
+    closeSideBar: function () {
+      this.showTextMsg = false
+      this.showMembers = false
+      this.showDeviceSetting = false
+      this.showAdminRight = false
     },
 
     passwordConfirm: function (pass) {
@@ -241,7 +249,7 @@ export default {
         return _this.$router.push({name: 'v2-participate'})
       }
       let participateMode = _this.$route.params.mode || 'anonymous'
-      let passCode = _this.$route.params.code || ''
+      let passCode = _this.roomPass || _this.$route.params.code
       _this.roomPass = passCode
       if (participateMode === 'anonymous') {
         // join as anonymous
@@ -578,7 +586,7 @@ export default {
   }
 
   .main-container .top-control-container {
-    display: none;
+    display: block;
   }
 
   .main-container:hover .top-control-container {
@@ -589,7 +597,7 @@ export default {
     position: absolute;
     right: 0px;
     width: 360px !important;
-    background: rgba(0, 0, 0, 0.75) none repeat scroll !important;
+    background: rgba(255, 255, 255, 1) none repeat scroll !important;
     height: 100%;
     z-index: 2;
     padding-top: 64px;

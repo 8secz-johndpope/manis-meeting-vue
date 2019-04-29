@@ -1522,5 +1522,21 @@ export default {
         console.error(failed)
         callBack(failed)
       })
+  },
+
+  /**
+   * set all room audio mute switch
+   * @param status
+   * @param callBack
+   */
+  switchAllAudioMute: function (status, callBack) {
+    let _this = this
+    Manis.setRoomAudioMute(status, function (res) {
+      if (res.errorCode === _this.noErr) {
+        callBack(res)
+      } else {
+        console.error(res)
+      }
+    })
   }
 }
