@@ -431,13 +431,15 @@ export default {
 
     initMediaDeviceStatus: function () {
       let _this = this
-      if (!window.config.withAudio) {
-        _this.setLocalAudioStatus(!window.config.withAudio, function () {
+      let audioMute = _this.$route.params.audio_muted || false
+      let videoMute = _this.$route.params.video_muted || false
+      if (!window.config.withAudio || audioMute) {
+        _this.setLocalAudioStatus(!window.config.withAudio || audioMute, function () {
           _this.audioTakeover = !window.config.withAudio
         })
       }
-      if (!window.config.withVideo) {
-        _this.setLocalVideoStatus(!window.config.withVideo, function () {
+      if (!window.config.withVideo || videoMute) {
+        _this.setLocalVideoStatus(!window.config.withVideo || videoMute, function () {
           _this.videoTakeover = !window.config.withVideo
         })
       }

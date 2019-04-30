@@ -360,13 +360,18 @@ export default {
         return false
       }
       _this.$store.dispatch('conferenceRoom/clearData')
-      _this.$router.push({
-        name: 'meeting',
-        params: {
-          roomNumber: room,
-          mode: 'authorised',
-          code: (pass || '')
-        }
+      // _this.$router.push({
+      //   name: 'meeting',
+      //   params: {
+      //     roomNumber: room,
+      //     mode: 'authorised',
+      //     code: (pass || '')
+      //   }
+      // })
+      _this.$emit('doAttendIntoRoom', {
+        roomNumber: room,
+        mode: 'authorised',
+        code: (pass || '')
       })
     }
   },

@@ -13,8 +13,8 @@
         </el-button>
       </el-header>
       <el-main>
-        <anonymous-page v-show="!authorised"></anonymous-page>
-        <authorised-page v-show="authorised"></authorised-page>
+        <anonymous-page v-show="!authorised" v-on:doAttendIntoRoom="doAttendIntoRoom"></anonymous-page>
+        <authorised-page v-show="authorised" v-on:doAttendIntoRoom="doAttendIntoRoom"></authorised-page>
         <device-selector-page
         v-on:videoInputChange="videoInChange"
         v-on:audioInputChange="audioInChange"
@@ -180,7 +180,7 @@ export default {
     },
 
     /**
-     * 开关本地视频 TODO 此时关闭掉音视频后进入会议室应该也是对应的状态,对接MeetingPage/IndexPage.vue的initMediaDeviceStatus方法
+     * 开关本地视频
      */
     switchVideoMute: function () {
       console.log('current video mute status: ', this.videoMute, ' will change to:', !this.videoMute)
@@ -194,6 +194,20 @@ export default {
           _this.videoMute = !_this.videoMute
         }
       }
+    },
+
+    /**
+     *  开始进入房间
+     * @param params
+     */
+    doAttendIntoRoom: function (params) {
+      let _this = this
+      params.audio_muted = _this.audioMute
+      params.video_muted = _this.videoMute
+      _this.$router.push({
+        name: 'meeting',
+        params: params
+      })
     }
   },
   computed: {

@@ -133,7 +133,7 @@ export default {
     },
     switchAudioMute: function () {
       let _this = this
-      if (_this.audioTakeover) {
+      if (_this.audioTakeover && !_this.isModerator) {
         Utils.notification(_this, '对不起,您的音频开关已经被管理员接管', 'error')
         return false
       }
@@ -146,7 +146,7 @@ export default {
     },
     switchVideoMute: function () {
       let _this = this
-      if (_this.videoTakeover) {
+      if (_this.videoTakeover && !_this.isModerator) {
         Utils.notification(_this, '对不起,您的视频开关已经被管理员接管', 'error')
         return false
       }

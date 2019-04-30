@@ -144,13 +144,18 @@ export default {
         'serverSetting/setNickname',
         _this.anonymousForm.nickname
       )
-      _this.$router.push({
-        name: 'meeting',
-        params: {
-          roomNumber: _this.anonymousForm.roomNumber,
-          mode: 'anonymous',
-          code: _this.anonymousForm.roomPass
-        }
+      // _this.$router.push({
+      //   name: 'meeting',
+      //   params: {
+      //     roomNumber: _this.anonymousForm.roomNumber,
+      //     mode: 'anonymous',
+      //     code: _this.anonymousForm.roomPass
+      //   }
+      // })
+      _this.$emit('doAttendIntoRoom', {
+        roomNumber: _this.anonymousForm.roomNumber,
+        mode: 'anonymous',
+        code: _this.anonymousForm.roomPass
       })
     },
     resetForm (formName) {
