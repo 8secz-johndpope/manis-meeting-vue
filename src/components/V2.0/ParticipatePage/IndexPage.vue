@@ -180,7 +180,7 @@ export default {
     },
 
     /**
-     * 开关本地视频
+     * 开关本地视频 TODO 此时关闭掉音视频后进入会议室应该也是对应的状态,对接MeetingPage/IndexPage.vue的initMediaDeviceStatus方法
      */
     switchVideoMute: function () {
       console.log('current video mute status: ', this.videoMute, ' will change to:', !this.videoMute)

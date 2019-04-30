@@ -10,6 +10,8 @@
             :showTextMsg="showTextMsg"
             :showDeviceSetting="showDeviceSetting"
             :unreadMsg="unreadMsg"
+            :audioTakeover="audioTakeover"
+            :videoTakeover="videoTakeover"
             v-on:leaveRoom="leaveRoom"
             v-on:switchRoomMembers="switchRoomMembers"
             v-on:switchTextMsg="switchTextMsg"
@@ -18,6 +20,8 @@
             v-on:closeSideBar="closeSideBar"
             v-on:switchScreenShare="switchScreenShare"
             v-on:stopShareScreen="stopShareScreen"
+            v-on:setLocalAudioMuteStatus="setLocalAudioStatus"
+            v-on:setLocalVideoMuteStatus="setLocalVideoStatus"
           ></top-controls>
         </el-container>
         <el-container class="surround-container" v-show="displayMode === '0'">
@@ -134,6 +138,8 @@ export default {
       localStream: null,
       audioIn: null,
       videoIn: null,
+      audioTakeover: false,
+      videoTakeover: false,
       loader: null,
       loadingFullPage: true,
       roomPass: '',
@@ -401,8 +407,45 @@ export default {
       )
     },
 
+    setLocalAudioStatus: function (status, cb) {
+      let _this = this
+      Utils.changeAudioSwitch(status, function (res) {
+        console.log('handle switch audio mute res', res)
+        _this.$store.dispatch('conferenceRoom/updateAudioStatus', res)
+        if (cb && typeof (cb) === 'function') {
+          cb(res)
+        }
+      })
+    },
+
+    setLocalVideoStatus: function (status, cb) {
+      let _this = this
+      Utils.changeVideoSwitch(status, function (res) {
+        console.log('handle switch video mute res', res)
+        _this.$store.dispatch('conferenceRoom/updateVideoStatus', res)
+        if (cb && typeof (cb) === 'function') {
+          cb(res)
+        }
+      })
+    },
+
+    initMediaDeviceStatus: function () {
+      let _this = this
+      if (!window.config.withAudio) {
+        _this.setLocalAudioStatus(!window.config.withAudio, function () {
+          _this.audioTakeover = !window.config.withAudio
+        })
+      }
+      if (!window.config.withVideo) {
+        _this.setLocalVideoStatus(!window.config.withVideo, function () {
+          _this.videoTakeover = !window.config.withVideo
+        })
+      }
+    },
+
     registerEnvHandler: function () {
       let _this = this
+      _this.initMediaDeviceStatus()
       Utils.onParticipate(_this.handleParticipate)
       Utils.onLocalSSRCUpdate(_this.updateLocalSSRC)
       Utils.onSomeoneLeft(_this.handleSomeoneLeft)
@@ -450,11 +493,13 @@ export default {
 
     handleVideoStatusBeenSet: function (res) {
       console.log('handle video status be set: ', res)
+      this.videoTakeover = res.response
       this.$store.dispatch('conferenceRoom/updateVideoStatus', res.response)
     },
 
     handleAudioStatusBeenSet: function (res) {
       console.log('handle audio status be set: ', res)
+      this.audioTakeover = res.response
       this.$store.dispatch('conferenceRoom/updateAudioStatus', res.response)
     },
 
@@ -586,7 +631,7 @@ export default {
   }
 
   .main-container .top-control-container {
-    display: block;
+    display: none;
   }
 
   .main-container:hover .top-control-container {

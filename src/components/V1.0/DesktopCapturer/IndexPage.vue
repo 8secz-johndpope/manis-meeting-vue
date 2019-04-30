@@ -48,6 +48,7 @@ export default {
     },
     initCapture () {
       let _this = this
+      // @TODO comment this in browser
       const {desktopCapturer} = require('electron')
       desktopCapturer.getSources({types: ['window', 'screen']}, (error, sources) => {
         if (error) throw error

@@ -88,7 +88,9 @@ export default {
     showTextMsg: Boolean,
     showDeviceSetting: Boolean,
     showAdminRight: Boolean,
-    unreadMsg: Boolean
+    unreadMsg: Boolean,
+    audioTakeover: Boolean,
+    videoTakeover: Boolean
   },
   components: {
   },
@@ -131,19 +133,29 @@ export default {
     },
     switchAudioMute: function () {
       let _this = this
+      if (_this.audioTakeover) {
+        Utils.notification(_this, '对不起,您的音频开关已经被管理员接管', 'error')
+        return false
+      }
       let status = !_this.audioMute
-      Utils.changeAudioSwitch(status, function (res) {
-        console.log('handle switch audio mute res', res)
-        _this.$store.dispatch('conferenceRoom/updateAudioStatus', res)
-      })
+      // Utils.changeAudioSwitch(status, function (res) {
+      //   console.log('handle switch audio mute res', res)
+      //   _this.$store.dispatch('conferenceRoom/updateAudioStatus', res)
+      // })
+      _this.$emit('setLocalAudioMuteStatus', status)
     },
     switchVideoMute: function () {
       let _this = this
+      if (_this.videoTakeover) {
+        Utils.notification(_this, '对不起,您的视频开关已经被管理员接管', 'error')
+        return false
+      }
       let status = !_this.videoMute
-      Utils.changeVideoSwitch(status, function (res) {
-        console.log('handle switch video mute res', res)
-        _this.$store.dispatch('conferenceRoom/updateVideoStatus', res)
-      })
+      // Utils.changeVideoSwitch(status, function (res) {
+      //   console.log('handle switch video mute res', res)
+      //   _this.$store.dispatch('conferenceRoom/updateVideoStatus', res)
+      // })
+      _this.$emit('setLocalVideoMuteStatus', status)
     },
     switchScreenShare: function () {
       let _this = this
