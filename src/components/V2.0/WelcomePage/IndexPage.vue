@@ -282,7 +282,7 @@ export default {
       if (appName.indexOf('scmeeting') > -1) {
         this.appName = 'SCMeeting' + this.appName
       } else if (appName.indexOf('xiaoqiang') > -1) {
-        this.appName += 'SCMeeting' + this.appName
+        this.appName = '小强在线' + this.appName
       }
       this.version = app.getVersion()
     }
