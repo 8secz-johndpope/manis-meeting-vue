@@ -112,7 +112,7 @@ import TextChat from './TextChat'
 import DeviceSetting from './DeviceSetting'
 import AdminRight from './AdminRight'
 import AudioPage from './AudioPage'
-import DesktopCapture from '../V1.0/DesktopCapturer/IndexPage'
+import DesktopCapture from '../ShareApps/DesktopCapturer'
 import DrawingBoard from '../ShareApps/DrawingBrand'
 import Annotation from '../ShareApps/Annotation'
 

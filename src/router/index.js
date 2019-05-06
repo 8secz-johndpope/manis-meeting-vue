@@ -15,36 +15,20 @@ export default new Router({
       name: 'drawing',
       component: require('../components/ShareApps/DrawingBrand').default
     },
-    /* version 1.0 */
     {
-      path: '/v1/setting/basic',
-      name: 'basic-setting-page',
-      component: require('../components/V1.0/SystemPage/BasicSettingPage').default
+      path: '/about',
+      name: 'about',
+      component: require('../components/Layout/AboutPage').default
     },
     {
-      path: '/v1/setting/device',
-      name: 'device-setting-page',
-      component: require('../components/V1.0/SystemPage/DeviceSettingPage').default
+      path: '/settings',
+      name: 'settings',
+      component: require('../components/Layout/SettingPage').default
     },
     {
-      path: '/v1',
-      name: 'index-page',
-      component: require('../components/V1.0/ConferencePage/IndexPage').default
-    },
-    {
-      path: '/v1/list',
-      name: 'list-page',
-      component: require('../components/V1.0/ConferencePage/ListPage').default
-    },
-    {
-      path: '/v1/login',
-      name: 'login-page',
-      component: require('../components/V1.0/LoginPage').default
-    },
-    {
-      path: '/v1/feedback',
-      name: 'feedback',
-      component: require('../components/V1.0/FeedbackPage/IndexPage').default
+      path: '/update',
+      name: 'update',
+      component: require('../components/Layout/UpdatePage').default
     },
     {
       path: '*',

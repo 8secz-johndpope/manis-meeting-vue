@@ -77,12 +77,12 @@
 </template>
 
 <script>
-import Utils from '../../../../utils/utils'
-import SoundMeter from '../../../../utils/soundmeter'
+import Utils from '../../utils/utils'
+import SoundMeter from '../../utils/soundmeter'
 
 export default {
   name: 'device-form-page',
-  props: {'inRoom': Boolean},
+  props: {'inRoom': Boolean, 'inEnvSetting': Boolean},
   components: {},
   data: function () {
     return {
@@ -121,6 +121,11 @@ export default {
           this.$store.dispatch('deviceSetting/setAudioIn', this.deviceForm.audioInput)
           this.$store.dispatch('deviceSetting/setAudioOut', this.deviceForm.audioOutput)
           this.$store.dispatch('deviceSetting/setVideoIn', this.deviceForm.videoInput)
+          if (this.inEnvSetting) {
+            this.releaseLocalResources()
+            // @TODO send window webcontent to close window
+            return false
+          }
           Utils.notification(this, '参会设备已选定', 'success')
           this.$router.push({name: 'index-page'})
         } else {
@@ -359,6 +364,21 @@ export default {
       this.getStoreAudioIn()
       this.getStoreAudioOut()
       this.getStoreVideoIn()
+    },
+    releaseLocalResources: function () {
+      let _this = this
+      if (_this.localVideo) {
+        _this.localVideo.getTracks().forEach(function (track) {
+          track.stop()
+        })
+        _this.localVideo = null
+      }
+      if (_this.localAudio) {
+        _this.localAudio.getTracks().forEach(function (track) {
+          track.stop()
+        })
+        _this.localAudio = null
+      }
     }
   },
   mounted: function () {
@@ -380,18 +400,7 @@ export default {
   },
   beforeDestroy: function () {
     let _this = this
-    if (_this.localVideo) {
-      _this.localVideo.getTracks().forEach(function (track) {
-        track.stop()
-      })
-      _this.localVideo = null
-    }
-    if (_this.localAudio) {
-      _this.localAudio.getTracks().forEach(function (track) {
-        track.stop()
-      })
-      _this.localAudio = null
-    }
+    _this.releaseLocalResources()
   }
 }
 </script>

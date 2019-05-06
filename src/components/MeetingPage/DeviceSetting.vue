@@ -5,7 +5,7 @@
 </template>
 <script>
 // import Utils from '../../utils/utils'
-import DeviceFormPage from '../V1.0/SystemPage/DevicePage/DeviceFormPage'
+import DeviceFormPage from '../Layout/DeviceFormPage'
 
 export default {
   name: 'meeting-device-setting',

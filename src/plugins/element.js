@@ -25,6 +25,7 @@ import {
   MenuItem,
   Tabs,
   Slider,
+  Progress,
   TabPane,
   Collapse,
   CollapseItem,
@@ -64,6 +65,7 @@ Vue.component(Submenu.name, Submenu)
 Vue.component(MenuItem.name, MenuItem)
 Vue.component(Tabs.name, Tabs)
 Vue.component(Slider.name, Slider)
+Vue.component(Progress.name, Progress)
 Vue.component(TabPane.name, TabPane)
 Vue.component(Collapse.name, Collapse)
 Vue.component(CollapseItem.name, CollapseItem)
