@@ -74,7 +74,9 @@ export default {
       steps: 3
     }
   },
-  methods: {},
+  methods: {
+    // @TODO ipcRensder send msg and handle ipcMain event
+  },
   mounted: function () {},
   computed: {},
   beforeDestroy: function () {}

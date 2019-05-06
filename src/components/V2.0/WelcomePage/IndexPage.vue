@@ -278,13 +278,13 @@ export default {
        * @BeforePublish
        * uncomment this before publish to repository
        */
-      // let appName = app.getName()
-      // if (appName.indexOf('scmeeting') > -1) {
-      //   this.appName = 'SCMeeting' + this.appName
-      // } else if (appName.indexOf('xiaoqiang') > -1) {
-      //   this.appName = '小强在线' + this.appName
-      // }
-      // this.version = app.getVersion()
+      let appName = app.getName()
+      if (appName.indexOf('scmeeting') > -1) {
+        this.appName = 'SCMeeting' + this.appName
+      } else if (appName.indexOf('xiaoqiang') > -1) {
+        this.appName = '小强在线' + this.appName
+      }
+      this.version = app.getVersion()
     }
   },
   computed: {

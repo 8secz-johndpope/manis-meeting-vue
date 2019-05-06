@@ -18,20 +18,6 @@
         </div>
       </el-col>
     </el-row>
-    <!-- <el-row :gutter="10" type="flex" class="row-bg" justify="center">
-      <el-col :span="4">
-        <div class="grid-content">
-          <img :src="logoImgUrl" alt="logo-img">
-        </div>
-      </el-col>
-      <el-col :span="4">
-        <div class="grid-content">
-          <h2 class="text-center">小强在线极速版</h2>
-          <h5 class="text-center">{{ varsion }}</h5>
-          <h4 class="text-center">Xiaoqiang-io Co.,Ltd.</h4>
-        </div>
-      </el-col>
-    </el-row> -->
   </div>
 </template>
 

@@ -123,7 +123,7 @@ export default {
           this.$store.dispatch('deviceSetting/setVideoIn', this.deviceForm.videoInput)
           if (this.inEnvSetting) {
             this.releaseLocalResources()
-            // @TODO send window webcontent to close window
+            this.$emit('saveDevice')
             return false
           }
           Utils.notification(this, '参会设备已选定', 'success')

@@ -47,27 +47,27 @@ export default {
       console.error(e)
     },
     initCapture () {
-      // let _this = this
+      let _this = this
       // @TODO comment this in browser
-      // const {desktopCapturer} = require('electron')
-      // desktopCapturer.getSources({types: ['window', 'screen']}, (error, sources) => {
-      //   if (error) throw error
-      //   _this.captureSources = sources
-      //   for (let i = 0; i < sources.length; ++i) {
-      //     if (sources[i].name !== 'Electron') {
-      //       navigator.mediaDevices.getUserMedia({
-      //         audio: false,
-      //         video: {
-      //           mandatory: {
-      //             chromeMediaSource: 'desktop',
-      //             chromeMediaSourceId: sources[i].id
-      //           }
-      //         }
-      //       }).then((stream) => _this.handleStream(stream, i))
-      //         .catch((e) => _this.handleError(e))
-      //     }
-      //   }
-      // })
+      const {desktopCapturer} = require('electron')
+      desktopCapturer.getSources({types: ['window', 'screen']}, (error, sources) => {
+        if (error) throw error
+        _this.captureSources = sources
+        for (let i = 0; i < sources.length; ++i) {
+          if (sources[i].name !== 'Electron') {
+            navigator.mediaDevices.getUserMedia({
+              audio: false,
+              video: {
+                mandatory: {
+                  chromeMediaSource: 'desktop',
+                  chromeMediaSourceId: sources[i].id
+                }
+              }
+            }).then((stream) => _this.handleStream(stream, i))
+              .catch((e) => _this.handleError(e))
+          }
+        }
+      })
     }
   },
   mounted: function () {
