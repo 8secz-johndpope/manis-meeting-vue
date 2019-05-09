@@ -16,6 +16,7 @@
   "dependencies": {
     "axios": "^0.18.0",
     "core-js": "^3.0.1",
+    "custom-electron-titlebar": "^3.0.8",
     "electron": "^4.1.4",
     "element-ui": "^2.4.5",
     "vue": "^2.5.2",
