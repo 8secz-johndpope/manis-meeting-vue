@@ -1,18 +1,18 @@
 <template>
   <div class="about-container">
     <el-row :gutter="10" type="flex" class="row-bg" justify="center">
-      <el-col class="app-container app-logo" :span="4">
+      <el-col class="app-container app-logo" :span="12">
         <div class="grid-content logo-gird">
           <img :src="logoImgUrl" alt="logo-img">
         </div>
       </el-col>
-      <el-col class="app-container app-content" :span="4">
+      <el-col class="app-container app-content" :span="12">
         <div class="grid-content">
           <div class="app-info app-title">
             <h2 class="text-center">小强在线极速版</h2>
           </div>
           <div class="update-checking-container">
-          <h5 class="text-center">{{ varsion }}</h5>
+          <h5 class="text-center">{{ version }}</h5>
           <h4 class="text-center">Xiaoqiang-io Co.,Ltd.</h4>
           </div>
         </div>
@@ -23,6 +23,7 @@
 
 <script>
 import logoImg from '../../assets/logoColor.png'
+const {app} = require('electron').remote // uncomment this before publish
 
 export default {
   name: 'about-page',
@@ -31,12 +32,13 @@ export default {
   data: function () {
     return {
       logoImgUrl: logoImg,
-      varsion: '1.0.0'
+      version: '1.0.0'
     }
   },
   methods: {
     getVersion () {
-      // @TODO get application version from electron.remote
+      // @TODO uncomment this before publish
+      this.version = app.getVersion()
     }
   },
   mounted: function () {
@@ -49,15 +51,16 @@ export default {
 
 <style scoped>
 .about-container {
-  background: #ffffff;
-  color: #000000;
+  /* background: -webkit-gradient(linear, 0 0, 100% 100%, from(#8c8a84), to(#292f4c)); */
   min-width: 480px;
   min-height: 320px;
   padding-top: 60px;
+  overflow: hidden;
+  color: #2DEDCE;
 }
 
 .app-container.app-content {
-  border-left: 2px solid #a3a3a3;
+  border-left: 2px solid #2DEDCE;
 }
 
 .grid-content {
@@ -67,11 +70,19 @@ export default {
   padding-left: 20px;
 }
 
+.app-info {
+  margin: 15px auto;
+}
+
 .logo-gird {
   float: right;
 }
 
 .text-center {
   text-align: center;
+}
+
+.update-checking-container>.text-center {
+  padding: 5px 0px;
 }
 </style>

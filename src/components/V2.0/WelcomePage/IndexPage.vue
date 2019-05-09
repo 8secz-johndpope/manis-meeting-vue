@@ -148,7 +148,7 @@
 
 <script>
 import Utils from '../../../utils/utils'
-// const {app} = require('electron').remote
+const {app} = require('electron').remote  // @TODO uncomment this before publish
 
 export default {
   name: 'v2-login-index-page',
@@ -346,7 +346,7 @@ export default {
 
 .system-title,
 .label-sign-in {
-  margin: 40px 0px 20px 0px;
+  margin: 5px 0px 5px 0px;
 }
 
 .text-center {

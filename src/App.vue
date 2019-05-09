@@ -71,7 +71,7 @@ export default {
     height: 100%;
     margin: 0;
     padding: 0;
-    background: #333333;
+    background: -webkit-gradient(linear, 0 0, 100% 100%, from(#8c8a84), to(#292f4c));
   }
 
   .room-members .el-collapse-item__wrap, .room-members .el-collapse-item__header {

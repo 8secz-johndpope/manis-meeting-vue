@@ -1,58 +1,53 @@
 <template>
   <div class="update-container">
     <el-row :gutter="10" type="flex" class="row-bg" justify="center">
-      <el-col class="app-container app-logo" :span="4">
+      <el-col class="app-container app-logo" :span="12">
         <div class="grid-content logo-gird">
-          <img :src="logoImgUrl" alt="logo-img">
+          <img :src="logoImgUrl" alt="logo-img" @click="sendMsgToMain()">
         </div>
       </el-col>
-      <el-col class="app-container app-content" :span="4">
+      <el-col class="app-container app-content" :span="12">
         <div class="grid-content">
           <div class="app-info app-title">
             <h2 class="text-center">小强在线极速版</h2>
           </div>
-          <div class="update-checking-container" v-show="steps === 1">
-            <h4 class="text-center">正在检查更新....</h4>
+          <div class="update-checking-container">
+            <h4 class="text-center">{{ notice }}</h4>
           </div>
           <div class="update-info-container" v-show="steps > 1">
-            <div class="app-info update-version">
+            <div class="app-info update-version" v-if="newVersionInfo">
                 <div class="text-center">
-                  <small>4.1.4</small>
-                </div>
-            </div>
-            <div class="app-info update-info">
-                <div v-for="o in 3" :key="o" class="text item text-center">
-                  <span>{{'更新内新内容更新内容更新内容 ' + o }}</span>
+                  <small>{{ newVersionInfo.version }}</small>
                 </div>
             </div>
             <div class="app-info update-buttons" v-show="steps === 2">
               <el-row :gutter="10">
-                <el-col :span="12">
-                  <el-button type="default" round size="small">下次再说</el-button>
+                <el-col :span="12" class="text-center">
+                  <el-button type="default" round size="small" @click="sendMsgToMain('backgrounder')">下次再说</el-button>
                 </el-col>
-                <el-col :span="12">
-                  <el-button type="success" round size="small">立即下载</el-button>
+                <el-col :span="12" class="text-center">
+                  <el-button type="success" round size="small" @click="startDownload">立即下载</el-button>
                 </el-col>
               </el-row>
             </div>
           </div>
-          <div class="update-downloading-container" v-show="steps === 3">
+          <div class="update-downloading-container" v-if="downProgress" v-show="steps === 3">
             <el-row :gutter="10">
-              <el-col :span="20">
-                <el-progress :text-inside="true" :stroke-width="32" :percentage="60" status="exception"></el-progress>
+              <el-col :span="12" class="text-center">
+                <el-progress :text-inside="true" :stroke-width="32" :percentage="downProgress.percent | formatPercentage"  status="exception"></el-progress>
               </el-col>
-              <el-col :span="4">
-                <el-button type="default" round size="small">后台运行</el-button>
+              <el-col :span="12" class="text-center">
+                <el-button type="default" round size="small" @click="sendMsgToMain('backgrounder')">后台下载</el-button>
               </el-col>
             </el-row>
           </div>
           <div class="update-downloading-container" v-show="steps === 4">
             <el-row :gutter="10">
-              <el-col :span="20">
+              <el-col :span="12" class="text-center">
                 <el-progress :text-inside="true" :stroke-width="32" :percentage="100" status="success"></el-progress>
               </el-col>
-              <el-col :span="4">
-                <el-button type="success" round size="small">重启更新</el-button>
+              <el-col :span="12" class="text-center">
+                <el-button type="success" round size="small" @click="installUpdate">重启更新</el-button>
               </el-col>
             </el-row>
           </div>
@@ -64,6 +59,10 @@
 
 <script>
 import logoImg from '../../assets/logoColor.png'
+// uncomment this before publish
+const {
+    ipcRenderer
+} = require('electron')
 
 export default {
   name: 'update-page',
@@ -71,13 +70,69 @@ export default {
   data: function () {
     return {
       logoImgUrl: logoImg,
-      steps: 3
+      steps: 1,
+      notice: '',
+      newVersionInfo: null,
+      downProgress: null
+    }
+  },
+
+  filters: {
+    formatPercentage (num) {
+      let formatNum = num ? Math.floor(num) : 0
+      return formatNum > 100 ? 100 : formatNum
     }
   },
   methods: {
-    // @TODO ipcRensder send msg and handle ipcMain event
+    // uncomment this before publish
+    handleUpdateStatus () {
+      let _this = this
+      ipcRenderer.on('update-asynchronous-reply', (event, arg) => {
+        if (arg.steps !== undefined) {
+          _this.steps = arg.steps
+          switch(arg.action) {
+            case 'checking':
+            _this.notice = '正在检测升级...'
+            break
+            case 'available':
+            _this.notice = '发现新版本'
+            _this.newVersionInfo = arg.data
+            break
+            case 'downloading':
+            _this.notice = '正在下载升级包...'
+            _this.downProgress = arg.data
+            break
+            case 'downloaded':
+            _this.notice = '下载完成,重启应用完成升级'
+            break
+            case 'latested':
+            _this.notice = '当前版本为最新版,无需升级'
+            break
+            case 'error':
+            _this.notice = '升级失败'
+            default:
+          }
+        }
+      })
+    },
+
+    sendMsgToMain (arg) {
+      let msg = arg || 'ping'
+      ipcRenderer.send('update-asynchronous-message', msg)
+    },
+
+    installUpdate () {
+      this.sendMsgToMain('downloaded')
+    },
+
+    startDownload () {
+      this.sendMsgToMain('start-download')
+    }
   },
-  mounted: function () {},
+  mounted: function () {
+    this.handleUpdateStatus()
+    this.sendMsgToMain()
+  },
   computed: {},
   beforeDestroy: function () {}
 }
@@ -85,15 +140,15 @@ export default {
 
 <style scoped>
 .update-container {
-  background: #ffffff;
-  color: #000000;
   min-width: 480px;
   min-height: 320px;
-  padding: 60px 0px;
+  padding-top: 60px;
+  overflow-x: hidden;
+  color: #2DEDCE;
 }
 
 .app-container.app-content {
-  border-left: 2px solid #a3a3a3;
+  border-left: 2px solid #2DEDCE;
 }
 
 .grid-content {
@@ -101,6 +156,10 @@ export default {
   display: table-cell;
   vertical-align: middle;
   padding-left: 20px;
+}
+
+.app-info {
+  margin: 15px auto;
 }
 
 .logo-gird {
