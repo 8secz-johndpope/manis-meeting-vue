@@ -1,20 +1,22 @@
+// import path from 'path'
 const customTitlebar = require('custom-electron-titlebar')
 const {
   app,
-  process,
-  ipcRenderer
+  process
 } = require('electron').remote
-const iconPath = '../../static/icons/icon.ico'
+const ipcRenderer = require('electron').ipcRenderer
+// const iconName = process.platform === 'win32' ? '/icons/icon.ico' : '/icons/icon.icns'
+// const iconPath = path.join(__static, iconName)
 
 if (process.platform !== 'darwin') {
   const mainTitlebar = new customTitlebar.Titlebar({
     backgroundColor: customTitlebar.Color.fromHex('#ffffff'),
-    icon: iconPath,
+    // icon: iconPath,
     itemBackgroundColor: customTitlebar.Color.fromHex('#ffffff')
   })
 
   // Setting title explicitly
-  mainTitlebar.updateTitle(`${app.getName()}` + `${app.getVersion()}`)
+  mainTitlebar.updateTitle(`${app.getName()}`)
 
   ipcRenderer.on('titlebar-asynchronous-reply', (event, arg) => {
     switch (arg.action) {

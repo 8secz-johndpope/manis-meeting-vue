@@ -402,6 +402,7 @@ export default {
     width: 360px;
     position: fixed;
     z-index: 2;
+    bottom: 0px;
   }
 
   .gradual-bg {

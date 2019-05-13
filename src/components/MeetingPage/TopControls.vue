@@ -209,7 +209,7 @@ export default {
   div.ctl-top-row {
     padding-top: 4px;
     position: fixed;
-    top: 0px;
+    top: 30px;
     left: 0px;
     right: 0px;
     z-index: 3;
@@ -237,7 +237,7 @@ export default {
   div.right-btn-block {
     width: 380px;
     position: fixed;
-    top: 4px;
+    top: 30px;
     right: 0px;
     float: right;
     /*padding-right: 20px;*/
@@ -316,7 +316,7 @@ export default {
 
   .close-right-btn-container {
     width: 40px;
-    padding: 4px 0px;
+    padding: 10px 0px;
   }
 
 </style>

@@ -300,11 +300,12 @@ export default {
     Manis.initial({
       server: server,
       domain: server,
-      type: 'conference'
+      type: 'conference',
+      clientCode: '0100'
     }, res => {
       console.log(res)
       if (callBack) {
-        callBack('server set ok')
+        callBack(res)
       }
     })
   },
@@ -1538,5 +1539,28 @@ export default {
         console.error(res)
       }
     })
+  },
+
+  /**
+   * refresh verify image
+   * @param apiServer
+   * @param config
+   * @param callBack
+   */
+  refreshVerifyImage: function (apiServer, config, callBack) {
+    let _this = this
+    let url = 'https://' + apiServer +
+    '/clientApi/verifyCode?domain=' + apiServer +
+    '&ticket=' + config.ticket
+    window.fetch(url)
+      .then(_this.checkStatus)
+      .then(_this.parseJSON)
+      .then(result => {
+        if (result.mcode === 200) {
+          callBack(result)
+        }
+      }).catch((failed) => {
+        console.error(failed)
+      })
   }
 }

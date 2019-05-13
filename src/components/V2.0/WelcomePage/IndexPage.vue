@@ -68,7 +68,7 @@
                     </el-col>
                   </el-row>
                 </el-form-item>
-                <el-form-item label prop="verifyCode" v-show="showSignInForm">
+                <el-form-item label prop="verifyCode" v-show="showSignInForm && showVerify">
                   <el-row :gutter="10">
                     <el-col :span="12">
                       <el-input
@@ -82,7 +82,7 @@
                       ></el-input>
                     </el-col>
                     <el-col :span="12">
-                      <img :src="verifyImage" alt="verify-img" class="verify-img">
+                      <img :src="verifyImage" alt="verify-img" class="verify-img"  @click="refreshVerifyImg">
                     </el-col>
                   </el-row>
                 </el-form-item>
@@ -148,7 +148,7 @@
 
 <script>
 import Utils from '../../../utils/utils'
-const {app} = require('electron').remote  // @TODO uncomment this before publish
+const {app} = require('electron').remote // @TODO uncomment this before publish
 
 export default {
   name: 'v2-login-index-page',
@@ -173,20 +173,35 @@ export default {
           { required: true, message: '请输入登录密码', trigger: 'blur' }
         ]
       },
-      verifyImage: ''
+      verifyImage: '',
+      showVerify: false
     }
   },
   methods: {
     showVerifyImage () {
-      let verifyCodeData =
-        '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'
-
+      let verifyCodeData = window.config.verifyCode
       if (verifyCodeData) {
         let imgData = 'data:image/gif;base64,' + verifyCodeData
         // console.log('show verify code image: ', imgData)
         this.verifyImage = imgData
       }
     },
+
+    refreshVerifyImg () {
+      let _this = this
+      let host = _this.serverAddr
+      Utils.refreshVerifyImage(
+        host,
+        window.config,
+        res => {
+          console.log('handle refresh verify code result:', res)
+          if (res.mcode === 200 && res.obj) {
+            window.config.verifyCode = res.obj
+            _this.showVerifyImage()
+          }
+        })
+    },
+
     nextStep () {
       if (this.signInForm.server) {
         this.setMSS(this.signInForm.server)
@@ -211,9 +226,13 @@ export default {
       console.log('set mss server', server)
       Utils.initServerConfig(
         server,
-        function () {
+        function (res) {
           _this.$store.dispatch('serverSetting/setServer', server)
           _this.showSignInForm = true
+          if (window.config.supportVerify) {
+            _this.showVerify = true
+            _this.showVerifyImage()
+          }
         },
         true
       )
@@ -271,6 +290,7 @@ export default {
       this.$store.dispatch('serverSetting/setServer', '')
       this.signInForm.server = ''
       this.showSignInForm = false
+      this.showVerify = false
     },
     getAppVersion () {
       /**
@@ -292,6 +312,7 @@ export default {
       return this.$store.state.serverSetting.serverAddr
     }
   },
+  beforeDestroy: function () {},
   mounted: function () {
     this.getAppVersion()
     this.getServer()
@@ -299,8 +320,7 @@ export default {
     this.$store.dispatch('userSetting/clearUser')
     window.config = Utils.resetConfig()
     this.showVerifyImage()
-  },
-  beforeDestroy: function () {}
+  }
 }
 </script>
 
