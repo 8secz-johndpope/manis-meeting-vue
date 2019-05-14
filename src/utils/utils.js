@@ -5,8 +5,8 @@ const Manis = window.Manis
  * replace this defined before publish to repository
  * @type {null}
  */
-// const Shell = null
-const Shell = require('electron').shell
+const Shell = null
+// const Shell = require('electron').shell
 
 export default {
   /**
@@ -190,12 +190,11 @@ export default {
 
   /**
    * handle notification
-   * @param _this
-   * @param msg
-   * @param type
-   * @param title
-   * @param options
-   * @returns {boolean}
+   * @param {object} _this
+   * @param {string} msg
+   * @param {string} type
+   * @param {string} title
+   * @param {object} options
    */
   notification: function (_this, msg, type, title, options) {
     switch (type) {
@@ -311,11 +310,11 @@ export default {
   },
 
   /**
-   * 登陆系统
-   * @param username
-   * @param password
-   * @param successCb
-   * @param errCb
+   * sign in api and mss
+   * @param {string} username
+   * @param {string} password
+   * @param {function} successCb
+   * @param {function} errCb
    */
   autoLogin: function (username, password, successCb, errCb) {
     if (this.mssConnected()) {
@@ -1562,5 +1561,64 @@ export default {
       }).catch((failed) => {
         console.error(failed)
       })
+  },
+
+  /**
+   * api sign in admin server
+   * @param {string} server
+   * @param {object} params
+   * @param {function} successCb
+   * @param {function} errorCb
+   */
+  apiSignIn: function (server, params, successCb, errorCb) {
+    let _this = this
+    let url = 'https://' + server + '/clientApi/loginClient'
+    let data = new FormData()
+    data.append('username', params.username)
+    data.append('password', encodeURI(Manis.encryptString(params.password)))
+    data.append('domain', server)
+    data.append('remark', window.navigator.userAgent)
+    data.append('ticket', window.config.ticket)
+    data.append('verifyCode', params.verifyCode)
+    data.append('clientType', params.clientCode)
+    data.append('language', 'zh')
+    console.log('will send post request with data ', data)
+    window.fetch(url, {
+      method: 'POST',
+      body: data
+    }).then(_this.checkStatus)
+      .then(_this.parseJSON)
+      .then(res => {
+        successCb(res)
+      }).catch(err => {
+        errorCb(err)
+      })
+  },
+
+  /**
+   * sign in message server
+   * @param {string} nickname
+   * @param {function} successCb
+   * @param {function} errorCb
+   */
+  mssSingIn: function (nickname, successCb, errorCb) {
+    let _this = this
+    if (_this.mssConnected()) {
+      successCb()
+      return true
+    }
+    Manis.signInMessageServer(
+      nickname,
+      res => {
+        if (res.errorCode === _this.noErr) {
+          successCb(res)
+        } else {
+          errorCb(res)
+        }
+      },
+      err => {
+        errorCb(err)
+      }
+    )
   }
 }

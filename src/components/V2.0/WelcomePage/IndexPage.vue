@@ -86,7 +86,7 @@
                     </el-col>
                   </el-row>
                 </el-form-item>
-                <el-form-item  v-show="showSignInForm">
+                <el-form-item  v-show="showSignInForm && !showVerify">
                   <el-row :gutter="10">
                     <el-col :span="24" class="text-left">
                       <el-checkbox v-model="signInForm.rememberMe">记住我</el-checkbox>
@@ -148,12 +148,19 @@
 
 <script>
 import Utils from '../../../utils/utils'
-const {app} = require('electron').remote // @TODO uncomment this before publish
+// const {app} = require('electron').remote // @TODO uncomment this before publish
 
 export default {
   name: 'v2-login-index-page',
   components: {},
   data: function () {
+    var checkVerifyCode = (rule, value, callback) => {
+      let verifyRequire = '请输入验证码'
+      if (!value && this.showVerify) {
+        return callback(new Error(verifyRequire))
+      }
+      callback()
+    }
     return {
       showSignInForm: false,
       appName: '视频会议系统',
@@ -171,6 +178,9 @@ export default {
         ],
         password: [
           { required: true, message: '请输入登录密码', trigger: 'blur' }
+        ],
+        verifyCode: [
+          {validator: checkVerifyCode, trigger: 'blur'}
         ]
       },
       verifyImage: '',
@@ -211,7 +221,7 @@ export default {
       let _this = this
       _this.$refs[formName].validate(valid => {
         if (valid) {
-          _this.autoLogin()
+          _this.autoSignIn()
         } else {
           console.log('error submit!!')
           return false
@@ -237,28 +247,86 @@ export default {
         true
       )
     },
-    autoLogin () {
+    autoSignIn () {
       let _this = this
-      Utils.autoLogin(
-        _this.signInForm.username,
-        _this.signInForm.password,
+      Utils.apiSignIn(_this.serverAddr, {
+        username: _this.signInForm.username,
+        password: _this.signInForm.password,
+        verifyCode: _this.signInForm.verifyCode,
+        clientCode: _this.showVerify ? '0100' : '0101'
+      }, res => {
+        _this.handleApiSignInRes(res)
+      }, err => {
+        console.error('handle api sign in failed: ', err)
+      })
+    },
+
+    apiSingInSuccess (obj) {
+      let _this = this
+      window.manisConfg = obj
+      if (window.manisConfg.turn && window.manisConfg.turn.iceServers[0].url) {
+        window.config.nat = window.manisConfg.turn.iceServers[0].url
+      }
+      if (window.manisConfg.messageServer) {
+        window.config.focusUserJid = 'focus@' + window.manisConfg.messageServer
+      }
+      let _config = Object.assign(window.config, window.manisConfg)
+      window.config = _config
+      Utils.mssSingIn(
+        window.config.mUserName,
         res => {
-          console.log(res)
+          Utils.notification(_this, '登陆成功', 'success')
           _this.$store.dispatch('userSetting/storeUser', {
             username: _this.signInForm.username,
             password: _this.signInForm.password,
             profile: window.config.nickname || '',
             room: window.config.cNumber || ''
           })
-          // Utils.notification(_this, '登陆成功', 'success')
           _this.$router.push({ name: 'v2-participate' })
-        },
-        err => {
-          console.error(err)
-          _this.handleLoginFailed(err)
-        }
-      )
+        }, err => {
+          Utils.notification(_this, '登陆失败, 错误码: ' + err.errorCode, 'error')
+        })
     },
+
+    handleApiSignInRes (res) {
+      console.log('handle api sign in res: ', res)
+      let _this = this
+      switch (res.mcode.toString()) {
+        case '200':
+          console.log('api sign success', res)
+          _this.apiSingInSuccess(res.obj)
+          break
+        case '500':
+          Utils.notification(_this, '登陆失败,请联系服务提供商', 'error')
+          break
+        case '148':
+        case '149':
+          Utils.notification(_this, '登陆失败,验证码错误', 'error')
+          _this.refreshVerifyImg()
+          break
+        case '601':
+          Utils.notification(_this, '登陆失败,密码错误', 'error')
+          break
+        case '602':
+          Utils.notification(_this, '登陆失败,用户不可用', 'error')
+          break
+        case '603':
+          Utils.notification(_this, '登陆失败,用户名错误', 'error')
+          break
+        case '610':
+          Utils.notification(_this, '登陆失败,错误码: 610', 'error')
+          break
+        case '615':
+          Utils.notification(_this, '密码输入错误次数超限,账号已经被锁定', 'error')
+          break
+        case '801':
+          Utils.notification(_this, '登陆失败,服务已到期', 'error')
+          break
+        default:
+          Utils.notification(_this, '登陆失败,错误码:' + res.mcode.toString(), 'error')
+      }
+    },
+
     handleLoginFailed (res) {
       let _this = this
       if (res.errorCode === '300111') {
@@ -278,6 +346,7 @@ export default {
       if (this.signInForm.server) {
         this.setMSS(this.signInForm.server)
         this.showSignInForm = true
+        this.signInForm.rememberMe = false
       }
     },
     anonymousParticipate () {
@@ -298,13 +367,13 @@ export default {
        * @BeforePublish
        * uncomment this before publish to repository
        */
-      let appName = app.getName()
-      if (appName.indexOf('scmeeting') > -1) {
-        this.appName = 'SCMeeting' + this.appName
-      } else if (appName.indexOf('xiaoqiang') > -1) {
-        this.appName = '小强在线' + this.appName
-      }
-      this.version = app.getVersion()
+      // let appName = app.getName()
+      // if (appName.indexOf('scmeeting') > -1) {
+      //   this.appName = 'SCMeeting' + this.appName
+      // } else if (appName.indexOf('xiaoqiang') > -1) {
+      //   this.appName = '小强在线' + this.appName
+      // }
+      // this.version = app.getVersion()
     }
   },
   computed: {
@@ -440,11 +509,11 @@ div.row-sign-in {
   color: rgba(255, 255, 255, 1);
 }
 
-.verify-img {
+/* .verify-img {
   width: 100%;
   height: 30px;
   margin-top: 10px;
-}
+} */
 
 .reset-server a, .reset-server a:hover,.reset-server a:active, .reset-server a:checked {
   text-decoration: none;
