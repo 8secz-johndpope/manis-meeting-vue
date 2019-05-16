@@ -8,11 +8,19 @@ const ipcRenderer = require('electron').ipcRenderer
 // const iconName = process.platform === 'win32' ? '/icons/icon.ico' : '/icons/icon.icns'
 // const iconPath = path.join(__static, iconName)
 
+let appName = app.getName()
+let bgColor = '#ffffff'
+if (appName.indexOf('scmeeting') > -1) {
+  bgColor = '#2C518F'
+} else if (appName.indexOf('xiaoqiang') > -1) {
+  bgColor = '#28EAC9'
+}
+
 if (process.platform !== 'darwin') {
   const mainTitlebar = new customTitlebar.Titlebar({
-    backgroundColor: customTitlebar.Color.fromHex('#ffffff'),
+    backgroundColor: customTitlebar.Color.fromHex(bgColor),
     // icon: iconPath,
-    itemBackgroundColor: customTitlebar.Color.fromHex('#ffffff')
+    itemBackgroundColor: customTitlebar.Color.fromHex(bgColor)
   })
 
   // Setting title explicitly
