@@ -5,8 +5,8 @@ const Manis = window.Manis
  * replace this defined before publish to repository
  * @type {null}
  */
-const Shell = null
-// const Shell = require('electron').shell
+// const Shell = null
+const Shell = require('electron').shell
 
 export default {
   /**

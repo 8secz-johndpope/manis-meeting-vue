@@ -23,7 +23,7 @@
 
 <script>
 import logoImg from '../../assets/logoColor.png'
-const {app} = require('electron').remote // uncomment this before publish
+const {app} = require('electron').remote // @TODO uncomment this before publish
 
 export default {
   name: 'about-page',

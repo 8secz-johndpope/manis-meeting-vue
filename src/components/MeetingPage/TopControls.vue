@@ -45,28 +45,28 @@
             </div>
           </el-col>
           <el-col :span="5" class="block-right-text">
-            <el-button @click="switchFetchAdmin" :class="['right-ctl-btn', {'active': showAdminRight}]">
+            <el-button @click="switchFetchAdmin" :class="['right-ctl-btn', {'font-white': (!showAdminRight && !showMembers && !showTextMsg && !showDeviceSetting)}, {'active': showAdminRight}]">
               <i class="icon-icons8_Moderator btn-icon"></i>
               <div class="text-center"><small>管理</small></div>
             </el-button>
           </el-col>
           <el-col :span="5" class="block-right-text">
             <el-badge :value="membersCount" class="members-btn" type="info">
-              <el-button @click="switchRoomMembers" :class="['right-ctl-btn', {'active': showMembers}]">
+              <el-button @click="switchRoomMembers" :class="['right-ctl-btn', {'font-white': (!showAdminRight && !showMembers && !showTextMsg && !showDeviceSetting)}, {'active': showMembers}]">
                 <i class="icon-icons8_User_Account btn-icon"></i>
                 <div class="text-center"><small>参会人</small></div>
               </el-button>
             </el-badge>
           </el-col>
           <el-col :span="5" class="block-right-text">
-            <el-button @click="switchTextMsg" :class="['right-ctl-btn', {'active': showTextMsg}]">
+            <el-button @click="switchTextMsg" :class="['right-ctl-btn', {'font-white': (!showAdminRight && !showMembers && !showTextMsg && !showDeviceSetting)}, {'active': showTextMsg}]">
               <el-badge v-if="unreadMsg" is-dot class="item"><i class="icon-icons8_Chat btn-icon"></i></el-badge>
               <span v-else><i class="icon-icons8_Chat btn-icon"></i></span>
               <div class="text-center"><small>聊天</small></div>
             </el-button>
           </el-col>
           <el-col :span="5" class="block-right-text">
-            <el-button @click="switchDeviceSetting" :class="['right-ctl-btn', {'active': showDeviceSetting}]">
+            <el-button @click="switchDeviceSetting" :class="['right-ctl-btn', {'font-white': (!showAdminRight && !showMembers && !showTextMsg && !showDeviceSetting)}, {'active': showDeviceSetting}]">
               <i class="icon-icons8_Settings btn-icon"></i>
               <div class="text-center"><small>设置</small></div>
             </el-button>
@@ -213,10 +213,10 @@ export default {
     left: 0px;
     right: 0px;
     z-index: 3;
-    background: rgba(0, 0, 0, .4) none repeat scroll !important;
+    background: rgba(0, 0, 0, .0) none repeat scroll !important;
     background: #000;
     filter: Alpha(opacity=50);
-    box-shadow: 0px 10px 10px rgba(0, 0, 0, .4);;
+    box-shadow: 0px 10px 10px rgba(0, 0, 0, .0);;
   }
 
   div.left-btn-block {
@@ -307,7 +307,14 @@ export default {
   .el-button.right-ctl-btn {
     border: 0px;
     background: none;
+  }
+
+  .font-white {
     color: #ffffff;
+  }
+
+  .font-default {
+    color: #606266;
   }
 
   .el-button.right-ctl-btn.active {

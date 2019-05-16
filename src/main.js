@@ -8,7 +8,7 @@ import './plugins/icoMoon'
 import './plugins/toast'
 import './plugins/overlayLoading'
 import './plugins/vueAwesome'
-import './plugins/customTitlebar'
+import './plugins/customTitlebar' // @TODO uncomment this before publsh
 import './assets/css/style.css'
 
 Vue.http = Vue.prototype.$http = axios

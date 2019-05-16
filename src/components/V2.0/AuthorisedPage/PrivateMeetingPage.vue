@@ -22,7 +22,7 @@
               </el-row>
             </a>
           </el-col>
-          <el-col :span="6" :offset="2" class="private-room-submit">
+          <el-col :span="10" class="private-room-submit">
             <el-button round @click="startPrivateMeeting" size="mini" class="light-blue">
               <strong>进入会议</strong>
             </el-button>
@@ -139,5 +139,9 @@ export default {
 
   .el-button.light-blue {
     border-color: #5580B5;
+  }
+
+  .private-room-submit {
+    text-align: right;
   }
 </style>

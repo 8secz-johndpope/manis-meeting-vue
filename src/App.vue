@@ -98,7 +98,7 @@ export default {
 
   .ctl-top-row .el-button.ctl-btn {
     width: 52px !important;
-    height: 48px !important;
+    height: 52px !important;
   }
 
   .drawing-board-dialog, .drawing-board-dialog .layout, .drawing-board-dialog .el-dialog__body .body{
@@ -127,6 +127,11 @@ export default {
     border-radius: 0px;
     border-bottom: 1px solid #eeeeee;
     color: #ffffff;
+  }
+
+  .join-room-form .el-form-item .el-input__inner {
+    padding-left: 5px !important;
+    color: #333333;
   }
 
   .join-room-form-box .el-form-item .el-input__inner {

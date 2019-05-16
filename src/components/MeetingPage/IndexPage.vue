@@ -2,7 +2,7 @@
   <div class="wrapper">
     <el-container>
       <div class="main-container">
-        <el-container class="top-control-container">
+        <el-container :class="['top-control-container', {'show': (showAdminRight || showMembers || showTextMsg || showDeviceSetting)}]">
           <top-controls
             :screenShareStatus="screenSharing"
             :showAdminRight="showAdminRight"
@@ -634,6 +634,10 @@ export default {
 
   .main-container .top-control-container {
     display: none;
+  }
+
+  .main-container .top-control-container.show {
+    display: block;
   }
 
   .main-container:hover .top-control-container {

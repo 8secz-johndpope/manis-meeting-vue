@@ -59,7 +59,7 @@
 
 <script>
 import logoImg from '../../assets/logoColor.png'
-// uncomment this before publish
+// @TODO uncomment this before publish
 const {
     ipcRenderer
 } = require('electron')
@@ -84,7 +84,7 @@ export default {
     }
   },
   methods: {
-    // uncomment this before publish
+    // @TODO uncomment this before publish
     handleUpdateStatus () {
       let _this = this
       ipcRenderer.on('update-asynchronous-reply', (event, arg) => {
@@ -118,6 +118,7 @@ export default {
 
     sendMsgToMain (arg) {
       let msg = arg || 'ping'
+      //@TODO uncomment this before publish
       ipcRenderer.send('update-asynchronous-message', msg)
     },
 

@@ -1,5 +1,10 @@
 <template>
-  <div class="admin-right">
+  <div class="right-ctl-container admin-right">
+    <el-row :gutter="0" class="segmentation-row">
+      <el-col :span="6" :offset="0" class="segmentation-col">
+        <div class="active-segmentation-part"></div>
+      </el-col>
+    </el-row>
     <el-row class="fetch-admin-row" v-show="!isModerator">
       <el-col :span="20" :offset="2">
         <div class="grid-content bg-purple-dark">
@@ -537,7 +542,7 @@ export default {
   }
 
   .display-mode-item .display-mode-name {
-    color: #333333;
+    color: #606266;
   }
 
   .display-mode-item.active .display-mode-name {
@@ -552,6 +557,27 @@ export default {
   .display-mode-item.active {
     border: solid #5ED055;
     color: #5ED055;
+  }
+
+  .right-ctl-container {
+    margin-top: 40px;
+  }
+
+    .segmentation-row{
+    background-color: #eeeeee;
+    padding-left: 52px;
+    margin-bottom: 10px;
+  }
+
+  .segmentation-col {
+    height: 2px;
+    text-align: center;
+    padding: 0px 5px;
+  }
+
+  .segmentation-col>.active-segmentation-part {
+    height: 2px;
+    background-color: #5ED055;
   }
 
 </style>

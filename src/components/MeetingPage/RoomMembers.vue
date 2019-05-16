@@ -1,5 +1,10 @@
 <template>
-  <div class="room-members">
+  <div class="right-ctl-container room-members">
+    <el-row :gutter="0" class="segmentation-row">
+      <el-col :span="6" :offset="6" class="segmentation-col">
+        <div class="active-segmentation-part"></div>
+      </el-col>
+    </el-row>
     <el-row type="flex" justify="center" class="member-row room-info-row">
       <el-col :span="20">
         <el-row class="room-info">
@@ -258,12 +263,12 @@ export default {
 
   .member-item a {
     text-decoration:none;
-    color: #333333;
+    color: #606266;
     font-size: 1.2rem;
   }
 
   .member-info, .room-info-row, .el-collapse-item__arrow {
-    color: #333333;
+    color: #606266;
   }
 
   .room-invite-row {
@@ -274,11 +279,32 @@ export default {
   }
 
   .room-member-row {
-    border-top: 1px solid #333333;
+    border-top: 2px solid;
   }
 
   .ctl-all-audio-row {
     margin-top: 10px;
+  }
+
+  .right-ctl-container {
+    margin-top: 40px;
+  }
+
+  .segmentation-row{
+    background-color: #eeeeee;
+    padding-left: 52px;
+    margin-bottom: 10px;
+  }
+
+  .segmentation-col {
+    height: 2px;
+    text-align: center;
+    padding: 0px 5px;
+  }
+
+  .segmentation-col>.active-segmentation-part {
+    height: 2px;
+    background-color: #5ED055;
   }
 
 </style>

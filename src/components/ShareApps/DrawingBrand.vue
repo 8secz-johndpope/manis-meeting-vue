@@ -20,7 +20,7 @@
             </el-slider>
           </div>
         </div>
-        <div>
+        <div class="print-tools">
           <a href="javascript: void (0);" v-for="(tool, index) in tools" :key="index" @click="drawType(tool)">
             <el-menu :class="{'selected':tool.isChoose}">
               <el-submenu :index="'drawing_type_'+index">
@@ -716,7 +716,7 @@ export default {
 
   .content-left a {
     text-decoration: none;
-    color: #333333;
+    color: #606266;
   }
 
   ul.el-menu.selected {
@@ -742,7 +742,7 @@ export default {
   }
 
   .line-size {
-    color: #333333;
+    color: #606266;
     border: 1px solid #D0D0D0;
     border-bottom: 0px;
     border-top-left-radius: 4px;
@@ -758,5 +758,9 @@ export default {
     z-index: 2;
     top: 56px;
     left: 80px
+  }
+
+  .print-tools {
+    padding-top: 50px;
   }
 </style>

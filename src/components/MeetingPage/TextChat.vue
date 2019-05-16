@@ -1,5 +1,10 @@
 <template>
-  <div class="text-chat">
+  <div class="right-ctl-container text-chat">
+    <el-row :gutter="0" class="segmentation-row">
+      <el-col :span="6" :offset="12" class="segmentation-col">
+        <div class="active-segmentation-part"></div>
+      </el-col>
+    </el-row>
     <el-row type="flex" justify="center" class="text-row room-text-row">
       <el-col :span="22">
         <div :class="['text-msg-row', {'pull-left': !(item.sendFromMe)}, {'pull-right': (item.sendFromMe)}]" v-for="(item, index) in messages" :key="index">
@@ -126,7 +131,7 @@ export default {
     position: relative;
     margin: 3px auto 0;
     border-radius: 5px;
-    color: #333333;
+    color: #606266;
   }
 
   .text-container-after:after {
@@ -140,14 +145,14 @@ export default {
     background-color: #5ED055;
     border: 1px #9ED055;
     border-style: solid solid none none;
-    color: #333333;
+    color: #606266;
   }
 
   .text-container-before {
     position: relative;
     margin: 3px auto 0;
     border-radius: 5px;
-    color: #333333;
+    color: #606266;
   }
 
   .text-container-before:before {
@@ -161,7 +166,7 @@ export default {
     background-color: #d3d4d6;
     border: 1px solid #a3b4b6;
     border-style:  none none solid solid;
-    color: #333333;
+    color: #606266;
   }
 
   .bg-green {
@@ -180,5 +185,26 @@ export default {
 
   .pull-right {
     float: right;
+  }
+
+  .right-ctl-container {
+    margin-top: 40px;
+  }
+
+  .segmentation-row{
+    background-color: #eeeeee;
+    padding-left: 52px;
+    margin-bottom: 10px;
+  }
+
+  .segmentation-col {
+    height: 2px;
+    text-align: center;
+    padding: 0px 5px;
+  }
+
+  .segmentation-col>.active-segmentation-part {
+    height: 2px;
+    background-color: #5ED055;
   }
 </style>

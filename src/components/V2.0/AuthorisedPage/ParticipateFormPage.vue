@@ -3,7 +3,7 @@
           <el-row :gutter="10" class="join-room-box">
             <el-col :span="24">
               <div class="join-room-box-title">
-                <small>加入会议室</small>
+                <small>加入会议</small>
               </div>
               <div class="join-room-form-box">
                 <el-row :gutter="10">
@@ -170,6 +170,11 @@ export default {
     background-color: #00A7F4;
     border-color: #00A7F4;
     color: #ffffff;
+  }
+
+  .join-room-box-title {
+    padding: 0px 5px;
+    font-weight: bold;
   }
 
 </style>
