@@ -324,6 +324,8 @@ export default {
   .close-right-btn-container {
     width: 40px;
     padding: 10px 0px;
+    float: right;
+    margin-right: -15px;
   }
 
 </style>

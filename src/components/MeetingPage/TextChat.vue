@@ -18,8 +18,8 @@
         </div>
       </el-col>
     </el-row>
-    <el-row type="flex" justify="center" class="text-row room-text-msg-row">
-      <el-col :span="22">
+    <el-row type="flex" justify="center" :gutter="10" class="text-row room-text-msg-row">
+      <el-col :span="20">
         <div class="text-msg-form">
           <div style="margin-top: 15px;">
             <el-input

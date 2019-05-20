@@ -182,9 +182,9 @@ export default {
 <style scoped>
   .device-selector-container {
     position: absolute;
-    right: 10px;
+    right: -10px;
     bottom: 10px;
-    padding: 10px;
+    padding: 10px 0px;
     float: right;
     z-index: 2;
   }

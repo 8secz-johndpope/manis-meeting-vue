@@ -8,6 +8,7 @@
         <el-form :model="deviceForm" status-icon :rules="deviceRules" ref="deviceForm"
                  label-width="80px"
                  class="demo-ruleForm"
+                 label-position="top"
                  @submit.native.prevent
         >
           <el-form-item label="麦克风" prop="audioInput">
@@ -408,7 +409,7 @@ export default {
 <style scoped>
   .basic-setting-form {
     margin: 0 auto;
-    width: 340px;
+    width: 280px;
     padding: 10px 10px;
   }
 

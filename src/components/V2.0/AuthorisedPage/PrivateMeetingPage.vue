@@ -10,7 +10,7 @@
       </el-col>
       <el-col :span="24">
         <el-row :gutter="10">
-          <el-col :span="14">
+          <el-col :span="16">
             <a href="javascript: void (0);">
               <el-row :gutter="0" class="private-room-link">
                 <el-col class="text-center" :span="4" :offset="2">
@@ -22,8 +22,8 @@
               </el-row>
             </a>
           </el-col>
-          <el-col :span="10" class="private-room-submit">
-            <el-button round @click="startPrivateMeeting" size="mini" class="light-blue">
+          <el-col :span="8" class="private-room-submit">
+            <el-button round @click="startPrivateMeeting" class="light-blue">
               <strong>进入会议</strong>
             </el-button>
           </el-col>
@@ -116,12 +116,13 @@ export default {
 
   .private-room-link {
     border-radius: 20px;
-    padding: 6px 10px 2px 10px;
+    padding: 12px 10px 8px 10px;
     color: #ffffff;
     background-color: rgba(255, 255, 255, 0.5);
     border-color: rgba(255, 255, 255, 0.5);
+    text-align: center;
   }
-
+ 
   .el-input__inner {
     color: #ffffff;
     background-color: #5580B5;

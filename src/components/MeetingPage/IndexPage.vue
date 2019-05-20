@@ -647,7 +647,7 @@ export default {
   .aside-container {
     position: absolute;
     right: 0px;
-    width: 360px !important;
+    width: 320px !important;
     background: rgba(255, 255, 255, 1) none repeat scroll !important;
     height: 100%;
     z-index: 2;

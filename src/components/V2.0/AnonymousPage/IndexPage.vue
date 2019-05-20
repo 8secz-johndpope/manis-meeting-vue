@@ -196,7 +196,7 @@ export default {
 
 <style scoped>
   .participate-container {
-    width: 360px;
+    width: 400px;
     position: fixed;
     z-index: 2;
     border-radius: 5px;

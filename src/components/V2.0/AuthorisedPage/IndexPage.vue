@@ -21,7 +21,7 @@
                 </el-col>
               </a>
               <a href="javascript: void (0);">
-                <el-col :span="5" :offset="7" class="type-tab text-center">
+                <el-col :span="5" :offset="7" class="type-tab text-center hidden">
                   <span class="el-icon-date"></span>
                   <small>预约</small>
                 </el-col>
@@ -127,7 +127,7 @@
                                 <small>{{ item.title | formatTitle}}</small>
                               </el-col>
                               <el-col :span="24">
-                                <small>{{ item.startTime | formatDateTime }}</small>
+                                <small class="extra-start-time">{{ item.startTime | formatDateTime }}</small>
                               </el-col>
                             </el-row>
                           </el-col>
@@ -399,7 +399,7 @@ export default {
 
 <style scoped>
   .participate-container {
-    width: 360px;
+    width: 400px;
     position: fixed;
     z-index: 2;
     bottom: 0px;
@@ -561,6 +561,14 @@ export default {
   .conference-item-content {
     padding: 15px 30px !important;
     /*background-color: #0D4A96;*/
+  }
+
+  .extra-start-time {
+    font-size: 10px;
+  }
+
+  .hidden {
+    display: none;
   }
 
 </style>
