@@ -11,9 +11,9 @@ const ipcRenderer = require('electron').ipcRenderer
 let appName = app.getName()
 let bgColor = '#ffffff'
 if (appName.indexOf('scmeeting') > -1) {
-  bgColor = '#2C518F'
+  bgColor = '#ffffff'
 } else if (appName.indexOf('xiaoqiang') > -1) {
-  bgColor = '#28EAC9'
+  bgColor = '#ffffff'
 }
 
 if (process.platform !== 'darwin') {
