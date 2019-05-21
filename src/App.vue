@@ -182,7 +182,7 @@ export default {
       color-stop(0.24, rgb(62, 68, 89)),
       color-stop(0.74, rgb(99, 100, 109)),
       color-stop(1, rgb(137, 135, 136))
-    );
+    ) !important;
     border: 0px !important;
     color: #ffffff !important;
     padding: 0px !important;

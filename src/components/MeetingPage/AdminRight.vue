@@ -100,7 +100,7 @@
             <el-col :span="8">
               <div class="grid-content">
                 <el-button type="success" @click="subClientNum">
-                  <span class="del">Del</span>
+                  <span class="del">删除</span>
                 </el-button>
               </div>
             </el-col>
@@ -112,7 +112,7 @@
             <el-col :span="8">
               <div class="grid-content">
                 <el-button type="success" @click="doClientCall">
-                  <span class="call">Call</span>
+                  <span class="call">拨号</span>
                 </el-button>
               </div>
             </el-col>
