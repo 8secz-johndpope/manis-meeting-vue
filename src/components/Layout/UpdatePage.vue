@@ -9,7 +9,7 @@
       <el-col class="app-container app-content" :span="12">
         <div class="grid-content">
           <div class="app-info app-title">
-            <h2 class="text-center">小强在线极速版</h2>
+            <h2 class="text-center">{{ appName }}视频会议系统极速版</h2>
           </div>
           <div class="update-checking-container">
             <h4 class="text-center">{{ notice }}</h4>
@@ -58,22 +58,25 @@
 </template>
 
 <script>
-import logoImg from '../../assets/logoColor.png'
+import xqLogo from '../../assets/img/logo/xq/logo.png'
+import scLogo from '../../assets/img/logo/sc/logo.png'
 // @TODO uncomment this before publish
 const {
     ipcRenderer
 } = require('electron')
+const {app} = require('electron').remote // @TODO uncomment this before publish
 
 export default {
   name: 'update-page',
   components: {},
   data: function () {
     return {
-      logoImgUrl: logoImg,
+      logoImgUrl: xqLogo,
       steps: 1,
       notice: '',
       newVersionInfo: null,
-      downProgress: null
+      downProgress: null,
+      appName: ''
     }
   },
 
@@ -128,9 +131,25 @@ export default {
 
     startDownload () {
       this.sendMsgToMain('start-download')
+    },
+    getAppLogo () {
+      /**
+       * @TODO
+       * @BeforePublish
+       * uncomment this before publish to repository
+       */
+      let appName = app.getName()
+      if (appName.indexOf('scmeeting') > -1) {
+        this.appName = 'SCMeeting'
+        this.logoImgUrl = scLogo
+      } else if (appName.indexOf('xiaoqiang') > -1) {
+        this.appName = '小强在线'
+        this.logoImgUrl = xqLogo
+      }
     }
   },
   mounted: function () {
+    this.getAppLogo()
     this.handleUpdateStatus()
     this.sendMsgToMain()
   },

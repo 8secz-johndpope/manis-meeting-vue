@@ -9,11 +9,11 @@
       <el-col class="app-container app-content" :span="12">
         <div class="grid-content">
           <div class="app-info app-title">
-            <h2 class="text-center">小强在线极速版</h2>
+            <h2 class="text-center">{{ appName }}视频会议系统极速版</h2>
           </div>
           <div class="update-checking-container">
           <h5 class="text-center">{{ version }}</h5>
-          <h4 class="text-center">Xiaoqiang-io Co.,Ltd.</h4>
+          <!-- <h4 class="text-center">Xiaoqiang-io Co.,Ltd.</h4> -->
           </div>
         </div>
       </el-col>
@@ -22,7 +22,8 @@
 </template>
 
 <script>
-import logoImg from '../../assets/logoColor.png'
+import xqLogo from '../../assets/img/logo/xq/logo.png'
+import scLogo from '../../assets/img/logo/sc/logo.png'
 const {app} = require('electron').remote // @TODO uncomment this before publish
 
 export default {
@@ -31,17 +32,34 @@ export default {
   components: {},
   data: function () {
     return {
-      logoImgUrl: logoImg,
-      version: '1.0.0'
+      logoImgUrl: xqLogo,
+      version: '1.0.0',
+      appName: ''
     }
   },
   methods: {
     getVersion () {
       // @TODO uncomment this before publish
       this.version = app.getVersion()
+    },
+    getAppLogo () {
+      /**
+       * @TODO
+       * @BeforePublish
+       * uncomment this before publish to repository
+       */
+      let appName = app.getName()
+      if (appName.indexOf('scmeeting') > -1) {
+        this.appName = 'SCMeeting'
+        this.logoImgUrl = scLogo
+      } else if (appName.indexOf('xiaoqiang') > -1) {
+        this.appName = '小强在线'
+        this.logoImgUrl = xqLogo
+      }
     }
   },
   mounted: function () {
+    this.getAppLogo()
     this.getVersion()
   },
   computed: {},
