@@ -437,6 +437,7 @@ export default {
     height: calc(100vh - 360px);
     overflow-y: scroll;
     overflow-x: hidden;
+    float: left;
   }
 
   .conferences-list-content::-webkit-scrollbar{
