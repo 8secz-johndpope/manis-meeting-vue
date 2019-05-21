@@ -9,7 +9,7 @@
       <el-col class="app-container app-content" :span="12">
         <div class="grid-content">
           <div class="app-info app-title">
-            <h2 class="text-center">{{ appName }}视频会议系统极速版</h2>
+            <h2 class="text-center">{{ appName }}极速版</h2>
           </div>
           <div class="update-checking-container">
           <h5 class="text-center">{{ version }}</h5>
