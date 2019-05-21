@@ -35,7 +35,7 @@ export default {
 
   .segmentation-row{
     background-color: #eeeeee;
-    padding-left: 52px;
+    padding-left: 12px;
     margin-bottom: 10px;
   }
 

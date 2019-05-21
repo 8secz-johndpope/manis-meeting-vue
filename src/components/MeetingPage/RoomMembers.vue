@@ -263,12 +263,12 @@ export default {
 
   .member-item a {
     text-decoration:none;
-    color: #606266;
+    color: #EEEEEE;
     font-size: 1.2rem;
   }
 
   .member-info, .room-info-row, .el-collapse-item__arrow {
-    color: #606266;
+    color: #EEEEEE;
   }
 
   .room-invite-row {
@@ -292,7 +292,7 @@ export default {
 
   .segmentation-row{
     background-color: #eeeeee;
-    padding-left: 52px;
+    padding-left: 12px;
     margin-bottom: 10px;
   }
 

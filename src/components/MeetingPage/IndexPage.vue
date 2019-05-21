@@ -648,10 +648,18 @@ export default {
     position: absolute;
     right: 0px;
     width: 320px !important;
-    background: rgba(255, 255, 255, 1) none repeat scroll !important;
+    /* background: rgba(255, 255, 255, 1) none repeat scroll !important; */
     height: 100%;
     z-index: 2;
     padding-top: 64px;
+    background: -webkit-gradient(
+      linear,
+      10% 10%,
+      100% 100%,
+      color-stop(0.24, rgb(62, 68, 89)),
+      color-stop(0.74, rgb(99, 100, 109)),
+      color-stop(1, rgb(137, 135, 136))
+    );
   }
 
   .drawing-board-container .el-dialog__wrapper{

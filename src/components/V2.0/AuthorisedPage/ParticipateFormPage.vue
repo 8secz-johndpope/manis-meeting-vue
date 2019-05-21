@@ -145,7 +145,7 @@ export default {
   .block-bottom {
     border-radius: 5px;
     background-color: #ffffff !important;
-    color: black !important;
+    /* color: black !important; */
   }
 
   .join-room-form .el-form-item {
@@ -159,7 +159,7 @@ export default {
   }
 
   .auth-attend-form-item, .auth-attend-form-item>input {
-    color: black !important;
+    color: #ffffff !important;
   }
 
   .join-with-room-id {
@@ -167,8 +167,8 @@ export default {
   }
 
   .participate-room-submit {
-    background-color: #00A7F4;
-    border-color: #00A7F4;
+    background-color: #3E4459;
+    border-color: #898788;
     color: #ffffff;
   }
 

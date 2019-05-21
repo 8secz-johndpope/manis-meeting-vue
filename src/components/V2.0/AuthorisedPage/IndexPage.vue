@@ -409,15 +409,15 @@ export default {
     padding: 10px;
     margin: 10px;
     color: #eeeeee;
-    /*background: -webkit-gradient(*/
-      /*linear,*/
-      /*10% 10%,*/
-      /*100% 100%,*/
-      /*color-stop(0.24, rgb(62, 68, 89)),*/
-      /*color-stop(0.74, rgb(99, 100, 109)),*/
-      /*color-stop(1, rgb(137, 135, 136))*/
-    /*);*/
-    background-color: #0D4A96;
+    background: -webkit-gradient(
+      linear,
+      10% 10%,
+      100% 100%,
+      color-stop(0.24, rgb(62, 68, 89)),
+      color-stop(0.74, rgb(99, 100, 109)),
+      color-stop(1, rgb(137, 135, 136))
+    );
+    /* background-color: #0D4A96; */
   }
 
   a.none-decoration {
@@ -510,7 +510,7 @@ export default {
   .conferences-type-title {
     height: 50px;
     z-index: 2;
-    background-color: #5580B5;
+    background-color: #3E4459;
     padding: 0px;
   }
 
@@ -541,8 +541,8 @@ export default {
   }
 
   .participate-btn {
-    background-color: #5580B5;
-    border-color: #5580B5;
+    background-color: #3E4459;
+    border-color: #898788;
     color: #ffffff;
   }
 
@@ -553,7 +553,7 @@ export default {
   .conference-item-title>div.text-center {
     padding-top: 15px;
     padding-bottom: 15px;
-    background-color: #5580B5;
+    background-color: #3E4459;
     border-top-left-radius: 4px;
     border-top-right-radius: 4px;
   }

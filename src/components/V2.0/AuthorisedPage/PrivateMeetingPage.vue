@@ -93,15 +93,15 @@ export default {
     padding: 10px;
     margin: 10px;
     color: #eeeeee;
-    background-color: #0D4A96;
-    /*background: -webkit-gradient(*/
-      /*linear,*/
-      /*10% 10%,*/
-      /*100% 100%,*/
-      /*color-stop(0.24, rgb(62, 68, 89)),*/
-      /*color-stop(0.74, rgb(99, 100, 109)),*/
-      /*color-stop(1, rgb(137, 135, 136))*/
-    /*);*/
+    /* background-color: #0D4A96; */
+    background: -webkit-gradient(
+      linear,
+      10% 10%,
+      100% 100%,
+      color-stop(0.24, rgb(62, 68, 89)),
+      color-stop(0.74, rgb(99, 100, 109)),
+      color-stop(1, rgb(137, 135, 136))
+    );
   }
 
   a.none-decoration {
@@ -118,11 +118,11 @@ export default {
     border-radius: 20px;
     padding: 12px 10px 8px 10px;
     color: #ffffff;
-    background-color: rgba(255, 255, 255, 0.5);
-    border-color: rgba(255, 255, 255, 0.5);
+    background-color: rgba(99, 100, 109, 0.5);
+    border-color: rgba(137, 135, 136, 0.5);
     text-align: center;
   }
- 
+
   .el-input__inner {
     color: #ffffff;
     background-color: #5580B5;
@@ -135,11 +135,11 @@ export default {
 
   .light-blue {
     color: #ffffff;
-    background-color: rgba(255, 255, 255, 0.5);
+    background-color: rgba(99, 100, 109, 0.5);
   }
 
   .el-button.light-blue {
-    border-color: #5580B5;
+    border-color: #898788;
   }
 
   .private-room-submit {

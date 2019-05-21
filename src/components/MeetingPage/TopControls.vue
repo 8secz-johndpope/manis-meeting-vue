@@ -41,32 +41,32 @@
         <el-row>
           <el-col :span="4">
             <div class="close-right-btn-container">
-              <el-button icon="el-icon-close" circle @click="closeSideBar"  v-if="showAdminRight || showMembers || showTextMsg || showDeviceSetting"></el-button>
+              <el-button class="close-sidebar-btn" icon="el-icon-close" circle @click="closeSideBar"  v-if="showAdminRight || showMembers || showTextMsg || showDeviceSetting"></el-button>
             </div>
           </el-col>
           <el-col :span="5" class="block-right-text">
-            <el-button @click="switchFetchAdmin" :class="['right-ctl-btn', {'font-white': (!showAdminRight && !showMembers && !showTextMsg && !showDeviceSetting)}, {'active': showAdminRight}]">
+            <el-button @click="switchFetchAdmin" :class="['right-ctl-btn', 'font-white', {'active': showAdminRight}]">
               <i class="icon-icons8_Moderator btn-icon"></i>
               <div class="text-center"><small>管理</small></div>
             </el-button>
           </el-col>
           <el-col :span="5" class="block-right-text">
             <el-badge :value="membersCount" class="members-btn" type="info">
-              <el-button @click="switchRoomMembers" :class="['right-ctl-btn', {'font-white': (!showAdminRight && !showMembers && !showTextMsg && !showDeviceSetting)}, {'active': showMembers}]">
+              <el-button @click="switchRoomMembers" :class="['right-ctl-btn', 'font-white', {'active': showMembers}]">
                 <i class="icon-icons8_User_Account btn-icon"></i>
                 <div class="text-center"><small>参会人</small></div>
               </el-button>
             </el-badge>
           </el-col>
           <el-col :span="5" class="block-right-text">
-            <el-button @click="switchTextMsg" :class="['right-ctl-btn', {'font-white': (!showAdminRight && !showMembers && !showTextMsg && !showDeviceSetting)}, {'active': showTextMsg}]">
+            <el-button @click="switchTextMsg" :class="['right-ctl-btn', 'font-white', {'active': showTextMsg}]">
               <el-badge v-if="unreadMsg" is-dot class="item"><i class="icon-icons8_Chat btn-icon"></i></el-badge>
               <span v-else><i class="icon-icons8_Chat btn-icon"></i></span>
               <div class="text-center"><small>聊天</small></div>
             </el-button>
           </el-col>
           <el-col :span="5" class="block-right-text">
-            <el-button @click="switchDeviceSetting" :class="['right-ctl-btn', {'font-white': (!showAdminRight && !showMembers && !showTextMsg && !showDeviceSetting)}, {'active': showDeviceSetting}]">
+            <el-button @click="switchDeviceSetting" :class="['right-ctl-btn', 'font-white', {'active': showDeviceSetting}]">
               <i class="icon-icons8_Settings btn-icon"></i>
               <div class="text-center"><small>设置</small></div>
             </el-button>
@@ -291,8 +291,9 @@ export default {
   }
 
   .el-button.ctl-btn, .el-button.ctl-btn:hover, .el-button.ctl-btn:active, .el-button.ctl-btn:focus {
-    /*background: #333;*/
+    background: #3E4459;
     border: 2px solid #dcdfe6;
+    color: #ffffff;
   }
 
   .el-button.ctl-btn.is-disabled, .el-button.ctl-btn.is-disabled:focus, .el-button.ctl-btn.is-disabled:hover {
@@ -314,7 +315,7 @@ export default {
   }
 
   .font-default {
-    color: #606266;
+    color: #ffffff;
   }
 
   .el-button.right-ctl-btn.active {
@@ -325,7 +326,12 @@ export default {
     width: 40px;
     padding: 10px 0px;
     float: right;
-    margin-right: -15px;
+    margin-right: -16px;
+  }
+
+  .close-sidebar-btn {
+    background: #3E4459;
+    color: #fff;
   }
 
 </style>

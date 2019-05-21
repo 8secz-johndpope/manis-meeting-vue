@@ -2,7 +2,7 @@
   <div class="wrapper">
     <div class="bg-img"></div>
     <el-container>
-      <el-header class="participate-control-header">
+      <el-header class="participate-control-header hidden">
         <el-button circle :class="{'active': videoMute}" :disabled="!localVideo" @click="switchVideoMute">
           <i class="icon-icons8_No_Video btn-icon" v-if="videoMute"></i>
           <i class="icon-icons8_Video_Call btn-icon" v-else></i>
@@ -338,6 +338,10 @@ export default {
     background-color: rgba(48, 202, 119, 1);
     color: rgba(255, 255, 255, 1);
     border-color: rgba(48, 202, 119, .6);
+  }
+
+  .hidden {
+    display: none;
   }
 
 </style>

@@ -85,7 +85,7 @@ export default {
   }
 
   .device-setting-form .el-form-item__label, .basic-setting-form  .el-form-item__label{
-    color: #333333;
+    color: #EEEEEE;
   }
 
   .hidden {
@@ -131,11 +131,11 @@ export default {
 
   .join-room-form .el-form-item .el-input__inner {
     padding-left: 5px !important;
-    color: #333333;
+    color: #ffffff;
   }
 
   .join-room-form-box .el-form-item .el-input__inner {
-    color: black;
+    color: #ffffff;
   }
 
   .custom-form .el-form-item__error {
@@ -174,7 +174,15 @@ export default {
   }
 
   .el-popover{
-    background-color: #0D4A96 !important;
+    /* background-color: #3E4459 !important; */
+    background: -webkit-gradient(
+      linear,
+      10% 10%,
+      100% 100%,
+      color-stop(0.24, rgb(62, 68, 89)),
+      color-stop(0.74, rgb(99, 100, 109)),
+      color-stop(1, rgb(137, 135, 136))
+    );
     border: 0px !important;
     color: #ffffff !important;
     padding: 0px !important;

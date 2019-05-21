@@ -118,7 +118,7 @@ export default {
 
     sendMsgToMain (arg) {
       let msg = arg || 'ping'
-      //@TODO uncomment this before publish
+      // @TODO uncomment this before publish
       ipcRenderer.send('update-asynchronous-message', msg)
     },
 

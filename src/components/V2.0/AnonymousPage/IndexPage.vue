@@ -252,14 +252,14 @@ export default {
   }
 
   .gradual-bg {
-    background: #0D4A96 100%;
-    /*background: -webkit-gradient(*/
-    /*linear,*/
-    /*10% 10%,*/
-    /*100% 100%,*/
-    /*color-stop(0.34, rgb(62, 68, 89)),*/
-    /*color-stop(1, rgb(148, 145, 126))*/
-    /*);*/
+    /* background: #0D4A96 100%; */
+    background: -webkit-gradient(
+    linear,
+    10% 10%,
+    100% 100%,
+    color-stop(0.34, rgb(62, 68, 89)),
+    color-stop(1, rgb(148, 145, 126))
+    );
   }
 
   .anonymous-participate-title {
