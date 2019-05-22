@@ -121,9 +121,18 @@
       </el-col>
       <el-col :span="20" :offset="2">
         <div class="parting-line"></div>
-        <el-row class="recorder-btn-row text-center">
-          <el-button type="success" @click="onStartRecordClick" v-show="!recording" :disabled="recording || btnDisabled">会议录制</el-button>
-          <el-button type="danger" @click="onStopRecordClick" v-show="recording" :disabled="!recording || btnDisabled">结束录制</el-button>
+        <el-row>
+          <el-col :span="12">
+            <el-row class="recorder-btn-row text-center">
+              <el-button type="success" @click="onStartRecordClick" v-show="!recording" :disabled="recording || btnDisabled">会议录制</el-button>
+              <el-button type="danger" @click="onStopRecordClick" v-show="recording" :disabled="!recording || btnDisabled">结束录制</el-button>
+            </el-row>
+          </el-col>
+          <el-col :span="12">
+            <el-row class="drawing-btn-row text-center">
+              <el-button type="info" @click="openDrawingBoard">打开画图板</el-button>
+            </el-row>
+          </el-col>
         </el-row>
       </el-col>
       <el-col :span="20" :offset="2">
@@ -154,12 +163,6 @@
               </el-row>
             </el-col>
           </a>
-        </el-row>
-      </el-col>
-      <el-col :span="20" :offset="2">
-        <div class="parting-line"></div>
-        <el-row class="drawing-btn-row text-center">
-          <el-button type="success" @click="openDrawingBoard">打开画图板</el-button>
         </el-row>
       </el-col>
     </el-row>

@@ -212,7 +212,7 @@ export default {
     position: absolute;
     padding: 10px;
     margin-top: 30px;
-    background: rgba(0, 0, 0, 0.6) none repeat scroll !important;
+    /* background: rgba(0, 0, 0, 0.6) none repeat scroll !important; */
   }
 
   .el-col-24 .spread-info {

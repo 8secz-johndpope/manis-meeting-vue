@@ -222,7 +222,7 @@ export default {
   div.left-btn-block {
     width: 100px;
     position: fixed;
-    top: 4px;
+    top: 34px;
     left: 4px;
     float: left;
     z-index: 3;

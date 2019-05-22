@@ -2,9 +2,9 @@
   <el-row>
     <el-col>
       <div class="basic-setting-form device-setting-form">
-        <div class="form-title">
+        <!-- <div class="form-title">
           <h3>请选择你的媒体设备</h3>
-        </div>
+        </div> -->
         <el-form :model="deviceForm" status-icon :rules="deviceRules" ref="deviceForm"
                  label-width="80px"
                  class="demo-ruleForm"
@@ -67,10 +67,10 @@
               <video class="local-video" id="local-video" autoplay></video>
             </div>
           </el-form-item>
-          <el-form-item v-show="!inRoom">
+          <!-- <el-form-item v-show="!inRoom">
             <el-button type="primary" @click="submitForm('deviceForm')">保存</el-button>
             <el-button @click="resetForm('deviceForm')">清空</el-button>
-          </el-form-item>
+          </el-form-item> -->
         </el-form>
       </div>
     </el-col>
@@ -410,12 +410,12 @@ export default {
   .basic-setting-form {
     margin: 0 auto;
     width: 280px;
-    padding: 10px 10px;
+    padding: 0px 10px;
   }
 
   .form-title {
     text-align: center;
-    margin-bottom: 40px;
+    /* margin-bottom: 40px; */
     /* color: #606266; */
   }
 

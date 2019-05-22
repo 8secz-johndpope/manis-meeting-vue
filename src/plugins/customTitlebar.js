@@ -24,7 +24,7 @@ if (process.platform !== 'darwin') {
   })
 
   // Setting title explicitly
-  mainTitlebar.updateTitle(`${app.getName()}`)
+  mainTitlebar.updateTitle(`${app.getName()}` + `${app.getVersion()}`)
 
   ipcRenderer.on('titlebar-asynchronous-reply', (event, arg) => {
     switch (arg.action) {
