@@ -39,9 +39,12 @@ export default {
       let _this = this
       Utils.handleSystemError(function (res) {
         console.log(res)
-        // Utils.notification(_this, '连接服务已断开', 'error')
+        Utils.notification(_this, '网络连接好像出了点问题', 'error')
         _this.resetConnect()
-        _this.$router.push({name: 'v2-login'})
+        window.setTimeout(function () {
+          _this.$router.push({name: 'v2-login'})
+          // location.reload()
+        }, 2000)
       })
     }
   },
@@ -53,7 +56,7 @@ export default {
 </script>
 
 <style>
-  @import url('https://fonts.googleapis.com/css?family=Source+Sans+Pro');
+  /* @import url('https://fonts.googleapis.com/css?family=Source+Sans+Pro'); */
 
   * {
     box-sizing: border-box;

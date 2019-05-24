@@ -5,7 +5,7 @@
         <div class="active-segmentation-part"></div>
       </el-col>
     </el-row>
-    <el-row type="flex" justify="center" class="text-row room-text-row">
+    <el-row type="flex" justify="center" class="text-row room-text-row" id="text-msg-contents">
       <el-col :span="22">
         <div :class="['text-msg-row', {'pull-left': !(item.sendFromMe)}, {'pull-right': (item.sendFromMe)}]" v-for="(item, index) in messages" :key="index">
           <div :class="['text-msg', {'text-container-before bg-white': !(item.sendFromMe)}, {'text-container-after bg-green': (item.sendFromMe)}]">
@@ -58,6 +58,14 @@ export default {
         console.log('handle send text msg result : ', res)
         _this.textMsg = ''
       })
+    },
+
+    scrollToEnd: function () {
+      window.setTimeout(function () {
+        let height = document.querySelector('#text-msg-contents').scrollTop += 10000
+        console.log('set scroll top: ', height)
+        document.querySelector('#text-msg-contents').scrollTop = height
+      }, 1000)
     }
   },
 
@@ -73,7 +81,7 @@ export default {
     }
   },
   mounted: function () {
-
+    this.scrollToEnd()
   }
 }
 </script>
@@ -84,6 +92,24 @@ export default {
 
   .room-text-row {
     margin-bottom: 100px;
+    height: calc(100vh - 240px);
+    overflow-y: scroll;
+  }
+
+  .room-text-row::-webkit-scrollbar {
+    width: 0px;
+  }
+  .room-text-row::-webkit-scrollbar-track {
+    background-color:#898788;
+    -webkit-border-radius: 2em;
+    -moz-border-radius: 2em;
+    border-radius:2em;
+  }
+  .room-text-row::-webkit-scrollbar-thumb {
+    background-color:#ffffff;
+    -webkit-border-radius: 2em;
+    -moz-border-radius: 2em;
+    border-radius:2em;
   }
 
   .room-text-msg-row {

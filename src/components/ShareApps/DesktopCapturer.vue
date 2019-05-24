@@ -1,7 +1,7 @@
 <template>
   <div class="desktop-capture">
-    <el-row :gutter="20">
-      <el-col :span="8" v-for="(source, index) in captureSources" :key="index">
+    <el-row :gutter="20" type="flex" justify="center">
+      <el-col :span="24" v-for="(source, index) in captureSources" :key="index">
         <div class="grid-content bg-purple" @click="startCapture(source.id, index)">
           <div class="capture-name">{{ source.name }}</div>
           <video class="capture-video" :id="'capture-video-'+index" autoplay muted></video>
@@ -50,21 +50,25 @@ export default {
       let _this = this
       // @TODO uncomment this before publish
       const {desktopCapturer} = require('electron')
-      desktopCapturer.getSources({types: ['window', 'screen']}, (error, sources) => {
-        if (error) throw error
+      desktopCapturer.getSources({ types: ['screen'] }).then(async sources => {
         _this.captureSources = sources
         for (let i = 0; i < sources.length; ++i) {
-          if (sources[i].name !== 'Electron') {
-            navigator.mediaDevices.getUserMedia({
-              audio: false,
-              video: {
-                mandatory: {
-                  chromeMediaSource: 'desktop',
-                  chromeMediaSourceId: sources[i].id
+          let source = sources[i]
+          if (source.name !== 'Electron') {
+            try {
+              const stream = await navigator.mediaDevices.getUserMedia({
+                audio: false,
+                video: {
+                  mandatory: {
+                    chromeMediaSource: 'desktop',
+                    chromeMediaSourceId: source.id
+                  }
                 }
-              }
-            }).then((stream) => _this.handleStream(stream, i))
-              .catch((e) => _this.handleError(e))
+              })
+              _this.handleStream(stream, i)
+            } catch (e) {
+              _this.handleError(e)
+            }
           }
         }
       })

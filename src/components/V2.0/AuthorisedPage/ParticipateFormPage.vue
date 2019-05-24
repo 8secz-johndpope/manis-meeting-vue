@@ -8,30 +8,26 @@
               <div class="join-room-form-box">
                 <el-row :gutter="10">
                   <el-col :span="16">
-                    <el-form
-                      @submit.native.prevent
+                    <el-form @submit.native.prevent
                       :model="authorisedJoinForm"
-                      status-icon
                       :rules="authorisedJoinFormRules"
                       ref="authorisedJoinForm"
                       label-width="0px"
                       class="join-room-form">
-                      <el-form-item label="" prop="roomCode">
-                        <el-input
-                          class="auth-attend-form-item"
+                      <el-form-item label=""  prop="roomCode">
+                        <el-input placeholder="房间号"
+                        class="auth-attend-form-item"
                           v-model="authorisedJoinForm.roomCode"
                           autocomplete="off"
                           maxlength="9"
-                          placholder="请输入房间号"
                           @keyup.enter.native="submitForm('authorisedJoinForm')"
                           clearable></el-input>
                       </el-form-item>
                       <el-form-item label="" prop="roomPass">
-                        <el-input
-                          class="auth-attend-form-item"
+                        <el-input placeholder="房间口令(可选)"
+                        class="auth-attend-form-item"
                           v-model="authorisedJoinForm.roomPass"
                           autocomplete="off"
-                          placholder="房间口令(可选)"
                           @keyup.enter.native="submitForm('authorisedJoinForm')"
                           clearable></el-input>
                       </el-form-item>
@@ -44,13 +40,6 @@
                       </el-button>
                     </div>
                   </el-col>
-                  <!--<el-col :span="24">
-                    <div class="sign-out-box">
-                      <a href="javascript: void (0);" class="none-decoration" @click="signOut">
-                        <span>注销登录</span>
-                      </a>
-                    </div>
-                  </el-col>-->
                 </el-row>
               </div>
             </el-col>
@@ -75,8 +64,8 @@ export default {
     return {
       privateRoom: '',
       authorisedJoinForm: {
-        roomCode: '',
-        roomPass: ''
+        roomCode: '123123123',
+        roomPass: null
       },
       authorisedJoinFormRules: {
         roomCode: [
@@ -159,7 +148,7 @@ export default {
   }
 
   .auth-attend-form-item, .auth-attend-form-item>input {
-    color: #ffffff !important;
+    /* color: #ffffff !important; */
   }
 
   .join-with-room-id {

@@ -71,7 +71,7 @@ export default {
   components: {},
   data: function () {
     return {
-      logoImgUrl: xqLogo,
+      logoImgUrl: xqLogo || scLogo,
       steps: 1,
       notice: '',
       newVersionInfo: null,

@@ -29,10 +29,10 @@
       <el-col :span="20">
         <el-row class="ctl-all-audio-row" :gutter="10" v-show="isModerator">
           <el-col :span="12">
-            <el-button type="danger" @click="setRoomAudioMute(true)" :disabled="allMute">全员静音</el-button>
+            <el-button type="danger" @click="setRoomAudioMute(true)">全员静音</el-button>
           </el-col>
           <el-col :span="12">
-            <el-button type="success" @click="setRoomAudioMute(false)" :disabled="!allMute">取消静音</el-button>
+            <el-button type="success" @click="setRoomAudioMute(false)">取消静音</el-button>
           </el-col>
         </el-row>
         <el-collapse>

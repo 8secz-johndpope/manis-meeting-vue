@@ -52,7 +52,7 @@
             :screenSharing="screenSharing"
             :isModerator="isModerator"
           ></room-members>
-          <text-chat :class="['hidden', {'show': showTextMsg}]"></text-chat>
+          <text-chat :class="['hidden', {'show': showTextMsg}]" ref="text-chat"></text-chat>
           <device-setting :class="['hidden', {'show': showDeviceSetting}]"></device-setting>
           <admin-right
             :class="['hidden', {'show': showAdminRight}]"
@@ -65,6 +65,7 @@
             title="请选择需要分享的窗口"
             :visible.sync="captureDialogVisible"
             :modal="false"
+            width="320px"
             :show-close="true"
             :close-on-press-escape="false"
             :close-on-click-modal="false"
@@ -354,7 +355,7 @@ export default {
             // connect lost, redirect to login page
             Utils.notification(_this, '服务连接已断开,请稍后重试', 'error')
             _this.clearLocalStream()
-            _this.$router.push({name: 'login-page'})
+            _this.$router.push({name: 'v2-login'})
           } else {
             console.log(err)
             Utils.notification(_this, '房间不存在或进入房间失败', 'error')
@@ -395,7 +396,7 @@ export default {
             // connect lost, redirect to login page
             Utils.notification(_this, '服务连接已断开,请稍后重试', 'error')
             _this.clearLocalStream()
-            _this.$router.push({name: 'login-page'})
+            _this.$router.push({name: 'v2-login'})
           } else {
             console.log(err)
             Utils.notification(_this, '房间不存在或进入房间失败', 'error')
@@ -524,6 +525,7 @@ export default {
         this.unreadMsg = true
       }
       this.$store.dispatch('conferenceRoom/onTextMsg', res)
+      this.$refs['text-chat'].scrollToEnd()
     },
 
     handleStats: function (res) {

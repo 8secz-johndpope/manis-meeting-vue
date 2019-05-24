@@ -32,7 +32,7 @@ export default {
   components: {},
   data: function () {
     return {
-      logoImgUrl: xqLogo,
+      logoImgUrl: xqLogo || scLogo,
       version: '1.0.0',
       appName: ''
     }

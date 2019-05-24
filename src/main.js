@@ -20,7 +20,7 @@ Vue.config.productionTip = false
 //   store
 // }).$mount('#app')
 
-// @TODO uncomment this before publish
+// // @TODO uncomment this before publish
 export default {
   render: h => h(App),
   router,

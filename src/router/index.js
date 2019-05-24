@@ -6,7 +6,22 @@ Vue.use(Router)
 export default new Router({
   routes: [
     {
-      path: '/meeting/:roomNumber/:mode/:code?',
+      path: '*',
+      redirect: '/'
+    },
+    /* version 2.0 */
+    {
+      path: '/',
+      name: 'v2-login',
+      component: require('../components/V2.0/WelcomePage/IndexPage').default
+    },
+    {
+      path: '/v2/participate',
+      name: 'v2-participate',
+      component: require('../components/V2.0/ParticipatePage/IndexPage').default
+    },
+    {
+      path: '/v2/meeting',
       name: 'meeting',
       component: require('../components/MeetingPage/IndexPage').default
     },
@@ -29,21 +44,6 @@ export default new Router({
       path: '/update',
       name: 'update',
       component: require('../components/Layout/UpdatePage').default
-    },
-    {
-      path: '*',
-      redirect: '/'
-    },
-    /* version 2.0 */
-    {
-      path: '/',
-      name: 'v2-login',
-      component: require('../components/V2.0/WelcomePage/IndexPage').default
-    },
-    {
-      path: '/v2/participate',
-      name: 'v2-participate',
-      component: require('../components/V2.0/ParticipatePage/IndexPage').default
     }
   ]
 })

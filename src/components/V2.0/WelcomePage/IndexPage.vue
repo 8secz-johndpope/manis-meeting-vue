@@ -20,26 +20,47 @@
           <el-col :span="24">
             <div class="row-sign-in">
               <el-form
+                :model="initServerForm"
+                :rules="initServerFormRules"
+                ref="initServerForm"
+                class="custom-form"
+                @submit.native.prevent
+                v-show="!showSignInForm"
+              >
+              <el-form-item label prop="server">
+                  <el-row :gutter="10">
+                    <el-col :span="24">
+                      <el-input
+                        v-model="initServerForm.server"
+                        class="sign-input server"
+                        placeholder="请输入服务器地址"
+                        clearable
+                        @clear="setServerAddress('')"
+                        @keyup.enter.native="nextStep('initServerForm')"
+                      ></el-input>
+                    </el-col>
+                  </el-row>
+                </el-form-item>
+                <el-form-item>
+                  <el-row :gutter="10">
+                    <el-col :span="24">
+                      <el-button
+                        type="primary"
+                        class="btn-submit"
+                        round
+                        @click="nextStep('initServerForm')"
+                      >设置</el-button>
+                    </el-col>
+                  </el-row>
+                </el-form-item>
+              </el-form>
+              <el-form
                 :model="signInForm"
                 :rules="signInFormRules"
                 ref="signInForm"
                 class="custom-form"
                 @submit.native.prevent
               >
-                <el-form-item label prop="server" v-show="!showSignInForm">
-                  <el-row :gutter="10">
-                    <el-col :span="24">
-                      <el-input
-                        v-model="signInForm.server"
-                        class="sign-input server"
-                        placeholder="请输入服务器地址"
-                        clearable
-                        @clear="setServerAddress('')"
-                        @keyup.enter.native="nextStep()"
-                      ></el-input>
-                    </el-col>
-                  </el-row>
-                </el-form-item>
                 <el-form-item label prop="username" v-show="showSignInForm">
                   <el-row :gutter="10">
                     <el-col :span="24">
@@ -48,7 +69,6 @@
                         class="sign-input username"
                         placeholder="请输入用户名"
                         clearable
-                        autofocus="true"
                       ></el-input>
                     </el-col>
                   </el-row>
@@ -95,13 +115,6 @@
                 </el-form-item>
                 <el-form-item>
                   <el-button
-                    v-show="!showSignInForm"
-                    type="primary"
-                    class="btn-submit"
-                    round
-                    @click="nextStep()"
-                  >设置</el-button>
-                  <el-button
                     v-show="showSignInForm"
                     type="primary"
                     class="btn-transparent btn-submit"
@@ -128,7 +141,7 @@
         <el-row :gutter="10" class="version-row" v-show="serverAddr">
           <el-col :span="24">
             <div class="version text-center">
-              <span class="reset-server">更换主站? 点击<a href="javascript: void(0);" @click="clearServerSet"><span>初始化</span></a></span>
+              <span class="reset-server">更换主站? 点击<a href="javascript: void(0);" @click.stop="clearServerSet"><span>初始化</span></a></span>
             </div>
           </el-col>
         </el-row>
@@ -161,12 +174,30 @@ export default {
       }
       callback()
     }
+    var checkServerAddress = (rule, value, callback) => {
+      let serverRequire = '请输入服务器地址'
+      let serverError = '服务器地址错误,请确认'
+      let reg = /([0-9]|[a-zA-Z]|\.){3}/
+      if (!value) {
+        return callback(new Error(serverRequire))
+      } else if (!reg.test(value)) {
+        return callback(new Error(serverError))
+      }
+      callback()
+    }
     return {
       showSignInForm: false,
       appName: '视频会议系统',
       version: '1.0.0',
+      initServerForm: {
+        server: ''
+      },
+      initServerFormRules: {
+        server: [
+          { validator: checkServerAddress, trigger: 'blur' }
+        ]
+      },
       signInForm: {
-        server: '',
         username: '',
         password: '',
         verifyCode: '',
@@ -199,6 +230,7 @@ export default {
 
     refreshVerifyImg () {
       let _this = this
+      _this.signInForm.verifyCode = ''
       let host = _this.serverAddr
       Utils.refreshVerifyImage(
         host,
@@ -212,10 +244,16 @@ export default {
         })
     },
 
-    nextStep () {
-      if (this.signInForm.server) {
-        this.setMSS(this.signInForm.server)
-      }
+    nextStep (formName) {
+      let _this = this
+      _this.$refs[formName].validate(valid => {
+        if (valid) {
+          _this.setMSS(_this.initServerForm.server)
+        } else {
+          console.log('error submit!!')
+          return false
+        }
+      })
     },
     submitForm (formName) {
       let _this = this
@@ -318,6 +356,9 @@ export default {
           break
         case '615':
           Utils.notification(_this, '密码输入错误次数超限,账号已经被锁定', 'error')
+          break
+        case '617':
+          Utils.notification(_this, '对不起,您的账号已经被停用,如需要继续使用,请联系服务提供商', 'error')
           break
         case '801':
           Utils.notification(_this, '登陆失败,服务已到期', 'error')
