@@ -1441,7 +1441,7 @@ export default {
     if (!str) {
       return ''
     }
-    maxLength = maxLength > 0 ? maxLength : 12
+    maxLength = maxLength > 0 ? maxLength : 9
     appendStr = appendStr || (str.length > maxLength ? '...' : '')
     var returnStr = str.toString().substring(0, maxLength) + appendStr
     if (returnStr.indexOf('sip:68') > -1 || returnStr.indexOf('sip:69') > -1) {

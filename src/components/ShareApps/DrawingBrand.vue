@@ -49,6 +49,9 @@ import Utils from '../../utils/utils'
 
 export default {
   name: 'drawing-brand',
+  props: {
+    'opened': Boolean
+  },
   data () {
     return {
       canvasSize: {
@@ -583,7 +586,7 @@ export default {
     handleMucUserChange () {
       let _this = this
       Utils.onMucUserChange(function (res) {
-        console.log('handle muc user change', res)
+        console.log('handle muc user change', res, _this.opened)
         let jid = res.data.jid || res.data
         if (!jid) {
           return false

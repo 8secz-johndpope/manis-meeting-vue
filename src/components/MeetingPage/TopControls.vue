@@ -20,13 +20,13 @@
             </el-button>
           </el-col>
           <el-col :span="6" class="block-center-text">
-            <el-button circle @click="switchVideoMute" :class="['ctl-btn',{'active': videoMute}]">
+            <el-button circle @click="switchVideoMute" :class="['ctl-btn',{'active': videoMute}]" :disabled="screenShareStatus">
               <i class="icon-icons8_No_Video btn-icon"  v-if="videoMute"></i>
               <i class="icon-icons8_Video_Call btn-icon"  v-else></i>
             </el-button>
           </el-col>
           <el-col :span="6" class="block-center-text">
-            <el-button circle @click="switchScreenShare" :class="['ctl-btn', {'active': screenShareStatus}]" :disabled="!isModerator">
+            <el-button circle @click="switchScreenShare" :class="['ctl-btn', {'active': screenShareStatus}]" :disabled="!isModerator || videoMute">
               <i class="icon-icons8_Laptop btn-icon"></i>
             </el-button>
           </el-col>
