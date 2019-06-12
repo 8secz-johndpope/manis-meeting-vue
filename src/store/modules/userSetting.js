@@ -3,7 +3,8 @@ const state = {
   password: '',
   authorization: false,
   profile: null,
-  room: ''
+  room: '',
+  initiativeSignOut: false
 }
 
 const mutations = {
@@ -13,6 +14,7 @@ const mutations = {
     state.profile = null
     state.room = ''
     state.authorization = false
+    // state.initiativeSignOut = false
   },
   STORE_USERNAME: function (state, username) {
     state.username = username
@@ -26,6 +28,9 @@ const mutations = {
   },
   SET_USER_ROOM (state, room) {
     state.room = room
+  },
+  SET_SIGN_OUT_TYPE (state, type) {
+    state.initiativeSignOut = type
   }
 }
 
@@ -38,6 +43,9 @@ const actions = {
   },
   clearUser ({commit}) {
     commit('CLEAR_USER_STORE')
+  },
+  isInitiativeSignOut ({commit}, type) {
+    commit('SET_SIGN_OUT_TYPE', type)
   }
 }
 

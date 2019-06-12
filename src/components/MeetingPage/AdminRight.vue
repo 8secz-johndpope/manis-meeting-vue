@@ -172,7 +172,9 @@
 import Utils from '../../utils/utils'
 export default {
   name: 'meeting-admin-right',
-  props: [],
+  props: {
+    screenShareStatus: Boolean
+  },
   components: {
   },
   data: function () {
@@ -433,6 +435,10 @@ export default {
        */
     onDisplayModeClick: function (_mode) {
       let _this = this
+      if (_this.screenShareStatus) {
+        Utils.notification(_this, '屏幕分享正在进行,请勿切换显示模式')
+        return false
+      }
       Utils.setDisplayMode(
         parseInt(_mode),
         function (res) {

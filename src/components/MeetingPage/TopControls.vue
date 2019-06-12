@@ -96,17 +96,29 @@ export default {
   },
   data: function () {
     return {
-      membersCount: 1
+      membersCount: 1,
+      getMembersTimer: null
     }
   },
   methods: {
     leaveRoom: function () {
       this.$emit('leaveRoom')
     },
+    watchMemberCount: function () {
+      let _this = this
+      if (_this.getMembersTimer) {
+        window.clearTimeout(_this.getMembersTimer)
+        _this.getMembersTimer = null
+      }
+      _this.getMembers()
+      _this.getMembersTimer = window.setTimeout(() => {
+        _this.watchMemberCount()
+      }, 1000)
+    },
     getMembers: function (cb) {
       let _this = this
       Utils.getParticipateMembers(function (members) {
-        console.log('handle room members: ', members)
+        // console.log('handle room members: ', members)
         _this.membersCount = members.length
         if (cb && typeof (cb) === 'function') {
           cb(members)
@@ -196,7 +208,7 @@ export default {
     }
   },
   mounted: function () {
-    this.getMembers()
+    this.watchMemberCount()
   }
 }
 </script>

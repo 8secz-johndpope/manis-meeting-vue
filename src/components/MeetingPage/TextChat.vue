@@ -62,9 +62,13 @@ export default {
 
     scrollToEnd: function () {
       window.setTimeout(function () {
-        let height = document.querySelector('#text-msg-contents').scrollTop += 10000
-        console.log('set scroll top: ', height)
-        document.querySelector('#text-msg-contents').scrollTop = height
+        let element = document.querySelector('#text-msg-contents')
+        if (element) {
+          let height = element.scrollTop += 10000
+          // console.log('set scroll top: ', height)
+          element.scrollTop = height
+        }
+
       }, 1000)
     }
   },

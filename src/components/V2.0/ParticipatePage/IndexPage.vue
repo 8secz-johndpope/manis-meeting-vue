@@ -204,6 +204,7 @@ export default {
       let _this = this
       params.audio_muted = _this.audioMute
       params.video_muted = _this.videoMute
+      _this.$store.dispatch('userSetting/isInitiativeSignOut', false)
       _this.$router.push({
         name: 'meeting',
         params: params

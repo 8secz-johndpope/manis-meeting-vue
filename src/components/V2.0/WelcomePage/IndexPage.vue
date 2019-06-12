@@ -177,7 +177,7 @@ export default {
     var checkServerAddress = (rule, value, callback) => {
       let serverRequire = '请输入服务器地址'
       let serverError = '服务器地址错误,请确认'
-      let reg = /([0-9]|[a-zA-Z]|\.){3}/
+      let reg = /^\w+\.(\w+|\.)+\w+?/
       if (!value) {
         return callback(new Error(serverRequire))
       } else if (!reg.test(value)) {
@@ -272,11 +272,13 @@ export default {
     setMSS (server) {
       let _this = this
       console.log('set mss server', server)
+      _this.loadingShow()
       Utils.initServerConfig(
         server,
         function (res) {
           _this.$store.dispatch('serverSetting/setServer', server)
           _this.showSignInForm = true
+          _this.loadingHide()
           if (window.config.supportVerify) {
             _this.showVerify = true
             _this.showVerifyImage()
@@ -415,7 +417,36 @@ export default {
         this.appName = '小强在线' + this.appName
       }
       this.version = app.getVersion()
-    }
+    },
+    loadingShow: function () {
+      let _this = this
+      _this.loadingHide()
+      let loader = _this.$loading.show({
+        canCancel: false,
+        backgroundColor: '#000',
+        width: 128,
+        height: 128,
+        opacity: 0.6,
+        color: '#69D360',
+        loader: 'dots',
+        onCancel: _this.onCancel
+      })
+      _this.loader = loader
+      // simulate AJAX
+      setTimeout(() => {
+        _this.loadingHide()
+        if (!_this.showSignInForm) {
+          Utils.notification(_this, '未能连接上配置的服务器地址, 请确认地址可用并检查网络', 'error')
+        }
+      }, 1000 * 20)
+    },
+
+    loadingHide: function () {
+      if (this.loader) {
+        this.loader.hide()
+        this.loader = null
+      }
+    },
   },
   computed: {
     serverAddr: function () {

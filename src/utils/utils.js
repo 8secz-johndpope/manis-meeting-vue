@@ -300,7 +300,7 @@ export default {
       server: server,
       domain: server,
       type: 'conference',
-      clientCode: '0100'
+      clientCode: '0402'
     }, res => {
       console.log(res)
       if (callBack) {
@@ -1620,5 +1620,47 @@ export default {
         errorCb(err)
       }
     )
+  },
+
+  /**
+   * change resolution
+   * @param {string} resolution
+   * @param {function} callBack
+   */
+  changeResolution: function (resolution, callBack) {
+    let _this = this
+    Manis.changeResolution(
+      resolution.toString(),
+      res => {
+        if (res.errorCode === _this.noErr) {
+          callBack(res.response)
+        } else {
+          console.error(res)
+        }
+      }
+    )
+  },
+
+  /**
+   * set video bandwith with resolution
+   * @param {string} resolution
+   * @param {function} callBack
+   */
+  changeVideoBandwith: function (resolution, callBack) {
+    let _this = this
+    try {
+      Manis.setVideoBandwidth(
+        resolution,
+        res => {
+          if (res.errorCode === _this.noErr) {
+            callBack(res)
+          } else {
+            console.error(res)
+          }
+        }
+      )
+    } catch (error) {
+      console.error(error)
+    }
   }
 }

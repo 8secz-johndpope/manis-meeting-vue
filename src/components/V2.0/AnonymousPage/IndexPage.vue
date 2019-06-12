@@ -168,6 +168,7 @@ export default {
       this.server = this.$store.state.serverSetting.serverAddr || ''
     },
     signInPage () {
+      this.$store.dispatch('userSetting/isInitiativeSignOut', true)
       this.$router.push({name: 'v2-login'})
     },
     setNickname (nickname) {

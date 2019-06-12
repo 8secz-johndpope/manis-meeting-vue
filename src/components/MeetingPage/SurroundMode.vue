@@ -1,18 +1,20 @@
 <template>
   <div class="surround-mode">
       <el-row class="surround-main">
-        <el-col :span="24" v-for="(videoParticipant, index) in showVideos" v-if="!index" :key="index">
-          <video v-if="videoParticipant" :id="'surround-video-'+ streamSSRC(videoParticipant.stream)" class="local-video" autoplay muted></video>
-          <div class="no-video-status main-status">
-            <div class="no-video-status-container surround-main-status">
-              <i v-if="videoParticipant.video_muted" class="icon-icons8_No_Video"></i>
+        <el-col :span="24" v-for="(videoParticipant, index) in showVideos" :key="index">
+          <div v-if="!index" class="surround-main">
+            <video v-if="videoParticipant" :id="'surround-video-'+ streamSSRC(videoParticipant.stream)" class="local-video" autoplay muted></video>
+            <div class="no-video-status main-status">
+              <div class="no-video-status-container surround-main-status">
+                <i v-if="videoParticipant.video_muted" class="icon-icons8_No_Video"></i>
+              </div>
             </div>
           </div>
         </el-col>
       </el-row>
       <el-row class="surround-sub" :gutter="10">
-        <el-col :span="3" v-if="index" v-for="(videoParticipant, index) in showVideos" :key="index">
-          <div class="surround-sub-stream" @click="setMainDisplay(videoParticipant)">
+        <el-col :span="3" v-for="(videoParticipant, index) in showVideos" :key="index">
+          <div  v-if="index" class="surround-sub-stream" @click="setMainDisplay(videoParticipant)">
             <video v-if="videoParticipant && !videoParticipant.video_muted" :id="'surround-video-'+ streamSSRC(videoParticipant.stream)" class="surround-sub-video"  autoplay muted></video>
             <div class="no-video-status sub-status">
               <div class="surround-sub-nickname" v-if="videoParticipant">

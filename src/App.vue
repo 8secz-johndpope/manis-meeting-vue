@@ -39,13 +39,20 @@ export default {
       let _this = this
       Utils.handleSystemError(function (res) {
         console.log(res)
-        Utils.notification(_this, '网络连接好像出了点问题', 'error')
+        if (!_this.initiativeSignOut) {
+          Utils.notification(_this, '网络连接好像出了点问题', 'error')
+        }
         _this.resetConnect()
         window.setTimeout(function () {
           _this.$router.push({name: 'v2-login'})
           // location.reload()
         }, 2000)
       })
+    }
+  },
+  computed: {
+    initiativeSignOut: function () {
+      return this.$store.state.userSetting.initiativeSignOut
     }
   },
   mounted: function () {

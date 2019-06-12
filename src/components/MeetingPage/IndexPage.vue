@@ -55,6 +55,7 @@
           <text-chat :class="['hidden', {'show': showTextMsg}]" ref="text-chat"></text-chat>
           <device-setting :class="['hidden', {'show': showDeviceSetting}]"></device-setting>
           <admin-right
+            :screenShareStatus="screenSharing"
             :class="['hidden', {'show': showAdminRight}]"
             v-on:switchDrawingBoard="switchDrawingBoard"
           ></admin-right>
@@ -318,6 +319,7 @@ export default {
                 }
                 _this.getLocalStream(audioInput, videoInput, resolution)
               } else {
+                Utils.notification(_this, '获取本地视频失败,未能成功接入本地视频', 'error')
               }
             }
           } else {
@@ -351,6 +353,7 @@ export default {
           _this.loadingHide()
           if (err.errorCode === '300300') {
             // room password require
+            Utils.notification(_this, '请输入正确的房间口令', 'error')
             _this.roomPassDialogVisible = true
           } else if (err.errorCode === '300204') {
             // connect lost, redirect to login page
@@ -359,7 +362,8 @@ export default {
             _this.$router.push({name: 'v2-login'})
           } else {
             console.log(err)
-            Utils.notification(_this, '房间不存在或进入房间失败', 'error')
+            let msg = _this.getAttendFailedReason(err)
+            Utils.notification(_this, msg, 'error')
             _this.clearLocalStream()
             _this.$router.push({name: 'v2-participate'})
           }
@@ -400,13 +404,27 @@ export default {
             _this.$router.push({name: 'v2-login'})
           } else {
             console.log(err)
-            Utils.notification(_this, '房间不存在或进入房间失败', 'error')
+            let msg = _this.getAttendFailedReason(err)
+            Utils.notification(_this, msg, 'error')
             _this.clearLocalStream()
             _this.$router.push({name: 'v2-participate'})
           }
         },
         _this.localStream
       )
+    },
+
+    getAttendFailedReason: function (res) {
+      let _this = this
+      let msg
+      switch (res.errorCode) {
+        case '300302':
+          msg = '会议室房间已经锁定'
+          break
+        default:
+          msg = '房间不存在或进入房间失败'
+      }
+      return msg
     },
 
     setLocalAudioStatus: function (status, cb) {
@@ -541,6 +559,7 @@ export default {
     handleSortShow: function (res) {
       // console.log('handle sort from focus:', res)
       this.$store.dispatch('conferenceRoom/updateDisplaySort', res)
+      this.autoSetVideoResolution()
     },
 
     handleSomeoneLeft: function (res) {
@@ -603,6 +622,50 @@ export default {
       _this.clearLocalStream()
       _this.$store.dispatch('conferenceRoom/clearData')
       return _this.$router.push({name: 'v2-participate'})
+    },
+
+    autoSetVideoResolution: function () {
+      let _this = this
+      if (_this.displayMode === '0') {
+        // surround mode, main block set resolution to config.resolution, others set resolution to 180
+        let mainParticipant = _this.$store.state.conferenceRoom.showStreams[0] || null
+        if (mainParticipant) {
+          // console.log('-------------AAAAAAAAAA-------', mainParticipant, window.connection.jid)
+          if (mainParticipant.info && mainParticipant.info.jid === window.connection.jid) {
+            // set resolution with config.resolution
+            _this.changeLocalVideoResolution(window.config.resolution)
+          } else {
+            // set resolution to 180
+            _this.changeLocalVideoResolution('180')
+          }
+        }
+      } else {
+        // spread mode, caculate resolution with participants count in room
+        let videoCount = _this.showVideos.length || 1
+        let targetResolution = '180'
+        if (videoCount >= 6) {
+          targetResolution = '180'
+        } else if (videoCount >= 3) {
+          targetResolution = '540'
+        } else {
+          targetResolution = '720'
+        }
+        _this.changeLocalVideoResolution(targetResolution)
+      }
+    },
+
+    changeLocalVideoResolution: function (resolution) {
+      let _this = this
+      Utils.changeResolution(resolution, res => {
+        // console.log('----------BBBBBBBBBB----------', res)
+        // _this.setVideoBandwith(res.resolution)  // sdk ignore this function yet
+      })
+    },
+
+    setVideoBandwith: function (resolution) {
+      Utils.changeVideoBandwith(resolution, res => {
+        // console.log('----------CCCCCCCCCCC----------', res)
+      })
     }
 
   },
@@ -612,6 +675,9 @@ export default {
     },
     displayMode () {
       return this.$store.state.conferenceRoom.mode
+    },
+    showVideos () {
+      return this.$store.state.conferenceRoom.showStreams
     }
   },
   mounted: function () {
