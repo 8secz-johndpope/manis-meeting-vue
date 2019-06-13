@@ -595,13 +595,15 @@ export default {
         if (res.action === 'entered') {
           // check if not in list  send create msg and push jid into list
           if (index === -1) {
-            _this.sendActionMsg(
-              _this.createTrack.action,
-              _this.createTrack.data,
-              _this.createTrack.type,
-              jid,
-              true
-            )
+            if (_this.createTrack) {
+              _this.sendActionMsg(
+                _this.createTrack.action,
+                _this.createTrack.data,
+                _this.createTrack.type,
+                jid,
+                true
+              )
+            }
             _this.mucUsers.push(jid)
           }
         } else if (res.action === 'left') {

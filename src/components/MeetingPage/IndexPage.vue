@@ -5,6 +5,7 @@
         <el-container :class="['top-control-container', {'show': (showAdminRight || showMembers || showTextMsg || showDeviceSetting)}]">
           <top-controls
             :screenShareStatus="screenSharing"
+            :drawingStatus="drawingDialogVisible"
             :showAdminRight="showAdminRight"
             :showMembers="showMembers"
             :showTextMsg="showTextMsg"
@@ -415,11 +416,13 @@ export default {
     },
 
     getAttendFailedReason: function (res) {
-      let _this = this
       let msg
       switch (res.errorCode) {
         case '300302':
           msg = '会议室房间已经锁定'
+          break
+        case '300305':
+          msg = '会议尚未开始,请在会议开始前15分钟内入场'
           break
         default:
           msg = '房间不存在或进入房间失败'
@@ -658,12 +661,12 @@ export default {
       let _this = this
       Utils.changeResolution(resolution, res => {
         // console.log('----------BBBBBBBBBB----------', res)
-        // _this.setVideoBandwith(res.resolution)  // sdk ignore this function yet
+        _this.setVideoBandwidth(res.resolution) // sdk ignore this function yet
       })
     },
 
-    setVideoBandwith: function (resolution) {
-      Utils.changeVideoBandwith(resolution, res => {
+    setVideoBandwidth: function (resolution) {
+      Utils.changeVideoBandwidth(resolution, res => {
         // console.log('----------CCCCCCCCCCC----------', res)
       })
     }

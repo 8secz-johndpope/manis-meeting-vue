@@ -77,6 +77,17 @@ export default {
   name: 'v2-anonymous-index-page',
   components: {},
   data: function () {
+    var validateNickname = (rule, value, callback) => {
+      if (value === '') {
+        callback(new Error('请输入昵称'))
+      } else if (value.length > 16) {
+        callback(new Error('昵称长度为 1 到 16 个字符'))
+      } else if (!Utils.sensitiveWordsCheck(value)) {
+        callback(new Error('您输入的昵称含有敏感词汇, 请修改'))
+      } else {
+        callback()
+      }
+    }
     return {
       server: '',
       anonymousForm: {
@@ -100,8 +111,9 @@ export default {
           }
         ],
         nickname: [
-          {required: true, message: '请输入昵称', trigger: 'blur'},
-          {min: 1, max: 16, message: '长度在 1 到 16 个字符', trigger: 'blur'}
+          { validator: validateNickname, trigger: 'blur' }
+          // {required: true, message: '请输入昵称', trigger: 'blur'},
+          // {min: 1, max: 16, message: '长度在 1 到 16 个字符', trigger: 'blur'}
         ]
       }
     }

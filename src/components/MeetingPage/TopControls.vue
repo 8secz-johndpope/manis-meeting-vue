@@ -26,7 +26,7 @@
             </el-button>
           </el-col>
           <el-col :span="6" class="block-center-text">
-            <el-button circle @click="switchScreenShare" :class="['ctl-btn', {'active': screenShareStatus}]" :disabled="!isModerator || videoMute">
+            <el-button circle @click="switchScreenShare" :class="['ctl-btn', {'active': screenShareStatus}]" :disabled="!isModerator || videoMute || drawingStatus">
               <i class="icon-icons8_Laptop btn-icon"></i>
             </el-button>
           </el-col>
@@ -84,6 +84,7 @@ export default {
   name: 'meeting-top-controls',
   props: {
     screenShareStatus: Boolean,
+    drawingStatus: Boolean,
     showMembers: Boolean,
     showTextMsg: Boolean,
     showDeviceSetting: Boolean,
@@ -179,6 +180,10 @@ export default {
         }
         if (_this.displayMode !== '0') {
           Utils.notification(_this, '当前显示模式下无法进屏幕分享,请先切换到环绕模式')
+          return false
+        }
+        if (_this.drawingStatus) {
+          Utils.notification(_this, '正在分享画板,不能进行屏幕分享')
           return false
         }
         if (_this.screenShareStatus) {

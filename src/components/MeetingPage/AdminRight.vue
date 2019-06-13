@@ -130,7 +130,7 @@
           </el-col>
           <el-col :span="12">
             <el-row class="drawing-btn-row text-center">
-              <el-button type="info" @click="openDrawingBoard">打开画图板</el-button>
+              <el-button type="info" @click="openDrawingBoard" :disabled="screenShareStatus">打开画图板</el-button>
             </el-row>
           </el-col>
         </el-row>
@@ -457,6 +457,10 @@ export default {
        * open drawing board
        */
     openDrawingBoard: function () {
+      if (this.screenShareStatus) {
+        Utils.notification(this, '屏幕分享过程中不能进行画板操作', 'error')
+        return false
+      }
       this.$emit('switchDrawingBoard', true)
     }
   },

@@ -13,8 +13,8 @@
         </el-col>
       </el-row>
       <el-row class="surround-sub" :gutter="10">
-        <el-col :span="3" v-for="(videoParticipant, index) in showVideos" :key="index">
-          <div  v-if="index" class="surround-sub-stream" @click="setMainDisplay(videoParticipant)">
+        <el-col :span="3"  v-for="(videoParticipant, index) in subVideos" :key="index">
+          <div class="surround-sub-stream" @click="setMainDisplay(videoParticipant)">
             <video v-if="videoParticipant && !videoParticipant.video_muted" :id="'surround-video-'+ streamSSRC(videoParticipant.stream)" class="surround-sub-video"  autoplay muted></video>
             <div class="no-video-status sub-status">
               <div class="surround-sub-nickname" v-if="videoParticipant">
@@ -121,6 +121,13 @@ export default {
     },
     displayMode () {
       return this.$store.state.conferenceRoom.mode
+    },
+    subVideos () {
+      return this.showVideos.filter(function(item,index){
+        if (index) {
+          return item
+        }
+      })
     }
   },
   filters: {
@@ -187,7 +194,7 @@ export default {
     z-index: 2;
   }
 
-  div.surround-sub>div.el-col-3 {
+  div.surround-sub div.el-col-3 {
     height: 100%;
   }
 
@@ -203,7 +210,7 @@ export default {
     width: 100%;
     height: 100%;
     margin-bottom: -5px;
-    object-fit: cover;
+    object-fit: contain;
   }
 
   div.no-video-status {

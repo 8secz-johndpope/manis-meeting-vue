@@ -1646,7 +1646,7 @@ export default {
    * @param {string} resolution
    * @param {function} callBack
    */
-  changeVideoBandwith: function (resolution, callBack) {
+  changeVideoBandwidth: function (resolution, callBack) {
     let _this = this
     try {
       Manis.setVideoBandwidth(
@@ -1662,5 +1662,23 @@ export default {
     } catch (error) {
       console.error(error)
     }
+  },
+
+  /**
+   * sensitive words check
+   * @param {string} words
+   */
+  sensitiveWordsCheck: function (words) {
+    let _this = this
+    Manis.sensitiveCheck(
+      words,
+      res => {
+        if (res.errorCode === _this.noErr) {
+          return true
+        } else {
+          return false
+        }
+      }
+    )
   }
 }
