@@ -79,13 +79,16 @@ export default {
   data: function () {
     var validateNickname = (rule, value, callback) => {
       if (value === '') {
-        callback(new Error('请输入昵称'))
+        return callback(new Error('请输入昵称'))
       } else if (value.length > 16) {
-        callback(new Error('昵称长度为 1 到 16 个字符'))
-      } else if (!Utils.sensitiveWordsCheck(value)) {
-        callback(new Error('您输入的昵称含有敏感词汇, 请修改'))
+        return callback(new Error('昵称长度为 1 到 16 个字符'))
       } else {
-        callback()
+        Utils.sensitiveWordsCheck(value, function (passed) {
+          if (!passed) {
+            return callback(new Error('您输入的昵称含有敏感词汇, 请修改'))
+          }
+          return callback()
+        })
       }
     }
     return {
@@ -267,11 +270,11 @@ export default {
   .gradual-bg {
     /* background: #0D4A96 100%; */
     background: -webkit-gradient(
-    linear,
-    10% 10%,
-    100% 100%,
-    color-stop(0.34, rgb(62, 68, 89)),
-    color-stop(1, rgb(148, 145, 126))
+      linear,
+      10% 10%,
+      100% 100%,
+      color-stop(0.34, rgb(62, 68, 89)),
+      color-stop(1, rgb(148, 145, 126))
     );
   }
 

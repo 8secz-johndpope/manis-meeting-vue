@@ -1667,16 +1667,17 @@ export default {
   /**
    * sensitive words check
    * @param {string} words
+   * @param {function} callBack
    */
-  sensitiveWordsCheck: function (words) {
+  sensitiveWordsCheck: function (words, callBack) {
     let _this = this
     Manis.sensitiveCheck(
       words,
       res => {
         if (res.errorCode === _this.noErr) {
-          return true
+          callBack(true)
         } else {
-          return false
+          callBack(false)
         }
       }
     )
