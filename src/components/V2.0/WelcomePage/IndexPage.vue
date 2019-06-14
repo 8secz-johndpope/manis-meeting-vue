@@ -293,7 +293,7 @@ export default {
         username: _this.signInForm.username,
         password: _this.signInForm.password,
         verifyCode: _this.signInForm.verifyCode,
-        clientCode: _this.showVerify ? '0100' : '0101'
+        clientCode: '0402'
       }, res => {
         _this.handleApiSignInRes(res)
       }, err => {
