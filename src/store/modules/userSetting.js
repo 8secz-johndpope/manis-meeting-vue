@@ -4,13 +4,16 @@ const state = {
   authorization: false,
   profile: null,
   room: '',
-  initiativeSignOut: false
+  initiativeSignOut: false,
+  remember: false
 }
 
 const mutations = {
   CLEAR_USER_STORE (state) {
-    state.username = ''
-    state.password = ''
+    if (!state.remember) {
+      state.username = ''
+      state.password = ''
+    }
     state.profile = null
     state.room = ''
     state.authorization = false
@@ -31,6 +34,9 @@ const mutations = {
   },
   SET_SIGN_OUT_TYPE (state, type) {
     state.initiativeSignOut = type
+  },
+  SET_REMEMBER_ME (state, remember) {
+    state.remember = remember
   }
 }
 
@@ -40,6 +46,7 @@ const actions = {
     commit('STORE_PASSWORD', userSetting.password)
     commit('SET_USER_ROOM', userSetting.room)
     commit('SET_USER_PROFILE', userSetting.profile)
+    commit('SET_REMEMBER_ME', (userSetting.rememberMe || false))
   },
   clearUser ({commit}) {
     commit('CLEAR_USER_STORE')

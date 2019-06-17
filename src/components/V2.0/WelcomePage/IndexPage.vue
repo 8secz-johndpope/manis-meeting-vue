@@ -220,11 +220,19 @@ export default {
   },
   methods: {
     showVerifyImage () {
+      let _this = this
       let verifyCodeData = window.config.verifyCode
       if (verifyCodeData) {
         let imgData = 'data:image/gif;base64,' + verifyCodeData
         // console.log('show verify code image: ', imgData)
-        this.verifyImage = imgData
+        _this.verifyImage = imgData
+      } else {
+        // auto sign if remember set before
+        if (_this.storeUser) {
+          _this.signInForm.username = _this.$store.state.userSetting.username
+          _this.signInForm.password = _this.$store.state.userSetting.password
+          _this.submitForm('signInForm')
+        }
       }
     },
 
@@ -320,7 +328,8 @@ export default {
             username: _this.signInForm.username,
             password: _this.signInForm.password,
             profile: window.config.nickname || '',
-            room: window.config.cNumber || ''
+            room: window.config.cNumber || '',
+            rememberMe: _this.signInForm.rememberMe
           })
           _this.$router.push({ name: 'v2-participate' })
         }, err => {
@@ -446,11 +455,14 @@ export default {
         this.loader.hide()
         this.loader = null
       }
-    },
+    }
   },
   computed: {
     serverAddr: function () {
       return this.$store.state.serverSetting.serverAddr
+    },
+    storeUser: function () {
+      return this.$store.state.userSetting.remember || false
     }
   },
   beforeDestroy: function () {},
