@@ -569,6 +569,14 @@ export default {
       console.log('handle some one left: ', res)
       this.$store.dispatch('conferenceRoom/onLeaveRoom', res.resource)
       this.$refs.annotationComponent.checkLeftIsPainter(res.resource)
+      this.checkLeftGuy(res.resource)
+    },
+
+    checkLeftGuy: function (endpoint) {
+      let _this = this
+      Utils.isModeratorLeft(endpoint, res => {
+        if (res) Utils.notification(_this, '主持人离开了房间,会议室将在5分钟后关闭', 'error')
+      })
     },
 
     updateLocalSSRC: function (obj) {

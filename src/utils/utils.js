@@ -1681,5 +1681,31 @@ export default {
         }
       }
     )
+  },
+
+  /**
+   * check left one is moderator
+   * @param endpoint
+   * @param callBack
+   */
+  isModeratorLeft: function (endpoint, callBack) {
+    let _this = this
+    Manis.memberList(res => {
+      if (res.errorCode === _this.noErr) {
+        let list = res.response
+        let leftPersons = list.filter(item => {
+          if (item.resource === endpoint) {
+            return item
+          }
+        })
+        if (!leftPersons.length) {
+          return callBack(false)
+        }
+        if (!leftPersons[0] || !leftPersons[0].is_moderator) {
+          return callBack(false)
+        }
+        return callBack(true)
+      }
+    })
   }
 }
