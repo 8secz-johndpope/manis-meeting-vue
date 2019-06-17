@@ -567,14 +567,14 @@ export default {
 
     handleSomeoneLeft: function (res) {
       console.log('handle some one left: ', res)
+      this.checkLeftGuy(res.resource)
       this.$store.dispatch('conferenceRoom/onLeaveRoom', res.resource)
       this.$refs.annotationComponent.checkLeftIsPainter(res.resource)
-      this.checkLeftGuy(res.resource)
     },
 
     checkLeftGuy: function (endpoint) {
       let _this = this
-      Utils.isModeratorLeft(endpoint, res => {
+      Utils.isModeratorLeft(_this.videoParticipants, endpoint, res => {
         if (res) Utils.notification(_this, '主持人离开了房间,会议室将在5分钟后关闭', 'error')
       })
     },
@@ -640,7 +640,7 @@ export default {
       if (_this.displayMode === '0') {
         // surround mode, main block set resolution to config.resolution, others set resolution to 180
         let mainParticipant = _this.$store.state.conferenceRoom.showStreams[0] || null
-        if (mainParticipant) {
+        if (mainParticipant || (window.participants && window.participants.length <= 2)) {
           // console.log('-------------AAAAAAAAAA-------', mainParticipant, window.connection.jid)
           if (mainParticipant.info && mainParticipant.info.jid === window.connection.jid) {
             // set resolution with config.resolution
@@ -689,6 +689,9 @@ export default {
     },
     showVideos () {
       return this.$store.state.conferenceRoom.showStreams
+    },
+    videoParticipants () {
+      return this.$store.state.conferenceRoom.videoStreams
     }
   },
   mounted: function () {
