@@ -10,10 +10,10 @@ const state = {
 
 const mutations = {
   CLEAR_USER_STORE (state) {
-    if (!state.remember) {
-      state.username = ''
-      state.password = ''
-    }
+    // if (!state.remember) {
+    //   state.username = ''
+    //   state.password = ''
+    // }
     state.profile = null
     state.room = ''
     state.authorization = false

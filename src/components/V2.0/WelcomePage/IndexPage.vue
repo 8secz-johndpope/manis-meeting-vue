@@ -401,8 +401,7 @@ export default {
       Utils.openUrlInBrowser(url)
     },
     getServer: function () {
-      this.signInForm.server =
-        this.$store.state.serverSetting.serverAddr || ''
+      this.signInForm.server = this.$store.state.serverSetting.serverAddr || ''
       if (this.signInForm.server) {
         this.setMSS(this.signInForm.server)
         this.showSignInForm = true

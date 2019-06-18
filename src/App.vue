@@ -25,8 +25,15 @@ export default {
           if (arg.signout) {
             // _this.$store.dispatch('userSetting/isInitiativeSignOut', true)
             _this.$store.dispatch('userSetting/updateRememberMe', false)
+            _this.$store.dispatch('userSetting/storeUser', {
+              username: '',
+              password: '',
+              profile: '',
+              room: '',
+              rememberMe: false
+            })
             _this.$router.push({name: 'v2-login'})
-            _this.$store.dispatch('userSetting/clearUser')
+            // _this.$store.dispatch('userSetting/clearUser')
             window.location.reload()
           }
         }
