@@ -18,8 +18,18 @@ export default {
   methods: {
     handleMsgFromIPCMain () {
       // @TODO uncomment this before publish
+      let _this = this
       ipcRenderer.on('sign-status-asynchronous-reply', (event, arg) => {
-        console.log('-------------handle-asynchronous-reply-------', arg) // prints "pong"
+        console.log('-------------handle-asynchronous-reply-------', arg)
+        if (arg && typeof arg === 'object') {
+          if (arg.signout) {
+            // _this.$store.dispatch('userSetting/isInitiativeSignOut', true)
+            _this.$store.dispatch('userSetting/updateRememberMe', false)
+            _this.$router.push({name: 'v2-login'})
+            _this.$store.dispatch('userSetting/clearUser')
+            window.location.reload()
+          }
+        }
       })
     },
 

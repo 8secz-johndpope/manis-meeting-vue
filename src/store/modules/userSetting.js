@@ -53,6 +53,9 @@ const actions = {
   },
   isInitiativeSignOut ({commit}, type) {
     commit('SET_SIGN_OUT_TYPE', type)
+  },
+  updateRememberMe ({commit}, remenber) {
+    commit('SET_REMEMBER_ME', remenber)
   }
 }
 

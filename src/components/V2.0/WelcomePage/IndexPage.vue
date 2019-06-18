@@ -226,6 +226,8 @@ export default {
         let imgData = 'data:image/gif;base64,' + verifyCodeData
         // console.log('show verify code image: ', imgData)
         _this.verifyImage = imgData
+        _this.signInForm.rememberMe = false
+        // _this.$store.dispatch('userSetting/isInitiativeSignOut', true)
       } else {
         // auto sign if remember set before
         if (_this.storeUser) {
