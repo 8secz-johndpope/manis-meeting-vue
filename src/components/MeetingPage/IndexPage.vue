@@ -557,6 +557,7 @@ export default {
         k: 'status',
         v: res
       })
+      this.hideCallDialog(res.nickname)
     },
 
     handleSortShow: function (res) {
@@ -599,12 +600,16 @@ export default {
     },
 
     hideCallDialog: function (nickname) {
+      if (!nickname) {
+        return false
+      }
       let _this = this
+      let element = '.iziToast'
       if (nickname.indexOf('sip') > -1) {
         let str = nickname.replace('sip:68', '').replace('sip:69', '').replace('sip:', '')
-        let elementId = '#question_' + str
-        _this.$toast.hide(elementId)
+        element = '#question_' + str
       }
+      _this.$toast.hide(element)
     },
 
     loadingShow: function () {
