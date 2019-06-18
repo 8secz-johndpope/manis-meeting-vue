@@ -593,6 +593,23 @@ export default {
         // store resource
         this.$store.dispatch('conferenceRoom/onJoinRoom', res)
       }
+      if (res.data.info && res.data.info.nickname) {
+        this.hideCallDialog(res.data.info.nickname)
+      }
+    },
+
+    hideCallDialog: function (nickname) {
+      let _this = this
+      if (nickname.indexOf('sip') > -1) {
+        let str = nickname.replace('sip:68', '').replace('sip:69', '').replace('sip:', '')
+        let toast = document.querySelector('#question_' + str)
+        console.log('------willCloseCallDialogToast--------', toast)
+        if (toast) {
+          _this.$toast.hide({
+            transitionOut: 'fadeOutUp'
+          }, toast)
+        }
+      }
     },
 
     loadingShow: function () {

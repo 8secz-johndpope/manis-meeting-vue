@@ -302,7 +302,7 @@ export default {
       _this.$toast.question(showNum, '正在呼叫', {
         timeout: (1000 * 60),
         close: false,
-        id: 'question',
+        id: 'question_' + showNum,
         zindex: 999,
         position: 'bottomRight',
         buttons: [
