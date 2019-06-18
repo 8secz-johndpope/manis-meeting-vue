@@ -231,6 +231,7 @@ export default {
         if (_this.storeUser) {
           _this.signInForm.username = _this.$store.state.userSetting.username
           _this.signInForm.password = _this.$store.state.userSetting.password
+          _this.signInForm.rememberMe = _this.storeUser
           _this.submitForm('signInForm')
         }
       }
@@ -334,6 +335,7 @@ export default {
           _this.$router.push({ name: 'v2-participate' })
         }, err => {
           Utils.notification(_this, '登陆失败, 错误码: ' + err.errorCode, 'error')
+          Utils.clearSignInUserInfo(_this)
         })
     },
 
@@ -376,6 +378,9 @@ export default {
           break
         default:
           Utils.notification(_this, '登陆失败,错误码:' + res.mcode.toString(), 'error')
+      }
+      if (res.mcode.toString() !== '200') {
+        Utils.clearSignInUserInfo(_this)
       }
     },
 

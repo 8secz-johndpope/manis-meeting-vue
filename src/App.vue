@@ -6,6 +6,8 @@
 
 <script>
 import Utils from './utils/utils'
+// @TODO uncomment this before publish
+const { ipcRenderer } = require('electron')
 
 export default {
   name: 'manis-meeting-vue',
@@ -13,6 +15,17 @@ export default {
     return {}
   },
   methods: {
+    handleMsgFromIPCMain () {
+      // @TODO uncomment this before publish
+      ipcRenderer.on('sign-status-asynchronous-reply', (event, arg) => {
+        console.log('-------------handle-asynchronous-reply-------', arg) // prints "pong"
+      })
+    },
+
+    sendMsgToIPCMain (msg) {
+      // @TODO uncomment this before publish
+      ipcRenderer.send('sign-status-asynchronous-message', msg)
+    },
     /**
        * reset connect status
        */
@@ -58,6 +71,7 @@ export default {
   mounted: function () {
     this.checkConnected()
     this.systemError()
+    this.handleMsgFromIPCMain()
   }
 }
 </script>

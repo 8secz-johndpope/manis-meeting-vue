@@ -1698,5 +1698,23 @@ export default {
         }
       }
     }
+  },
+
+  /**
+   * clear before signed user
+   * @param _this
+   */
+  clearSignInUserInfo: function (_this) {
+    _this.signInForm.username = ''
+    _this.signInForm.password = ''
+    _this.signInForm.rememberMe = false
+    _this.$store.dispatch('userSetting/storeUser', {
+      username: '',
+      password: '',
+      profile: '',
+      room: '',
+      rememberMe: false
+    })
+    _this.$router.push({ name: 'v2-login' })
   }
 }
