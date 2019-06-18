@@ -1,6 +1,7 @@
 <template>
   <div id="app">
-    <router-view></router-view>
+    <router-view
+    v-on:signStateChange="signStateChanged"></router-view>
   </div>
 </template>
 
@@ -25,6 +26,11 @@ export default {
     sendMsgToIPCMain (msg) {
       // @TODO uncomment this before publish
       ipcRenderer.send('sign-status-asynchronous-message', msg)
+    },
+
+    signStateChanged (state) {
+      console.log('------handle-sign-state-changed-event----------', state)
+      this.sendMsgToIPCMain(state)
     },
     /**
        * reset connect status

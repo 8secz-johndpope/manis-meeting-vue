@@ -332,6 +332,7 @@ export default {
             room: window.config.cNumber || '',
             rememberMe: _this.signInForm.rememberMe
           })
+          _this.$emit('signStateChange', {signed: true})
           _this.$router.push({ name: 'v2-participate' })
         }, err => {
           Utils.notification(_this, '登陆失败, 错误码: ' + err.errorCode, 'error')
