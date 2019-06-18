@@ -588,7 +588,7 @@ export default {
     },
 
     handleParticipate: function (res) {
-      console.log('handle new participant attend: ', res)
+      console.log('handle new participant attend: ', res, res.data.info.nickname)
       if (res && res.data.stream) {
         // store resource
         this.$store.dispatch('conferenceRoom/onJoinRoom', res)
@@ -602,13 +602,8 @@ export default {
       let _this = this
       if (nickname.indexOf('sip') > -1) {
         let str = nickname.replace('sip:68', '').replace('sip:69', '').replace('sip:', '')
-        let toast = document.querySelector('#question_' + str)
-        console.log('------willCloseCallDialogToast--------', toast)
-        if (toast) {
-          _this.$toast.hide({
-            transitionOut: 'fadeOutUp'
-          }, toast)
-        }
+        let elementId = '#question_' + str
+        _this.$toast.hide(elementId)
       }
     },
 
