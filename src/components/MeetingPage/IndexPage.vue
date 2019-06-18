@@ -640,9 +640,9 @@ export default {
       if (_this.displayMode === '0') {
         // surround mode, main block set resolution to config.resolution, others set resolution to 180
         let mainParticipant = _this.$store.state.conferenceRoom.showStreams[0] || null
-        if (mainParticipant || (window.participants && window.participants.length <= 2)) {
+        if (mainParticipant) {
           // console.log('-------------AAAAAAAAAA-------', mainParticipant, window.connection.jid)
-          if (mainParticipant.info && mainParticipant.info.jid === window.connection.jid) {
+          if ((mainParticipant.info && mainParticipant.info.jid === window.connection.jid) || (window.participants && window.participants.length <= 2)) {
             // set resolution with config.resolution
             _this.changeLocalVideoResolution(window.config.resolution)
           } else {
