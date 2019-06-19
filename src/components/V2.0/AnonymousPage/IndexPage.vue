@@ -126,14 +126,16 @@ export default {
       let _this = this
       _this.$refs[formName].validate(valid => {
         if (valid) {
-          _this.setServerConfig(_this.server)
+          _this.setServerConfig(_this.server, function () {
+            _this.anonymousParticipate()
+          })
         } else {
           console.log('error submit!!')
           return false
         }
       })
     },
-    setServerConfig (server) {
+    setServerConfig (server, cb) {
       let _this = this
       if (!server) {
         Utils.notification(_this, '请先配置需要连接的服务器', 'error')
@@ -143,7 +145,9 @@ export default {
       Utils.initServerConfig(
         server,
         function () {
-          _this.anonymousParticipate()
+          if (cb && typeof cb === 'function') {
+            cb()
+          }
         },
         true
       )
@@ -181,6 +185,9 @@ export default {
     },
     getServer () {
       this.server = this.$store.state.serverSetting.serverAddr || ''
+      if (this.server) {
+        this.setServerConfig(this.server)
+      }
     },
     signInPage () {
       this.$store.dispatch('userSetting/isInitiativeSignOut', true)
