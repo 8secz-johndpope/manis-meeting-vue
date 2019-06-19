@@ -311,4 +311,8 @@ export default {
     background-color: #5ED055;
   }
 
+  .room-info.el-row {
+    line-height: 21px;
+  }
+
 </style>
