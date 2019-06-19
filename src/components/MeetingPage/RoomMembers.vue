@@ -166,6 +166,10 @@ export default {
         Utils.notification(_this, '对不起,您无权执行此操作')
         return true
       }
+      if (item.resource.indexOf('gateway') !== -1) {
+        Utils.notification(_this, '对不起,不能将房间管理权限移交给硬件终端')
+        return true
+      }
       if (_this.screenSharing) {
         Utils.notification(_this, '屏幕分享正在进行,无法将管理权限移交给他人')
         return true

@@ -255,6 +255,10 @@ export default {
        */
     doPhoneCall () {
       let _this = this
+      if (!_this.clientNumber) {
+        Utils.notification(_this, '请输入您要呼叫的号码')
+        return true
+      }
       Utils.fetchRightPhoneNum(_this.clientNumber, function (res) {
         Utils.sendClientCall(res.response, function () {
           _this.showCallInProgress(_this.clientNumber, res.response)
@@ -271,6 +275,10 @@ export default {
        */
     doSipCall () {
       let _this = this
+      if (!_this.clientNumber) {
+        Utils.notification(_this, '请输入您要呼叫的号码')
+        return true
+      }
       let clientNum = _this.clientType + ':' + _this.clientNumber
       Utils.sendClientCall(clientNum, function (res) {
         _this.showCallInProgress(_this.clientNumber, clientNum)

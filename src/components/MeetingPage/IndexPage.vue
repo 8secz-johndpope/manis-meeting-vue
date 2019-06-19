@@ -604,16 +604,17 @@ export default {
     },
 
     hideCallDialog: function (nickname) {
-      if (!nickname) {
+      if (!nickname || nickname.indexOf('sip') < 0) {
         return false
       }
       let _this = this
-      let element = '.iziToast'
+      // let element = '.iziToast'
+      let element = ''
       if (nickname.indexOf('sip') > -1) {
         let str = nickname.replace('sip:68', '').replace('sip:69', '').replace('sip:', '')
         element = '#question_' + str
       }
-      if (document.querySelector(element)) {
+      if (element && document.querySelector(element)) {
         _this.$toast.hide(element)
       }
     },
