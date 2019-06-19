@@ -342,12 +342,16 @@ export default {
         res => {
           _this.loadingHide()
           console.log(res)
-          if (res.errorCode === '000000') {
-            let isModerator = res.response.is_moderator || false
-            _this.$store.dispatch('conferenceRoom/updateControlStatus', isModerator)
+          try {
+            if (res.errorCode === '000000') {
+              let isModerator = res.response.is_moderator || false
+              _this.$store.dispatch('conferenceRoom/updateControlStatus', isModerator)
+            }
+            _this.handleParticipate({type: 'video', data: res.response})
+            _this.registerEnvHandler()
+          } catch (e) {
+            console.error('XXXXXXXXXXXXXXXXXXXX', e)
           }
-          _this.handleParticipate({type: 'video', data: res.response})
-          _this.registerEnvHandler()
         },
         err => {
           // console.error(err)
@@ -609,7 +613,9 @@ export default {
         let str = nickname.replace('sip:68', '').replace('sip:69', '').replace('sip:', '')
         element = '#question_' + str
       }
-      _this.$toast.hide(element)
+      if (document.querySelector(element)) {
+        _this.$toast.hide(element)
+      }
     },
 
     loadingShow: function () {
