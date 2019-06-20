@@ -191,6 +191,7 @@ export default {
     },
     signInPage () {
       this.$store.dispatch('userSetting/isInitiativeSignOut', true)
+      Utils.clearSignInUserInfo(this)
       this.$router.push({name: 'v2-login'})
     },
     setNickname (nickname) {

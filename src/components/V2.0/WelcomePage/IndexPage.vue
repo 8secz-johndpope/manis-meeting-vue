@@ -409,6 +409,7 @@ export default {
       }
     },
     anonymousParticipate () {
+      Utils.clearSignInUserInfo(this)
       this.$router.push({ name: 'v2-participate' })
     },
     setServerAddress (server) {

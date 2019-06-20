@@ -106,15 +106,7 @@ export default {
 
     clickSignOut () {
       let _this = this
-      _this.$store.dispatch('userSetting/updateRememberMe', false)
-      _this.$store.dispatch('userSetting/storeUser', {
-        username: '',
-        password: '',
-        profile: '',
-        room: '',
-        rememberMe: false
-      })
-      _this.$router.push({name: 'v2-login'})
+      Utils.clearSignInUserInfo(_this)
       window.location.reload()
     },
 

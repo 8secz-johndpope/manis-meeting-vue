@@ -1705,9 +1705,16 @@ export default {
    * @param _this
    */
   clearSignInUserInfo: function (_this) {
-    _this.signInForm.username = ''
-    _this.signInForm.password = ''
-    _this.signInForm.rememberMe = false
+    if (!_this || !_this.$store || !_this.$router) {
+      console.warn('------_thisIsNotRightAtClearSignInUserInfo------', _this)
+      return false
+    }
+    if (_this.signInForm) {
+      _this.signInForm.username = ''
+      _this.signInForm.password = ''
+      _this.signInForm.rememberMe = false
+    }
+    _this.$store.dispatch('userSetting/updateRememberMe', false)
     _this.$store.dispatch('userSetting/storeUser', {
       username: '',
       password: '',

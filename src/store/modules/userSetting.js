@@ -37,6 +37,9 @@ const mutations = {
   },
   SET_REMEMBER_ME (state, remember) {
     state.remember = remember
+  },
+  SET_AUTHORIZATION (state, auth) {
+    state.authorization = auth
   }
 }
 
@@ -47,15 +50,19 @@ const actions = {
     commit('SET_USER_ROOM', userSetting.room)
     commit('SET_USER_PROFILE', userSetting.profile)
     commit('SET_REMEMBER_ME', (userSetting.rememberMe || false))
+    if (!userSetting.username || userSetting.password) {
+      commit('SET_AUTHORIZATION', false)
+    }
   },
   clearUser ({commit}) {
     commit('CLEAR_USER_STORE')
+    commit('SET_AUTHORIZATION', false)
   },
   isInitiativeSignOut ({commit}, type) {
     commit('SET_SIGN_OUT_TYPE', type)
   },
-  updateRememberMe ({commit}, remenber) {
-    commit('SET_REMEMBER_ME', remenber)
+  updateRememberMe ({commit}, remember) {
+    commit('SET_REMEMBER_ME', remember)
   }
 }
 
