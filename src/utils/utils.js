@@ -1715,13 +1715,7 @@ export default {
       _this.signInForm.rememberMe = false
     }
     _this.$store.dispatch('userSetting/updateRememberMe', false)
-    _this.$store.dispatch('userSetting/storeUser', {
-      username: '',
-      password: '',
-      profile: '',
-      room: '',
-      rememberMe: false
-    })
+    _this.$store.dispatch('userSetting/clearUser')
     _this.$router.push({ name: 'v2-login' })
   }
 }

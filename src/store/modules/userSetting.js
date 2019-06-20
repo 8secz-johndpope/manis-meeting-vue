@@ -10,10 +10,10 @@ const state = {
 
 const mutations = {
   CLEAR_USER_STORE (state) {
-    // if (!state.remember) {
-    //   state.username = ''
-    //   state.password = ''
-    // }
+    if (!state.remember) {
+      state.username = ''
+      state.password = ''
+    }
     state.profile = null
     state.room = ''
     state.authorization = false
@@ -50,9 +50,6 @@ const actions = {
     commit('SET_USER_ROOM', userSetting.room)
     commit('SET_USER_PROFILE', userSetting.profile)
     commit('SET_REMEMBER_ME', (userSetting.rememberMe || false))
-    if (!userSetting.username || userSetting.password) {
-      commit('SET_AUTHORIZATION', false)
-    }
   },
   clearUser ({commit}) {
     commit('CLEAR_USER_STORE')
