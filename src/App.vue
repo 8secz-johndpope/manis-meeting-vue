@@ -2,47 +2,125 @@
   <div id="app">
     <router-view
     v-on:signStateChange="signStateChanged"></router-view>
+    <el-dialog
+      title="关于应用"
+      :visible.sync="showAboutPage"
+      :close-on-click-modal="false"
+      :close-on-press-escape="false"
+      custom-class="open-window-page"
+      width="480px"
+      center>
+      <about-page></about-page>
+    </el-dialog>
+    <el-dialog
+      title="设备管理"
+      :visible.sync="showSettingPage"
+      :close-on-click-modal="false"
+      :close-on-press-escape="false"
+      custom-class="open-window-page"
+      width="480px"
+      center>
+      <setting-page></setting-page>
+    </el-dialog>
+    <el-dialog
+      title="应用更新"
+      :visible.sync="showUpdatePage"
+      :close-on-click-modal="false"
+      :close-on-press-escape="false"
+      custom-class="open-window-page"
+      width="480px"
+      center>
+      <update-page></update-page>
+    </el-dialog>
   </div>
 </template>
 
 <script>
 import Utils from './utils/utils'
+import AboutPage from './components/Layout/AboutPage'
+import SettingPage from './components/Layout/SettingPage'
+import UpdatePage from './components/Layout/UpdatePage'
 // @TODO uncomment this before publish
 const { ipcRenderer } = require('electron')
 
 export default {
   name: 'manis-meeting-vue',
   data: function () {
-    return {}
+    return {
+      showAboutPage: false,
+      showSettingPage: false,
+      showUpdatePage: false
+    }
+  },
+  components: {
+    AboutPage,
+    SettingPage,
+    UpdatePage
   },
   methods: {
     handleMsgFromIPCMain () {
       // @TODO uncomment this before publish
       let _this = this
-      ipcRenderer.on('sign-status-asynchronous-reply', (event, arg) => {
-        console.log('-------------handle-asynchronous-reply-------', arg)
+      ipcRenderer.on('ipc-sender-asynchronous-reply', (event, arg) => {
+        console.log('-------------handle-ipc-sender-asynchronous-reply-------', arg)
         if (arg && typeof arg === 'object') {
-          if (arg.signout) {
-            // _this.$store.dispatch('userSetting/isInitiativeSignOut', true)
-            _this.$store.dispatch('userSetting/updateRememberMe', false)
-            _this.$store.dispatch('userSetting/storeUser', {
-              username: '',
-              password: '',
-              profile: '',
-              room: '',
-              rememberMe: false
-            })
-            _this.$router.push({name: 'v2-login'})
-            // _this.$store.dispatch('userSetting/clearUser')
-            window.location.reload()
+          let action = arg.action || ''
+          switch (action) {
+            case 'signout':
+              _this.clickSignOut()
+              break
+            case 'abouts':
+              _this.showAbouts()
+              break
+            case 'settings':
+              _this.showSettings()
+              break
+            case 'updates':
+              _this.showUpdates()
+              break
           }
         }
       })
     },
 
+    showAbouts () {
+      let _this = this
+      _this.showAboutPage = true
+      _this.showSettingPage = false
+      _this.showUpdatePage = false
+    },
+
+    showSettings () {
+      let _this = this
+      _this.showAboutPage = false
+      _this.showSettingPage = true
+      _this.showUpdatePage = false
+    },
+
+    showUpdates () {
+      let _this = this
+      _this.showAboutPage = false
+      _this.showSettingPage = false
+      _this.showUpdatePage = true
+    },
+
+    clickSignOut () {
+      let _this = this
+      _this.$store.dispatch('userSetting/updateRememberMe', false)
+      _this.$store.dispatch('userSetting/storeUser', {
+        username: '',
+        password: '',
+        profile: '',
+        room: '',
+        rememberMe: false
+      })
+      _this.$router.push({name: 'v2-login'})
+      window.location.reload()
+    },
+
     sendMsgToIPCMain (msg) {
       // @TODO uncomment this before publish
-      ipcRenderer.send('sign-status-asynchronous-message', msg)
+      ipcRenderer.send('ipc-main-asynchronous-message', msg)
     },
 
     signStateChanged (state) {
@@ -238,6 +316,24 @@ export default {
   .members-btn .el-badge__content.is-fixed {
     top: 14px;
     right: 20px;
+  }
+
+  .open-window-page .el-dialog__body {
+    background: -webkit-gradient(
+      linear,
+      10% 10%,
+      100% 100%,
+      color-stop(0.24, rgb(62, 68, 89)),
+      color-stop(0.74, rgb(99, 100, 109)),
+      color-stop(1, rgb(137, 135, 136))
+    ) !important;
+    border: 0px !important;
+    color: #ffffff !important;
+  }
+
+  .open-window-page .el-dialog__header, .open-window-page .el-dialog__title {
+    background: #3E4459;
+    color: #ffffff;
   }
 
 </style>

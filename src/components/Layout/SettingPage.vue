@@ -35,8 +35,8 @@ export default {
 .setting-container {
   /* background: -webkit-gradient(linear, 0 0, 100% 100%, from(#8c8a84), to(#292f4c)); */
   color: #2DEDCE;
-  min-width: 480px;
-  min-height: 320px;
+  /*min-width: 480px;*/
+  /*min-height: 320px;*/
   overflow-x: hidden;
 }
 </style>

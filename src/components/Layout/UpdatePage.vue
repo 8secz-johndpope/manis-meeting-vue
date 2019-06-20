@@ -62,7 +62,7 @@ import xqLogo from '../../assets/img/logo/xq/logo.png'
 import scLogo from '../../assets/img/logo/sc/logo.png'
 // @TODO uncomment this before publish
 const {
-    ipcRenderer
+  ipcRenderer
 } = require('electron')
 const {app} = require('electron').remote // @TODO uncomment this before publish
 
@@ -93,27 +93,26 @@ export default {
       ipcRenderer.on('update-asynchronous-reply', (event, arg) => {
         if (arg.steps !== undefined) {
           _this.steps = arg.steps
-          switch(arg.action) {
+          switch (arg.action) {
             case 'checking':
-            _this.notice = '正在检测升级...'
-            break
+              _this.notice = '正在检测升级...'
+              break
             case 'available':
-            _this.notice = '发现新版本'
-            _this.newVersionInfo = arg.data
-            break
+              _this.notice = '发现新版本'
+              _this.newVersionInfo = arg.data
+              break
             case 'downloading':
-            _this.notice = '正在下载升级包...'
-            _this.downProgress = arg.data
-            break
+              _this.notice = '正在下载升级包...'
+              _this.downProgress = arg.data
+              break
             case 'downloaded':
-            _this.notice = '下载完成,重启应用完成升级'
-            break
+              _this.notice = '下载完成,重启应用完成升级'
+              break
             case 'latested':
-            _this.notice = '当前版本为最新版,无需升级'
-            break
+              _this.notice = '当前版本为最新版,无需升级'
+              break
             case 'error':
-            _this.notice = '升级失败'
-            default:
+              _this.notice = '升级失败'
           }
         }
       })
@@ -160,9 +159,9 @@ export default {
 
 <style scoped>
 .update-container {
-  min-width: 480px;
-  min-height: 320px;
-  padding-top: 60px;
+  /*min-width: 480px;*/
+  /*min-height: 320px;*/
+  /*padding-top: 60px;*/
   overflow-x: hidden;
   color: #2DEDCE;
 }

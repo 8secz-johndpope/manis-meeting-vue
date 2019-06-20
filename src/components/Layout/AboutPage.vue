@@ -70,9 +70,9 @@ export default {
 <style scoped>
 .about-container {
   /* background: -webkit-gradient(linear, 0 0, 100% 100%, from(#8c8a84), to(#292f4c)); */
-  min-width: 480px;
-  min-height: 320px;
-  padding-top: 60px;
+  /*min-width: 480px;*/
+  /*min-height: 320px;*/
+  /*padding-top: 60px;*/
   overflow: hidden;
   color: #2DEDCE;
 }

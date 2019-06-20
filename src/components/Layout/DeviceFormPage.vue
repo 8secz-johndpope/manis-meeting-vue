@@ -62,11 +62,11 @@
               </el-option>
             </el-select>
           </el-form-item>
-          <el-form-item label="视频预览" v-show="localVideo">
+          <!--<el-form-item label="视频预览" v-show="localVideo">
             <div class="video-source">
               <video class="local-video" id="local-video" autoplay></video>
             </div>
-          </el-form-item>
+          </el-form-item>-->
           <!-- <el-form-item v-show="!inRoom">
             <el-button type="primary" @click="submitForm('deviceForm')">保存</el-button>
             <el-button @click="resetForm('deviceForm')">清空</el-button>
@@ -288,7 +288,9 @@ export default {
             element.blur()
             _this.localVideo = stream
             let previewVideo = document.querySelector('#local-video')
-            previewVideo.srcObject = stream
+            if (previewVideo) {
+              previewVideo.srcObject = stream
+            }
             _this.deviceForm.videoInput = videoInput
             console.log('got local media stream success with constraints: ', constraints)
             if (_this.inRoom) {
