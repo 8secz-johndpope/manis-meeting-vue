@@ -117,7 +117,9 @@ export default {
 
     signStateChanged (state) {
       console.log('------handle-sign-state-changed-event----------', state)
-      this.sendMsgToIPCMain(state)
+      this.sendMsgToIPCMain({
+        action: 'signed'
+      })
     },
     /**
        * reset connect status
@@ -164,6 +166,9 @@ export default {
   mounted: function () {
     this.checkConnected()
     this.systemError()
+    this.sendMsgToIPCMain({
+      action: 'app-ready'
+    })
     this.handleMsgFromIPCMain()
   }
 }

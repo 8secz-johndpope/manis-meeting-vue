@@ -106,7 +106,7 @@
                     </el-col>
                   </el-row>
                 </el-form-item>
-                <el-form-item  v-show="showSignInForm && !showVerify">
+                <el-form-item  v-show="showSignInForm && !showVerify && supportRemember">
                   <el-row :gutter="10">
                     <el-col :span="24" class="text-left">
                       <el-checkbox v-model="signInForm.rememberMe">记住我</el-checkbox>
@@ -215,13 +215,15 @@ export default {
         ]
       },
       verifyImage: '',
-      showVerify: false
+      showVerify: false,
+      supportRemember: false
     }
   },
   methods: {
     showVerifyImage () {
       let _this = this
       let verifyCodeData = window.config.verifyCode
+      _this.supportRemember = window.config.supportPassword
       if (verifyCodeData) {
         let imgData = 'data:image/gif;base64,' + verifyCodeData
         // console.log('show verify code image: ', imgData)
@@ -229,6 +231,11 @@ export default {
         _this.signInForm.rememberMe = false
         // _this.$store.dispatch('userSetting/isInitiativeSignOut', true)
       } else {
+        if (!_this.supportRemember) {
+          // clear remember users
+          Utils.clearSignInUserInfo(_this)
+          return false
+        }
         // auto sign if remember set before
         if (_this.storeUser) {
           _this.signInForm.username = _this.$store.state.userSetting.username
