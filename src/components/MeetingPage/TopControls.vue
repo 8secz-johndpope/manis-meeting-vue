@@ -103,7 +103,31 @@ export default {
   },
   methods: {
     leaveRoom: function () {
-      this.$emit('leaveRoom')
+      let _this = this
+      _this.$toast.question('您确定离开会议室么?', '退出会议', {
+        timeout: (1000 * 60),
+        close: false,
+        id: 'question_sign_out',
+        zindex: 999,
+        position: 'center',
+        buttons: [
+          [
+            '<button><b>确定离开</b></button>',
+            function (instance, toast) {
+              console.log('will leave room ')
+              _this.$emit('leaveRoom')
+              instance.hide({transitionOut: 'fadeOut'}, toast, 'button')
+            },
+            true
+          ],
+          [
+            '<button>取消</button>',
+            function (instance, toast) {
+              instance.hide({transitionOut: 'fadeOut'}, toast, 'button')
+            }
+          ]
+        ]
+      })
     },
     watchMemberCount: function () {
       let _this = this
