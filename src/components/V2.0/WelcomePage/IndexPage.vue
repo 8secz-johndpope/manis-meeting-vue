@@ -224,13 +224,8 @@ export default {
       let _this = this
       let verifyCodeData = window.config.verifyCode
       _this.supportRemember = window.config.supportPassword
-      if (verifyCodeData) {
-        let imgData = 'data:image/gif;base64,' + verifyCodeData
-        // console.log('show verify code image: ', imgData)
-        _this.verifyImage = imgData
-        _this.signInForm.rememberMe = false
-        // _this.$store.dispatch('userSetting/isInitiativeSignOut', true)
-      } else {
+      if (_this.supportRemember) {
+        // support remember, not show verify image
         if (!_this.supportRemember) {
           // clear remember users
           Utils.clearSignInUserInfo(_this)
@@ -242,6 +237,14 @@ export default {
           _this.signInForm.password = _this.$store.state.userSetting.password
           _this.signInForm.rememberMe = _this.storeUser
           _this.submitForm('signInForm')
+        }
+      } else {
+        if (verifyCodeData) {
+          let imgData = 'data:image/gif;base64,' + verifyCodeData
+          // console.log('show verify code image: ', imgData)
+          _this.verifyImage = imgData
+          _this.signInForm.rememberMe = false
+          // _this.$store.dispatch('userSetting/isInitiativeSignOut', true)
         }
       }
     },
