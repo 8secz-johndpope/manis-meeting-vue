@@ -1695,6 +1695,7 @@ export default {
       if (item && item.info && item.info.resource === endpoint) {
         if (item.is_moderator) {
           callBack(true)
+          return false
         }
       }
     }

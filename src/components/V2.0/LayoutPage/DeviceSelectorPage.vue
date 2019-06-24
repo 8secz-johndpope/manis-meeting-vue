@@ -134,13 +134,43 @@ export default {
       this.$emit('audioOutputChange', this.deviceForm.audioOutput)
     },
     getStoreAudioIn: function () {
-      this.deviceForm.audioInput = this.$store.state.deviceSetting.audioIn || ''
+      let _this = this
+      let storeVal = this.$store.state.deviceSetting.audioIn || ''
+      let storeItems = _this.audioInputOptions.filter(item => {
+        if (item.value === storeVal) {
+          return item
+        }
+      })
+      if (!storeItems.length && _this.audioInputOptions.length) {
+        storeItems[0] = _this.audioInputOptions[0]
+      }
+      this.deviceForm.audioInput = storeItems[0].value
     },
     getStoreAudioOut: function () {
-      this.deviceForm.audioOutput = this.$store.state.deviceSetting.audioOut || ''
+      let _this = this
+      let storeVal = this.$store.state.deviceSetting.audioOut || ''
+      let storeItems = _this.audioOutputOptions.filter(item => {
+        if (item.value === storeVal) {
+          return item
+        }
+      })
+      if (!storeItems.length && _this.audioOutputOptions.length) {
+        storeItems[0] = _this.audioOutputOptions[0]
+      }
+      this.deviceForm.audioOutput = storeItems[0].value
     },
     getStoreVideoIn: function () {
-      this.deviceForm.videoInput = this.$store.state.deviceSetting.videoIn || ''
+      let _this = this
+      let storeVal = this.$store.state.deviceSetting.videoIn || ''
+      let storeItems = _this.videoInputOptions.filter(item => {
+        if (item.value === storeVal) {
+          return item
+        }
+      })
+      if (!storeItems.length && _this.videoInputOptions.length) {
+        storeItems[0] = _this.videoInputOptions[0]
+      }
+      this.deviceForm.videoInput = storeItems[0].value
     },
     getStoreDevice: function () {
       this.getStoreAudioIn()
@@ -169,10 +199,13 @@ export default {
   },
   computed: {},
   mounted: function () {
-    this.getAudioInputDevices()
-    this.getVideoInputDevices()
-    this.getAudioOutputDevices()
-    this.getStoreDevice()
+    let _this = this
+    _this.getAudioInputDevices()
+    _this.getVideoInputDevices()
+    _this.getAudioOutputDevices()
+    window.setTimeout(function () {
+      _this.getStoreDevice()
+    }, 100)
   },
   beforeDestroy: function () {
   }

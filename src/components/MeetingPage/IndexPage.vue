@@ -656,6 +656,7 @@ export default {
       })
       _this.clearLocalStream()
       _this.$store.dispatch('conferenceRoom/clearData')
+      _this.$toast.hide()
       return _this.$router.push({name: 'v2-participate'})
     },
 
