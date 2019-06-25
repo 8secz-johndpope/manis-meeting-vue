@@ -223,6 +223,7 @@ export default {
     showVerifyImage () {
       let _this = this
       let verifyCodeData = window.config.verifyCode
+      // console.log('----------AAAAAAAAAAAA----------', window.config, window.config.supportPassword)
       _this.supportRemember = window.config.supportPassword
       if (_this.supportRemember) {
         // support remember, not show verify image
@@ -238,7 +239,7 @@ export default {
           _this.signInForm.rememberMe = _this.storeUser
           _this.submitForm('signInForm')
         }
-      } else {
+      } else if (_this.showVerify) {
         if (verifyCodeData) {
           let imgData = 'data:image/gif;base64,' + verifyCodeData
           // console.log('show verify code image: ', imgData)
@@ -302,8 +303,8 @@ export default {
           _this.loadingHide()
           if (window.config.supportVerify) {
             _this.showVerify = true
-            _this.showVerifyImage()
           }
+          _this.showVerifyImage()
         },
         true
       )
@@ -485,12 +486,12 @@ export default {
   },
   beforeDestroy: function () {},
   mounted: function () {
-    this.getAppVersion()
-    this.getServer()
     Utils.logOut()
     this.$store.dispatch('userSetting/clearUser')
     window.config = Utils.resetConfig()
-    this.showVerifyImage()
+    this.getAppVersion()
+    this.getServer()
+    // this.showVerifyImage()
   }
 }
 </script>

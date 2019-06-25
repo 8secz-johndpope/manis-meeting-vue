@@ -656,8 +656,21 @@ export default {
       })
       _this.clearLocalStream()
       _this.$store.dispatch('conferenceRoom/clearData')
-      _this.$toast.hide()
+      _this.removeCallProgress()
       return _this.$router.push({name: 'v2-participate'})
+    },
+
+    removeCallProgress: function () {
+      let questions = document.querySelectorAll('.iziToast')
+      if (questions.length) {
+        for (let i = 0; i < questions.length; i++) {
+          let item = questions[i]
+          let itemId = item.getAttribute('id')
+          if (itemId.indexOf('question_') > -1) {
+            item.classList.add('hidden')
+          }
+        }
+      }
     },
 
     autoSetVideoResolution: function () {
@@ -666,7 +679,6 @@ export default {
         // surround mode, main block set resolution to config.resolution, others set resolution to 180
         let mainParticipant = _this.$store.state.conferenceRoom.showStreams[0] || null
         if (mainParticipant) {
-          // console.log('-------------AAAAAAAAAA-------', mainParticipant, window.connection.jid)
           if ((mainParticipant.info && mainParticipant.info.jid === window.connection.jid) || (window.participants && window.participants.length <= 2)) {
             // set resolution with config.resolution
             _this.changeLocalVideoResolution(window.config.resolution)
