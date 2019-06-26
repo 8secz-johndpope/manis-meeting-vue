@@ -92,9 +92,9 @@ export default {
         audioOutput: '',
         videoInput: ''
       },
-      audioInputOptions: [],
-      audioOutputOptions: [],
-      videoInputOptions: [],
+      // audioInputOptions: [],
+      // audioOutputOptions: [],
+      // videoInputOptions: [],
       localAudio: null,
       localVideo: null,
       audioInputLevel: 0,
@@ -385,12 +385,21 @@ export default {
     }
   },
   mounted: function () {
-    this.getAudioInputDevices()
-    this.getVideoInputDevices()
-    this.getAudioOutputDevices()
+    // this.getAudioInputDevices()
+    // this.getVideoInputDevices()
+    // this.getAudioOutputDevices()
     this.getStoreDevice()
   },
   computed: {
+    audioInputOptions () {
+      return this.$store.state.deviceSetting.audioInputOptions
+    },
+    videoInputOptions () {
+      return this.$store.state.deviceSetting.videoInputOptions
+    },
+    audioOutputOptions () {
+      return this.$store.state.deviceSetting.audioOutputOptions
+    },
     videoMuted () {
       return this.$store.state.conferenceRoom.videoMute
     },

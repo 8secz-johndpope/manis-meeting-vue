@@ -95,32 +95,32 @@ export default {
     /**
        * 获取音频输入设备
        */
-    // getAudioInputDevices: function () {
-    //   let _this = this
-    //   Utils.getAudioInputs(function (devices) {
-    //     _this.audioInputOptions = devices
-    //   })
-    // },
+    getAudioInputDevices: function () {
+      let _this = this
+      Utils.getAudioInputs(function (devices) {
+        _this.audioInputOptions = devices
+      })
+    },
 
     /**
        * 获取视频输入设备
        */
-    // getVideoInputDevices: function () {
-    //   let _this = this
-    //   Utils.getVideoInputs(function (devices) {
-    //     _this.videoInputOptions = devices
-    //   })
-    // },
+    getVideoInputDevices: function () {
+      let _this = this
+      Utils.getVideoInputs(function (devices) {
+        _this.videoInputOptions = devices
+      })
+    },
 
     /**
        * 获取音频输出设备
        */
-    // getAudioOutputDevices: function () {
-    //   let _this = this
-    //   Utils.getAudioOutputs(function (devices) {
-    //     _this.audioOutputOptions = devices
-    //   })
-    // },
+    getAudioOutputDevices: function () {
+      let _this = this
+      Utils.getAudioOutputs(function (devices) {
+        _this.audioOutputOptions = devices
+      })
+    },
     /**
        * video input change
        */
