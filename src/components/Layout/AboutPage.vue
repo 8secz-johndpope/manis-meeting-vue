@@ -96,6 +96,11 @@ export default {
   float: right;
 }
 
+.logo-gird>img {
+  max-width: 80px;
+  max-height: 80px;
+}
+
 .text-center {
   text-align: center;
 }
