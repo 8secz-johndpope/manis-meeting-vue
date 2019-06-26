@@ -85,42 +85,42 @@ export default {
         audioInput: '',
         audioOutput: ''
       },
-      audioFile: audioFilePath,
-      audioInputOptions: [],
-      audioOutputOptions: [],
-      videoInputOptions: []
+      audioFile: audioFilePath
+      // audioInputOptions: [],
+      // audioOutputOptions: [],
+      // videoInputOptions: []
     }
   },
   methods: {
     /**
        * 获取音频输入设备
        */
-    getAudioInputDevices: function () {
-      let _this = this
-      Utils.getAudioInputs(function (devices) {
-        _this.audioInputOptions = devices
-      })
-    },
+    // getAudioInputDevices: function () {
+    //   let _this = this
+    //   Utils.getAudioInputs(function (devices) {
+    //     _this.audioInputOptions = devices
+    //   })
+    // },
 
     /**
        * 获取视频输入设备
        */
-    getVideoInputDevices: function () {
-      let _this = this
-      Utils.getVideoInputs(function (devices) {
-        _this.videoInputOptions = devices
-      })
-    },
+    // getVideoInputDevices: function () {
+    //   let _this = this
+    //   Utils.getVideoInputs(function (devices) {
+    //     _this.videoInputOptions = devices
+    //   })
+    // },
 
     /**
        * 获取音频输出设备
        */
-    getAudioOutputDevices: function () {
-      let _this = this
-      Utils.getAudioOutputs(function (devices) {
-        _this.audioOutputOptions = devices
-      })
-    },
+    // getAudioOutputDevices: function () {
+    //   let _this = this
+    //   Utils.getAudioOutputs(function (devices) {
+    //     _this.audioOutputOptions = devices
+    //   })
+    // },
     /**
        * video input change
        */
@@ -144,6 +144,9 @@ export default {
       if (!storeItems.length && _this.audioInputOptions.length) {
         storeItems[0] = _this.audioInputOptions[0]
       }
+      console.log('--------------------************************************************-------------------\r\n')
+      console.log('---storeVal---', storeVal, '\r\n --------storeItems-----', storeItems, '\r\n----------storeItems[0]-----', storeItems[0], '\r\n -----------audioInputOptions---------', _this.audioInputOptions)
+      console.log('--------------------************************************************-------------------\r\n')
       this.deviceForm.audioInput = storeItems[0].value
     },
     getStoreAudioOut: function () {
@@ -197,15 +200,25 @@ export default {
       audioElement.play()
     }
   },
-  computed: {},
+  computed: {
+    audioInputOptions () {
+      return this.$store.state.deviceSetting.audioInputOptions
+    },
+    videoInputOptions () {
+      return this.$store.state.deviceSetting.videoInputOptions
+    },
+    audioOutputOptions () {
+      return this.$store.state.deviceSetting.audioOutputOptions
+    }
+  },
   mounted: function () {
     let _this = this
-    _this.getAudioInputDevices()
-    _this.getVideoInputDevices()
-    _this.getAudioOutputDevices()
-    window.setTimeout(function () {
-      _this.getStoreDevice()
-    }, 100)
+    // _this.getAudioInputDevices()
+    // _this.getVideoInputDevices()
+    // _this.getAudioOutputDevices()
+    // window.setTimeout(function () {
+    _this.getStoreDevice()
+    // }, 1000)
   },
   beforeDestroy: function () {
   }

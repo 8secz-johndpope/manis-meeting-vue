@@ -82,7 +82,7 @@ export default {
 }
 
 .grid-content {
-  height: 120px;
+  /*height: 120px;*/
   display: table-cell;
   vertical-align: middle;
   padding-left: 20px;

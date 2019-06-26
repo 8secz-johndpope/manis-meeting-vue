@@ -1,7 +1,10 @@
 const state = {
   audioIn: '',
   audioOut: '',
-  videoIn: ''
+  videoIn: '',
+  audioInputOptions: [],
+  audioOutputOptions: [],
+  videoInputOptions: []
 }
 
 const mutations = {
@@ -18,6 +21,19 @@ const mutations = {
   },
   SET_VIDEO_INPUT: function (state, device) {
     state.videoIn = device
+  },
+  STORE_AVAILABLE_DEVICES: function (state, data) {
+    switch (data.type) {
+      case 'audio-in':
+        state.audioInputOptions = data.devices
+        break
+      case 'video-in':
+        state.videoInputOptions = data.devices
+        break
+      case 'audio-out':
+        state.audioOutputOptions = data.devices
+        break
+    }
   }
 }
 
@@ -33,6 +49,9 @@ const actions = {
   },
   clearDevice ({ commit }) {
     commit('CLEAR_DEVICE')
+  },
+  availableDevices ({ commit }, data) {
+    commit('STORE_AVAILABLE_DEVICES', data)
   }
 }
 

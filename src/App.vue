@@ -49,7 +49,10 @@ export default {
     return {
       showAboutPage: false,
       showSettingPage: false,
-      showUpdatePage: false
+      showUpdatePage: false,
+      audioInputOptions: [],
+      audioOutputOptions: [],
+      videoInputOptions: []
     }
   },
   components: {
@@ -156,6 +159,48 @@ export default {
           // location.reload()
         }, 2000)
       })
+    },
+
+    /**
+     * 获取音频输入设备
+     */
+    getAudioInputDevices: function () {
+      let _this = this
+      Utils.getAudioInputs(function (devices) {
+        _this.audioInputOptions = devices
+        _this.$store.dispatch('deviceSetting/availableDevices', {
+          type: 'audio-in',
+          devices: _this.audioInputOptions
+        })
+      })
+    },
+
+    /**
+     * 获取视频输入设备
+     */
+    getVideoInputDevices: function () {
+      let _this = this
+      Utils.getVideoInputs(function (devices) {
+        _this.videoInputOptions = devices
+        _this.$store.dispatch('deviceSetting/availableDevices', {
+          type: 'video-in',
+          devices: _this.videoInputOptions
+        })
+      })
+    },
+
+    /**
+     * 获取音频输出设备
+     */
+    getAudioOutputDevices: function () {
+      let _this = this
+      Utils.getAudioOutputs(function (devices) {
+        _this.audioOutputOptions = devices
+        _this.$store.dispatch('deviceSetting/availableDevices', {
+          type: 'audio-out',
+          devices: _this.audioOutputOptions
+        })
+      })
     }
   },
   computed: {
@@ -164,6 +209,9 @@ export default {
     }
   },
   mounted: function () {
+    this.getAudioInputDevices()
+    this.getVideoInputDevices()
+    this.getAudioOutputDevices()
     this.checkConnected()
     this.systemError()
     this.sendMsgToIPCMain({
