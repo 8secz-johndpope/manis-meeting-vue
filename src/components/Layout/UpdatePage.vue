@@ -91,6 +91,7 @@ export default {
     handleUpdateStatus () {
       let _this = this
       ipcRenderer.on('update-asynchronous-reply', (event, arg) => {
+        console.log('----------------handle-update-asynchronous-reply-----', arg)
         if (arg.steps !== undefined) {
           _this.steps = arg.steps
           switch (arg.action) {
@@ -121,6 +122,7 @@ export default {
     sendMsgToMain (arg) {
       let msg = arg || 'ping'
       // @TODO uncomment this before publish
+      console.log('----------------send-update-asynchronous-message-----', msg)
       ipcRenderer.send('update-asynchronous-message', msg)
     },
 

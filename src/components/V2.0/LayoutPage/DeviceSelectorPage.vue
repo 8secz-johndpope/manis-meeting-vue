@@ -144,9 +144,9 @@ export default {
       if (!storeItems.length && _this.audioInputOptions.length) {
         storeItems[0] = _this.audioInputOptions[0]
       }
-      console.log('--------------------************************************************-------------------\r\n')
-      console.log('---storeVal---', storeVal, '\r\n --------storeItems-----', storeItems, '\r\n----------storeItems[0]-----', storeItems[0], '\r\n -----------audioInputOptions---------', _this.audioInputOptions)
-      console.log('--------------------************************************************-------------------\r\n')
+      // console.log('--------------------************************************************-------------------\r\n')
+      // console.log('---storeVal---', storeVal, '\r\n --------storeItems-----', storeItems, '\r\n----------storeItems[0]-----', storeItems[0], '\r\n -----------audioInputOptions---------', _this.audioInputOptions)
+      // console.log('--------------------************************************************-------------------\r\n')
       this.deviceForm.audioInput = storeItems[0].value
     },
     getStoreAudioOut: function () {
