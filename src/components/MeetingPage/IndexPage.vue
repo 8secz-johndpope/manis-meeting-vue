@@ -565,9 +565,12 @@ export default {
     },
 
     handleSortShow: function (res) {
-      // console.log('handle sort from focus:', res)
-      this.$store.dispatch('conferenceRoom/updateDisplaySort', res)
-      this.autoSetVideoResolution()
+      let _this = this
+      console.log('handle sort from focus:', res)
+      window.setTimeout(function () {
+        _this.$store.dispatch('conferenceRoom/updateDisplaySort', res)
+        _this.autoSetVideoResolution()
+      }, 2000)
     },
 
     handleSomeoneLeft: function (res) {

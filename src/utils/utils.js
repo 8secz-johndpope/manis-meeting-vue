@@ -585,7 +585,7 @@ export default {
    * @returns {*}
    */
   removeBySSRC: function (sources, ssrc) {
-    console.log('handle source remove from: ', sources, ' by ssrc: ', ssrc)
+    console.log('handle source remove from: ', sources, JSON.stringify(sources), ' by ssrc: ', ssrc)
     for (let i = 0; i < sources.length; i++) {
       let obj = sources[i]
       if (obj && obj.stream.ssrc === ssrc) {
