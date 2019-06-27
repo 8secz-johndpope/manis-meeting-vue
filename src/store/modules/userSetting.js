@@ -50,6 +50,7 @@ const actions = {
     commit('SET_USER_ROOM', userSetting.room)
     commit('SET_USER_PROFILE', userSetting.profile)
     if (userSetting.rememberMe !== undefined) {
+      console.log('-------store-remember-me-status: ', userSetting.rememberMe)
       commit('SET_REMEMBER_ME', (userSetting.rememberMe))
     }
   },
