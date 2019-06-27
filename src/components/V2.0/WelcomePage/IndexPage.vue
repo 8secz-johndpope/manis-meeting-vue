@@ -224,18 +224,11 @@ export default {
       let _this = this
       let verifyCodeData = window.config.verifyCode
       // console.log('----------AAAAAAAAAAAA----------', window.config, window.config.supportPassword)
-      _this.supportRemember = window.config.supportPassword
       if (_this.supportRemember) {
-        // support remember, not show verify image
-        if (!_this.supportRemember) {
-          // clear remember users
-          Utils.clearSignInUserInfo(_this)
-          return false
-        }
         // auto sign if remember set before
         if (_this.storeUser) {
-          _this.signInForm.username = _this.$store.state.userSetting.username
-          _this.signInForm.password = _this.$store.state.userSetting.password
+          _this.signInForm.username = _this.rememberUsername
+          _this.signInForm.password = _this.rememberUserPass
           _this.signInForm.rememberMe = _this.storeUser
           _this.submitForm('signInForm')
         }
@@ -304,6 +297,9 @@ export default {
           if (window.config.supportVerify) {
             _this.showVerify = true
           }
+          if (window.config.supportPassword) {
+            _this.supportRemember = true
+          }
           _this.showVerifyImage()
         },
         true
@@ -343,7 +339,7 @@ export default {
             password: _this.signInForm.password,
             profile: window.config.nickname || '',
             room: window.config.cNumber || '',
-            rememberMe: _this.signInForm.rememberMe
+            rememberMe: _this.storeUser
           })
           _this.$emit('signStateChange', {signed: true})
           _this.$router.push({ name: 'v2-participate' })
@@ -482,12 +478,19 @@ export default {
     },
     storeUser: function () {
       return this.$store.state.userSetting.remember || false
+    },
+    rememberUsername: function () {
+      return this.$store.state.userSetting.username
+    },
+    rememberUserPass: function () {
+      return this.$store.state.userSetting.password
     }
   },
   beforeDestroy: function () {},
   mounted: function () {
-    Utils.logOut()
-    this.$store.dispatch('userSetting/clearUser')
+    // Utils.logOut()
+    // this.$store.dispatch('userSetting/clearUser')
+    console.log('-------storeUserInfo-------', this.storeUser, ' user: ', this.rememberUsername, ' pass: ', this.rememberUserPass)
     window.config = Utils.resetConfig()
     this.getAppVersion()
     this.getServer()

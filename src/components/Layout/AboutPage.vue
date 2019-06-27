@@ -74,11 +74,11 @@ export default {
   /*min-height: 320px;*/
   /*padding-top: 60px;*/
   overflow: hidden;
-  color: #2DEDCE;
+  color: #EEEEEE;
 }
 
 .app-container.app-content {
-  border-left: 2px solid #2DEDCE;
+  border-left: 2px solid #EEEEEE;
 }
 
 .grid-content {

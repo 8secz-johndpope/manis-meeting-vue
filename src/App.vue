@@ -110,7 +110,7 @@ export default {
     clickSignOut () {
       let _this = this
       Utils.clearSignInUserInfo(_this)
-      window.location.reload()
+      // window.location.reload()
     },
 
     sendMsgToIPCMain (msg) {
