@@ -477,7 +477,7 @@ export default {
       return this.$store.state.serverSetting.serverAddr
     },
     storeUser: function () {
-      return this.$store.state.userSetting.remember || false
+      return this.$store.state.userSetting.remember
     },
     rememberUsername: function () {
       return this.$store.state.userSetting.username

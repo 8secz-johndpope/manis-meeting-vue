@@ -49,7 +49,9 @@ const actions = {
     commit('STORE_PASSWORD', userSetting.password)
     commit('SET_USER_ROOM', userSetting.room)
     commit('SET_USER_PROFILE', userSetting.profile)
-    commit('SET_REMEMBER_ME', (userSetting.rememberMe || false))
+    if (userSetting.rememberMe !== undefined) {
+      commit('SET_REMEMBER_ME', (userSetting.rememberMe))
+    }
   },
   clearUser ({commit}) {
     commit('CLEAR_USER_STORE')
