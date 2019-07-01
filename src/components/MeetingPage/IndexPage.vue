@@ -567,10 +567,10 @@ export default {
     handleSortShow: function (res) {
       let _this = this
       console.log('handle sort from focus:', res)
-      window.setTimeout(function () {
-        _this.$store.dispatch('conferenceRoom/updateDisplaySort', res)
-        _this.autoSetVideoResolution()
-      }, 2000)
+      // window.setTimeout(function () {
+      _this.$store.dispatch('conferenceRoom/updateDisplaySort', res)
+      _this.autoSetVideoResolution()
+      // }, 2000)
     },
 
     handleSomeoneLeft: function (res) {
