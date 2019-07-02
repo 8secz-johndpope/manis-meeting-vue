@@ -44,7 +44,14 @@ const mutations = {
     state.authorization = auth
   },
   PUSH_INTO_HISTORY (state, room) {
-    state.histories.push(room)
+    let exist = state.histories.filter(history => {
+      if (history.value === room.value) {
+        return history
+      }
+    })
+    if (!exist.length) {
+      state.histories.push(room)
+    }
   }
 }
 
