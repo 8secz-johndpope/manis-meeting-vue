@@ -488,6 +488,13 @@ export default {
       Utils.handleVideoStatusBeSet(_this.handleVideoStatusBeenSet)
       Utils.onRecordStatusChange(_this.handleRecordStatusChange)
       Utils.onRemoveModerator(_this.handleRemoveModerator)
+      let attendRoomNum = _this.$route.params.roomNumber || ''
+      if (attendRoomNum) {
+        _this.$store.dispatch('userSetting/commitHistory', {
+          value: attendRoomNum,
+          label: attendRoomNum
+        })
+      }
     },
 
     handleRemoveModerator: function (res) {

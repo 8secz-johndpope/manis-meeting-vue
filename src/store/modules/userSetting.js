@@ -5,7 +5,8 @@ const state = {
   profile: null,
   room: '',
   initiativeSignOut: false,
-  remember: false
+  remember: false,
+  histories: []
 }
 
 const mutations = {
@@ -13,6 +14,7 @@ const mutations = {
     if (!state.remember) {
       state.username = ''
       state.password = ''
+      state.histories = []
     }
     state.profile = null
     state.room = ''
@@ -40,6 +42,9 @@ const mutations = {
   },
   SET_AUTHORIZATION (state, auth) {
     state.authorization = auth
+  },
+  PUSH_INTO_HISTORY (state, room) {
+    state.histories.push(room)
   }
 }
 
@@ -63,6 +68,9 @@ const actions = {
   },
   updateRememberMe ({commit}, remember) {
     commit('SET_REMEMBER_ME', remember)
+  },
+  commitHistory ({commit}, room) {
+    commit('PUSH_INTO_HISTORY', room)
   }
 }
 

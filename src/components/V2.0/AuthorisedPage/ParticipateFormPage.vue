@@ -15,13 +15,22 @@
                       label-width="0px"
                       class="join-room-form">
                       <el-form-item label=""  prop="roomCode">
-                        <el-input placeholder="房间号"
+                        <!--<el-input placeholder="房间号"
                         class="auth-attend-form-item"
                           v-model="authorisedJoinForm.roomCode"
                           autocomplete="off"
                           maxlength="9"
                           @keyup.enter.native="submitForm('authorisedJoinForm')"
-                          clearable></el-input>
+                          clearable></el-input>-->
+                        <el-autocomplete
+                          class="auth-attend-form-item auto-complete-room"
+                          v-model="authorisedJoinForm.roomCode"
+                          :fetch-suggestions="querySearch"
+                          placeholder="房间号"
+                          @select="handleSelect"
+                          @keyup.enter.native="submitForm('authorisedJoinForm')"
+                          clearable
+                        ></el-autocomplete>
                       </el-form-item>
                       <el-form-item label="" prop="roomPass">
                         <el-input placeholder="房间口令(可选)"
@@ -54,7 +63,7 @@ export default {
   name: 'v2-authorised-participate-form-page',
   components: {},
   data: function () {
-    var validatePass = (rule, value, callback) => {
+    var validateRoomNum = (rule, value, callback) => {
       if (value === '') {
         callback(new Error('请输入房间号'))
       } else {
@@ -69,12 +78,31 @@ export default {
       },
       authorisedJoinFormRules: {
         roomCode: [
-          { validator: validatePass, trigger: 'blur' }
+          { validator: validateRoomNum, trigger: ['blur', 'change'] }
         ]
       }
     }
   },
   methods: {
+    querySearch (queryString, cb) {
+      let _this = this
+      let histories = _this.histories
+      let results = queryString ? _this.createFilter(queryString, histories) : histories
+      cb(results)
+    },
+    createFilter (queryString, histories) {
+      let res = histories.filter(history => {
+        if (history.value && history.value.indexOf(queryString) === 0) {
+          return history
+        }
+      })
+      return res
+    },
+    handleSelect (item) {
+      if (item.value) {
+        this.authorisedJoinForm.roomCode = item.value
+      }
+    },
     getPrivateMeeting () {
       let _this = this
       Utils.getPrivateRoom(
@@ -114,6 +142,9 @@ export default {
   computed: {
     apiServer () {
       return this.$store.state.serverSetting.serverAddr
+    },
+    histories: function () {
+      return this.$store.state.userSetting.histories
     }
   },
   mounted: function () {
@@ -164,6 +195,14 @@ export default {
   .join-room-box-title {
     padding: 0px 5px;
     font-weight: bold;
+  }
+
+  .auto-complete-room {
+    width: 100%;
+    background: none;
+    color: #ffffff;
+    border: none;
+    border-bottom: 1px solid #ffffff;
   }
 
 </style>

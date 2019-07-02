@@ -16,6 +16,7 @@ import {
   Form,
   FormItem,
   Input,
+  Autocomplete,
   Dropdown,
   DropdownMenu,
   DropdownItem,
@@ -56,6 +57,7 @@ Vue.component(Col.name, Col)
 Vue.component(Form.name, Form)
 Vue.component(FormItem.name, FormItem)
 Vue.component(Input.name, Input)
+Vue.component(Autocomplete.name, Autocomplete)
 Vue.component(Dropdown.name, Dropdown)
 Vue.component(DropdownMenu.name, DropdownMenu)
 Vue.component(DropdownItem.name, DropdownItem)

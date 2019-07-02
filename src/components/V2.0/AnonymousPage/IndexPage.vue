@@ -20,12 +20,20 @@
               @submit.native.prevent
             >
               <el-form-item label prop="roomNumber">
-                <el-input
+                <!--<el-input
                   v-model="anonymousForm.roomNumber"
                   class="sign-input roomNumber"
                   placeholder="房间号"
                   clearable
-                ></el-input>
+                ></el-input>-->
+                <el-autocomplete
+                  class="sign-input roomNumber auto-complete-room"
+                  v-model="anonymousForm.roomNumber"
+                  :fetch-suggestions="querySearch"
+                  placeholder="房间号"
+                  @select="handleSelect"
+                  clearable
+                ></el-autocomplete>
               </el-form-item>
               <el-form-item label prop="roomPass">
                 <el-input
@@ -110,7 +118,7 @@ export default {
           {
             required: true,
             message: '请输入会议房间号',
-            trigger: 'blur'
+            trigger: ['blur', 'change']
           }
         ],
         nickname: [
@@ -122,6 +130,25 @@ export default {
     }
   },
   methods: {
+    querySearch (queryString, cb) {
+      let _this = this
+      let histories = _this.histories
+      let results = queryString ? _this.createFilter(queryString, histories) : histories
+      cb(results)
+    },
+    createFilter (queryString, histories) {
+      let res = histories.filter(history => {
+        if (history.value && history.value.indexOf(queryString) === 0) {
+          return history
+        }
+      })
+      return res
+    },
+    handleSelect (item) {
+      if (item.value) {
+        this.anonymousForm.roomNumber = item.value
+      }
+    },
     submitForm (formName) {
       let _this = this
       _this.$refs[formName].validate(valid => {
@@ -207,6 +234,9 @@ export default {
     },
     audioOut: function () {
       return this.$store.state.deviceSetting.audioOut || ''
+    },
+    histories: function () {
+      return this.$store.state.userSetting.histories
     }
   },
   mounted: function () {
@@ -310,5 +340,13 @@ export default {
     font-size: 14px;
     text-align: center;
     font-family: Microsoft Yahei;
+  }
+
+  .auto-complete-room {
+    width: 100%;
+    background: none;
+    color: #ffffff;
+    border: none;
+    border-bottom: 1px solid #ffffff;
   }
 </style>

@@ -381,4 +381,10 @@ export default {
     color: #ffffff;
   }
 
+  .auto-complete-room .el-input__inner {
+    background: none !important;
+    border: none !important;
+    color: #fff !important;
+  }
+
 </style>
