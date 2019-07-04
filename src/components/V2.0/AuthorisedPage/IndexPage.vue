@@ -331,8 +331,8 @@ export default {
       }
       _this.$http(url, {
         headers: {
-          'userJid': (window.connection.jid || ''),
-          'token': (window.config.token || '')
+          'userJid': (window.connection ? (window.connection.jid || '') : ''),
+          'token': (window.config ? (window.config.token || '') : '')
         }
       }).then(res => {
         if (res.status === 200) {

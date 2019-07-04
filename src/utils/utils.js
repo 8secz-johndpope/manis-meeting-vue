@@ -847,7 +847,7 @@ export default {
    */
   getRoomType: function (num) {
     var language = window.localStorage.getItem('defaultLanguage') || 'zh'
-    var roomNumber = num.toString()
+    var roomNumber = num ? num.toString() : ''
     var typeStr = (language === 'zh') ? '即时会议' : 'Instant meeting'
     if (roomNumber.length >= 5) {
       var typeNum = roomNumber.substr(4, 1)
@@ -1137,8 +1137,8 @@ export default {
       '&userJid=' + window.connection.jid
     window.fetch(url, {
       headers: {
-        'userJid': (window.connection.jid || ''),
-        'token': (window.config.token || '')
+        'userJid': (window.connection ? (window.connection.jid || '') : ''),
+        'token': (window.config ? (window.config.token || '') : '')
       }
     })
       .then(_this.checkStatus)
@@ -1172,8 +1172,8 @@ export default {
       '&userJid=' + window.connection.jid
     window.fetch(url, {
       headers: {
-        'userJid': (window.connection.jid || ''),
-        'token': (window.config.token || '')
+        'userJid': (window.connection ? (window.connection.jid || '') : ''),
+        'token': (window.config ? (window.config.token || '') : '')
       }
     })
       .then(_this.checkStatus)
@@ -1200,8 +1200,8 @@ export default {
       '&userJid=' + window.connection.jid
     window.fetch(url, {
       headers: {
-        'userJid': (window.connection.jid || ''),
-        'token': (window.config.token || '')
+        'userJid': (window.connection ? (window.connection.jid || '') : ''),
+        'token': (window.config ? (window.config.token || '') : '')
       }
     })
       .then(_this.checkStatus)
@@ -1528,8 +1528,8 @@ export default {
       '/clientApi/users/' + userId
     window.fetch(url, {
       headers: {
-        'userJid': (window.connection.jid || ''),
-        'token': (window.config.token || '')
+        'userJid': (window.connection ? (window.connection.jid || '') : ''),
+        'token': (window.config ? (window.config.token || '') : '')
       }
     })
       .then(_this.checkStatus)
@@ -1572,10 +1572,10 @@ export default {
     '/clientApi/verifyCode?domain=' + apiServer +
     '&ticket=' + config.ticket
     window.fetch(url, {
-      headers: {
-        'userJid': (window.connection.jid || ''),
-        'token': (window.config.token || '')
-      }
+      // headers: {
+      // 'userJid': (window.connection ? (window.connection.jid || '') : ''),
+      // 'token': (window.config ? (window.config.token || '') : '')
+      // }
     })
       .then(_this.checkStatus)
       .then(_this.parseJSON)
@@ -1610,10 +1610,10 @@ export default {
     console.log('will send post request with data ', data)
     window.fetch(url, {
       method: 'POST',
-      headers: {
-        'userJid': (window.connection.jid || ''),
-        'token': (window.config.token || '')
-      },
+      // headers: {
+      // 'userJid': (window.connection ? (window.connection.jid || '') : ''),
+      // 'token': (window.config ? (window.config.token || '') : '')
+      // },
       body: data
     }).then(_this.checkStatus)
       .then(_this.parseJSON)
