@@ -329,7 +329,12 @@ export default {
         url = 'https://' + _this.apiServer + '/clientApi/conferences/' +
             window.config.mUserId + '?page=' + page + '&count=' + count
       }
-      _this.$http(url).then(res => {
+      _this.$http(url, {
+        headers: {
+          'userJid': (window.connection.jid || ''),
+          'token': (window.config.token || '')
+        }
+      }).then(res => {
         if (res.status === 200) {
           if (res.data && res.data.mcode === 200) {
             _this.conferencesCount = res.data.msg

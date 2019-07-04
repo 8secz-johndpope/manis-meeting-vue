@@ -1135,7 +1135,12 @@ export default {
       '/clientApi/conference/resources/' +
       '?roomNumber=' + config.r +
       '&userJid=' + window.connection.jid
-    window.fetch(url)
+    window.fetch(url, {
+      headers: {
+        'userJid': (window.connection.jid || ''),
+        'token': (window.config.token || '')
+      }
+    })
       .then(_this.checkStatus)
       .then(_this.parseJSON)
       .then(result => {
@@ -1165,7 +1170,12 @@ export default {
       '&userId=' + config.mUserId + '&rule=' + _this.recordRule +
       '&roomPassword=' + (config.roomPassword || '') +
       '&userJid=' + window.connection.jid
-    window.fetch(url)
+    window.fetch(url, {
+      headers: {
+        'userJid': (window.connection.jid || ''),
+        'token': (window.config.token || '')
+      }
+    })
       .then(_this.checkStatus)
       .then(_this.parseJSON)
       .then((success) => {
@@ -1188,7 +1198,12 @@ export default {
       '/clientApi/record/close/' + config.mUserId + '/' + config.r +
       '?sip=' + config.r + '&recordJid=' + recorder +
       '&userJid=' + window.connection.jid
-    window.fetch(url)
+    window.fetch(url, {
+      headers: {
+        'userJid': (window.connection.jid || ''),
+        'token': (window.config.token || '')
+      }
+    })
       .then(_this.checkStatus)
       .then(_this.parseJSON)
       .then((success) => {
@@ -1511,7 +1526,12 @@ export default {
     }
     let url = 'https://' + apiServer +
       '/clientApi/users/' + userId
-    window.fetch(url)
+    window.fetch(url, {
+      headers: {
+        'userJid': (window.connection.jid || ''),
+        'token': (window.config.token || '')
+      }
+    })
       .then(_this.checkStatus)
       .then(_this.parseJSON)
       .then(result => {
@@ -1551,7 +1571,12 @@ export default {
     let url = 'https://' + apiServer +
     '/clientApi/verifyCode?domain=' + apiServer +
     '&ticket=' + config.ticket
-    window.fetch(url)
+    window.fetch(url, {
+      headers: {
+        'userJid': (window.connection.jid || ''),
+        'token': (window.config.token || '')
+      }
+    })
       .then(_this.checkStatus)
       .then(_this.parseJSON)
       .then(result => {
@@ -1585,6 +1610,10 @@ export default {
     console.log('will send post request with data ', data)
     window.fetch(url, {
       method: 'POST',
+      headers: {
+        'userJid': (window.connection.jid || ''),
+        'token': (window.config.token || '')
+      },
       body: data
     }).then(_this.checkStatus)
       .then(_this.parseJSON)
