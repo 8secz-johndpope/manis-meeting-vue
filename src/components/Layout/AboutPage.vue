@@ -12,8 +12,8 @@
             <h2 class="text-center">{{ appName }}极速版</h2>
           </div>
           <div class="update-checking-container">
-          <h5 class="text-center">{{ version }}</h5>
-          <!-- <h4 class="text-center">Xiaoqiang-io Co.,Ltd.</h4> -->
+            <h5 class="text-center">{{ version }}</h5>
+            <!-- <h4 class="text-center">Xiaoqiang-io Co.,Ltd.</h4> -->
           </div>
         </div>
       </el-col>
@@ -24,7 +24,7 @@
 <script>
 import xqLogo from '../../assets/img/logo/xq/logo.png'
 import scLogo from '../../assets/img/logo/sc/logo.png'
-// const {app} = require('electron').remote // @TODO uncomment this before publish
+const {app} = require('electron').remote // @TODO uncomment this before publish
 
 export default {
   name: 'about-page',
@@ -40,22 +40,22 @@ export default {
   methods: {
     getVersion () {
       // @TODO uncomment this before publish
-      // this.version = app.getVersion()
+      this.version = app.getVersion()
     },
     getAppLogo () {
       /**
-       * @TODO
-       * @BeforePublish
-       * uncomment this before publish to repository
-       */
-      // let appName = app.getName()
-      // if (appName.indexOf('scmeeting') > -1) {
-      //   this.appName = 'SCMeeting'
-      //   this.logoImgUrl = scLogo
-      // } else if (appName.indexOf('xiaoqiang') > -1) {
-      //   this.appName = '小强在线'
-      //   this.logoImgUrl = xqLogo
-      // }
+         * @TODO
+         * @BeforePublish
+         * uncomment this before publish to repository
+         */
+      let appName = app.getName()
+      if (appName.indexOf('scmeeting') > -1) {
+        this.appName = 'SCMeeting'
+        this.logoImgUrl = scLogo
+      } else if (appName.indexOf('xiaoqiang') > -1) {
+        this.appName = '小强在线'
+        this.logoImgUrl = xqLogo
+      }
     }
   },
   mounted: function () {
@@ -68,44 +68,44 @@ export default {
 </script>
 
 <style scoped>
-.about-container {
-  /* background: -webkit-gradient(linear, 0 0, 100% 100%, from(#8c8a84), to(#292f4c)); */
-  /*min-width: 480px;*/
-  /*min-height: 320px;*/
-  /*padding-top: 60px;*/
-  overflow: hidden;
-  color: #EEEEEE;
-}
+  .about-container {
+    /* background: -webkit-gradient(linear, 0 0, 100% 100%, from(#8c8a84), to(#292f4c)); */
+    /*min-width: 480px;*/
+    /*min-height: 320px;*/
+    /*padding-top: 60px;*/
+    overflow: hidden;
+    color: #EEEEEE;
+  }
 
-.app-container.app-content {
-  border-left: 2px solid #EEEEEE;
-}
+  .app-container.app-content {
+    border-left: 2px solid #EEEEEE;
+  }
 
-.grid-content {
-  /*height: 120px;*/
-  display: table-cell;
-  vertical-align: middle;
-  padding-left: 20px;
-}
+  .grid-content {
+    /*height: 120px;*/
+    display: table-cell;
+    vertical-align: middle;
+    padding-left: 20px;
+  }
 
-.app-info {
-  margin: 15px auto;
-}
+  .app-info {
+    margin: 15px auto;
+  }
 
-.logo-gird {
-  float: right;
-}
+  .logo-gird {
+    float: right;
+  }
 
-.logo-gird>img {
-  max-width: 80px;
-  max-height: 80px;
-}
+  .logo-gird>img {
+    max-width: 80px;
+    max-height: 80px;
+  }
 
-.text-center {
-  text-align: center;
-}
+  .text-center {
+    text-align: center;
+  }
 
-.update-checking-container>.text-center {
-  padding: 5px 0px;
-}
+  .update-checking-container>.text-center {
+    padding: 5px 0px;
+  }
 </style>

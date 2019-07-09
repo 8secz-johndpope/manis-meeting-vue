@@ -1,7 +1,7 @@
 <template>
   <div id="app">
     <router-view
-    v-on:signStateChange="signStateChanged"></router-view>
+      v-on:signStateChange="signStateChanged"></router-view>
     <el-dialog
       title="关于应用"
       :visible.sync="showAboutPage"
@@ -41,7 +41,7 @@ import AboutPage from './components/Layout/AboutPage'
 import SettingPage from './components/Layout/SettingPage'
 import UpdatePage from './components/Layout/UpdatePage'
 // @TODO uncomment this before publish
-// const { ipcRenderer } = require('electron')
+const { ipcRenderer } = require('electron')
 
 export default {
   name: 'manis-meeting-vue',
@@ -63,27 +63,27 @@ export default {
   methods: {
     handleMsgFromIPCMain () {
       // @TODO uncomment this before publish
-      // let _this = this
-      // ipcRenderer.on('ipc-sender-asynchronous-reply', (event, arg) => {
-      //   console.log('-------------handle-ipc-sender-asynchronous-reply-------', arg)
-      //   if (arg && typeof arg === 'object') {
-      //     let action = arg.action || ''
-      //     switch (action) {
-      //       case 'signout':
-      //         _this.clickSignOut()
-      //         break
-      //       case 'abouts':
-      //         _this.showAbouts()
-      //         break
-      //       case 'settings':
-      //         _this.showSettings()
-      //         break
-      //       case 'updates':
-      //         _this.showUpdates()
-      //         break
-      //     }
-      //   }
-      // })
+      let _this = this
+      ipcRenderer.on('ipc-sender-asynchronous-reply', (event, arg) => {
+        console.log('-------------handle-ipc-sender-asynchronous-reply-------', arg)
+        if (arg && typeof arg === 'object') {
+          let action = arg.action || ''
+          switch (action) {
+            case 'signout':
+              _this.clickSignOut()
+              break
+            case 'abouts':
+              _this.showAbouts()
+              break
+            case 'settings':
+              _this.showSettings()
+              break
+            case 'updates':
+              _this.showUpdates()
+              break
+          }
+        }
+      })
     },
 
     showAbouts () {
@@ -115,7 +115,7 @@ export default {
 
     sendMsgToIPCMain (msg) {
       // @TODO uncomment this before publish
-      // ipcRenderer.send('ipc-main-asynchronous-message', msg)
+      ipcRenderer.send('ipc-main-asynchronous-message', msg)
     },
 
     signStateChanged (state) {
@@ -162,8 +162,8 @@ export default {
     },
 
     /**
-     * 获取音频输入设备
-     */
+       * 获取音频输入设备
+       */
     getAudioInputDevices: function () {
       let _this = this
       Utils.getAudioInputs(function (devices) {
@@ -176,8 +176,8 @@ export default {
     },
 
     /**
-     * 获取视频输入设备
-     */
+       * 获取视频输入设备
+       */
     getVideoInputDevices: function () {
       let _this = this
       Utils.getVideoInputs(function (devices) {
@@ -190,8 +190,8 @@ export default {
     },
 
     /**
-     * 获取音频输出设备
-     */
+       * 获取音频输出设备
+       */
     getAudioOutputDevices: function () {
       let _this = this
       Utils.getAudioOutputs(function (devices) {

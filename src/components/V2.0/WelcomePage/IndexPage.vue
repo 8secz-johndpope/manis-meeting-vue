@@ -27,7 +27,7 @@
                 @submit.native.prevent
                 v-show="!showSignInForm"
               >
-              <el-form-item label prop="server">
+                <el-form-item label prop="server">
                   <el-row :gutter="10">
                     <el-col :span="24">
                       <el-input
@@ -161,7 +161,7 @@
 
 <script>
 import Utils from '../../../utils/utils'
-// const {app} = require('electron').remote // @TODO uncomment this before publish
+const {app} = require('electron').remote // @TODO uncomment this before publish
 
 export default {
   name: 'v2-login-index-page',
@@ -430,17 +430,17 @@ export default {
     },
     getAppVersion () {
       /**
-       * @TODO
-       * @BeforePublish
-       * uncomment this before publish to repository
-       */
-      // let appName = app.getName()
-      // if (appName.indexOf('scmeeting') > -1) {
-      //   this.appName = 'SCMeeting' + this.appName
-      // } else if (appName.indexOf('xiaoqiang') > -1) {
-      //   this.appName = '小强在线' + this.appName
-      // }
-      // this.version = app.getVersion()
+         * @TODO
+         * @BeforePublish
+         * uncomment this before publish to repository
+         */
+      let appName = app.getName()
+      if (appName.indexOf('scmeeting') > -1) {
+        this.appName = 'SCMeeting' + this.appName
+      } else if (appName.indexOf('xiaoqiang') > -1) {
+        this.appName = '小强在线' + this.appName
+      }
+      this.version = app.getVersion()
     },
     loadingShow: function () {
       let _this = this
@@ -500,144 +500,144 @@ export default {
 </script>
 
 <style scoped>
-.welcome-container {
-  position: relative;
-  top: 50%;
-  transform: translateY(-50%);
-}
+  .welcome-container {
+    position: relative;
+    top: 50%;
+    transform: translateY(-50%);
+  }
 
-.wrapper {
-  position: absolute;
-  top: 0px;
-  right: 0px;
-  bottom: 0px;
-  left: 0px;
-  background: rgba(77, 94, 121, 0.2) none repeat scroll !important;
-  background: #364049;
-  filter: Alpha(opacity=80);
-}
+  .wrapper {
+    position: absolute;
+    top: 0px;
+    right: 0px;
+    bottom: 0px;
+    left: 0px;
+    background: rgba(77, 94, 121, 0.2) none repeat scroll !important;
+    background: #364049;
+    filter: Alpha(opacity=80);
+  }
 
-.bg-img {
-  position: absolute;
-  top: 0px;
-  right: 0px;
-  bottom: 0px;
-  left: 0px;
-  background-image: url("../../../assets/img/in-active-bg.jpg");
-  background-repeat: no-repeat;
-  background-size: 100% 100%;
-  transition: filter 2s;
-  filter: blur(16px);
-}
+  .bg-img {
+    position: absolute;
+    top: 0px;
+    right: 0px;
+    bottom: 0px;
+    left: 0px;
+    background-image: url("../../../assets/img/in-active-bg.jpg");
+    background-repeat: no-repeat;
+    background-size: 100% 100%;
+    transition: filter 2s;
+    filter: blur(16px);
+  }
 
-.wrapper:hover .bg-img {
-  transition: filter 2s;
-  filter: blur(64px);
-}
+  .wrapper:hover .bg-img {
+    transition: filter 2s;
+    filter: blur(64px);
+  }
 
-.row-title {
-  width: 100%;
-}
+  .row-title {
+    width: 100%;
+  }
 
-.system-title,
-.label-sign-in {
-  margin: 5px 0px 5px 0px;
-}
+  .system-title,
+  .label-sign-in {
+    margin: 5px 0px 5px 0px;
+  }
 
-.text-center {
-  text-align: center;
-}
+  .text-center {
+    text-align: center;
+  }
 
-div.row-sign-in {
-  width: 320px;
-  margin: 10px auto;
-  text-align: center;
-}
+  div.row-sign-in {
+    width: 320px;
+    margin: 10px auto;
+    text-align: center;
+  }
 
-.link {
-  margin: 10px auto;
-}
+  .link {
+    margin: 10px auto;
+  }
 
-.link a,
-.link a:hover,
-.link a:active,
-.link a:visited {
-  text-decoration: none;
-  color: #eeeeee;
-}
+  .link a,
+  .link a:hover,
+  .link a:active,
+  .link a:visited {
+    text-decoration: none;
+    color: #eeeeee;
+  }
 
-.btn-transparent {
-  padding: 12px 64px !important;
-  background: rgba(200, 200, 200, 0.2) none repeat scroll;
-  border: 0px;
-}
+  .btn-transparent {
+    padding: 12px 64px !important;
+    background: rgba(200, 200, 200, 0.2) none repeat scroll;
+    border: 0px;
+  }
 
-.anonymous-link {
-  font-size: 16px;
-  color: #ffffff;
-  border-bottom: 1px solid #ffffff;
-}
+  .anonymous-link {
+    font-size: 16px;
+    color: #ffffff;
+    border-bottom: 1px solid #ffffff;
+  }
 
-.app-name {
-  font-size: 28px;
-  color: rgba(255, 255, 255, 1);
-  /* font-family: SourceHanSansSC-regular; */
-}
+  .app-name {
+    font-size: 28px;
+    color: rgba(255, 255, 255, 1);
+    /* font-family: SourceHanSansSC-regular; */
+  }
 
-.app-title {
-  color: rgba(255, 255, 255, 1);
-  font-size: 14px;
-  /* font-family: SourceHanSansSC-regular; */
-}
+  .app-title {
+    color: rgba(255, 255, 255, 1);
+    font-size: 14px;
+    /* font-family: SourceHanSansSC-regular; */
+  }
 
-.btn-submit {
-  width: 240px;
-  height: 45px;
-  border-radius: 50px 50px 50px 50px;
-  background-color: rgba(48, 202, 119, 1);
-  color: rgba(255, 255, 255, 1);
-  font-size: 14px;
-  text-align: center;
-  font-family: Microsoft Yahei;
-}
+  .btn-submit {
+    width: 240px;
+    height: 45px;
+    border-radius: 50px 50px 50px 50px;
+    background-color: rgba(48, 202, 119, 1);
+    color: rgba(255, 255, 255, 1);
+    font-size: 14px;
+    text-align: center;
+    font-family: Microsoft Yahei;
+  }
 
-.el-form-item {
-  margin-bottom: 25px;
-}
+  .el-form-item {
+    margin-bottom: 25px;
+  }
 
-.text-left {
-  clear: both;
-  text-align: left;
-  color: rgba(255, 255, 255, 1);
-}
+  .text-left {
+    clear: both;
+    text-align: left;
+    color: rgba(255, 255, 255, 1);
+  }
 
-.el-checkbox {
-  color: rgba(255, 255, 255, 1);
-}
+  .el-checkbox {
+    color: rgba(255, 255, 255, 1);
+  }
 
-/* .verify-img {
-  width: 100%;
-  height: 30px;
-  margin-top: 10px;
-} */
+  /* .verify-img {
+    width: 100%;
+    height: 30px;
+    margin-top: 10px;
+  } */
 
-.reset-server a, .reset-server a:hover,.reset-server a:active, .reset-server a:checked {
-  text-decoration: none;
-  color: #ffffff;
-  border-bottom: 1px solid #ffffff;
-}
+  .reset-server a, .reset-server a:hover,.reset-server a:active, .reset-server a:checked {
+    text-decoration: none;
+    color: #ffffff;
+    border-bottom: 1px solid #ffffff;
+  }
 
-.reset-server {
-  color: #ffffff;
-  font-size: 12px;
-}
+  .reset-server {
+    color: #ffffff;
+    font-size: 12px;
+  }
 
-.text-right {
-  text-align: right;
-}
+  .text-right {
+    text-align: right;
+  }
 
-/* .versiton-footer {
-  height: 18px !important;
-} */
+  /* .versiton-footer {
+    height: 18px !important;
+  } */
 
 </style>

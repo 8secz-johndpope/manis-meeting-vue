@@ -47,31 +47,31 @@ export default {
       console.error(e)
     },
     initCapture () {
-      // let _this = this
-      // // @TODO uncomment this before publish
-      // const {desktopCapturer} = require('electron')
-      // desktopCapturer.getSources({ types: ['screen'] }).then(async sources => {
-      //   _this.captureSources = sources
-      //   for (let i = 0; i < sources.length; ++i) {
-      //     let source = sources[i]
-      //     if (source.name !== 'Electron') {
-      //       try {
-      //         const stream = await navigator.mediaDevices.getUserMedia({
-      //           audio: false,
-      //           video: {
-      //             mandatory: {
-      //               chromeMediaSource: 'desktop',
-      //               chromeMediaSourceId: source.id
-      //             }
-      //           }
-      //         })
-      //         _this.handleStream(stream, i)
-      //       } catch (e) {
-      //         _this.handleError(e)
-      //       }
-      //     }
-      //   }
-      // })
+      let _this = this
+      // @TODO uncomment this before publish
+      const {desktopCapturer} = require('electron')
+      desktopCapturer.getSources({ types: ['screen', 'window'] }).then(async sources => {
+        _this.captureSources = sources
+        for (let i = 0; i < sources.length; ++i) {
+          let source = sources[i]
+          if (source.name !== 'Electron') {
+            try {
+              const stream = await navigator.mediaDevices.getUserMedia({
+                audio: false,
+                video: {
+                  mandatory: {
+                    chromeMediaSource: 'desktop',
+                    chromeMediaSourceId: source.id
+                  }
+                }
+              })
+              _this.handleStream(stream, i)
+            } catch (e) {
+              _this.handleError(e)
+            }
+          }
+        }
+      })
     }
   },
   mounted: function () {
