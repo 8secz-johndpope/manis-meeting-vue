@@ -119,36 +119,36 @@ export default {
         fun: 'pencil',
         isChoose: false
       }, {
-        //   name: '直线',
-        //   icon: 'slash',
-        //   fun: 'line',
-        //   isChoose: false
-        // }, {
-        //   name: '圆形',
-        //   icon: 'regular/circle',
-        //   fun: 'circle',
-        //   isChoose: false
-        // }, {
-        //   name: '矩形',
-        //   icon: 'regular/object-group',
-        //   fun: 'square',
-        //   isChoose: false
-        // }, {
-        //   name: '刷子',
-        //   icon: 'paint-roller',
-        //   fun: 'handwriting',
-        //   isChoose: false
-        // }, {
+        name: '直线',
+        icon: 'slash',
+        fun: 'line',
+        isChoose: false
+      }, {
+        name: '圆形',
+        icon: 'regular/circle',
+        fun: 'circle',
+        isChoose: false
+      }, {
+        name: '矩形',
+        icon: 'regular/object-group',
+        fun: 'square',
+        isChoose: false
+      }, {
+        name: '刷子',
+        icon: 'paint-roller',
+        fun: 'handwriting',
+        isChoose: false
+      }, {
         name: '橡皮',
         icon: 'eraser',
         fun: 'rubber',
         isChoose: false
       }, {
-        //   name: '文本',
-        //   icon: 'font',
-        //   fun: 'clear',
-        //   isChoose: false
-        // }, {
+        name: '文本',
+        icon: 'font',
+        fun: 'clear',
+        isChoose: false
+      }, {
         name: '保存',
         icon: 'regular/save',
         fun: 'save',
@@ -168,12 +168,12 @@ export default {
     sendActionMsg (_action, _data, _type, receiver = '', delay = false) {
       let _this = this
       // console.log('++++++===sendDrawingMsg===++++++++', _action, _data, receiver, delay, _type)
-      Utils.sendDrawingMsg(
-        _action,
-        _data,
-        receiver,
-        _this.handleSentDrawingMsg
-      )
+      // Utils.sendDrawingMsg(
+      //   _action,
+      //   _data,
+      //   receiver,
+      //   _this.handleSentDrawingMsg
+      // )
       if (delay) {
         return true
       }
@@ -225,6 +225,9 @@ export default {
     },
     doCloseDrawingBoard () {
       let _this = this
+      Utils.stopShareScreen(res => {
+        console.log('-------handleRemoveCanvasStreamSuccess------', res)
+      })
       // clear board and close it
       _this.drawType(_this.tools[0])
       _this.cancelList = []
@@ -630,6 +633,44 @@ export default {
           }
         }
       })
+    },
+
+    getStreamFromCanvas () {
+      let _this = this
+      let canvas = _this.canvas
+      if (canvas) {
+        let stream = canvas.captureStream(15)
+        console.log('----------handleCanvasStream--------', stream)
+        _this.stream = stream
+        _this.addCanvasStreamToConnection()
+      }
+    },
+
+    addCanvasStreamToConnection () {
+      let _this = this
+      if (_this.stream) {
+        Utils.addStreamIntoConnection(
+          _this.stream,
+          function (res) {
+            console.log('--------successAddCanvasStreamIntoConnection-------', res)
+            _this.canvasHeartbeat()
+          }
+        )
+      }
+    },
+
+    canvasHeartbeat () {
+      let _this = this
+      if (_this.heartbeat) {
+        window.clearTimeout(_this.heartbeat)
+        _this.heartbeat = null
+      }
+      let canvas = _this.canvas
+      if (canvas) {
+        let context = canvas.getContext('2d')
+        context.fillRect(0, 0, 1, 1)
+        _this.heartbeat = window.setTimeout(_this.canvasHeartbeat, 100)
+      }
     }
   },
   components: {
@@ -641,10 +682,10 @@ export default {
     this.lineTracks = []
     this.mucUsers = []
     this.initCanvas()
-    this.handleMucUserChange()
-    this.handleDrawingMsg()
-    // this.initDrag()  // ignore drag image into board
-    // this.addkeyBoardlistener() //ignore keyboard events
+    // this.handleMucUserChange()
+    // this.handleDrawingMsg()
+    this.initDrag() // ignore drag image into board
+    this.addkeyBoardlistener() // ignore keyboard events
     this.drawType(this.tools[3])
     this.canvas_bak.addEventListener('click', this.falseColor)
     this.canvas_bak.addEventListener('click', this.falseLineSize)
@@ -654,10 +695,16 @@ export default {
         height: window.screen.availHeight
       }
     })
+    this.getStreamFromCanvas()
   },
   beforeDestroy () {
     console.log('will destroy white drawing board')
-    this.doCloseDrawingBoard()
+    let _this = this
+    _this.doCloseDrawingBoard()
+    if (_this.hartbeat) {
+      window.clearTimeout(_this.hartbeat)
+      _this.hartbeat = null
+    }
   }
 }
 </script>

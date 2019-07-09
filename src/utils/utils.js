@@ -1747,5 +1747,23 @@ export default {
     _this.$store.dispatch('userSetting/updateRememberMe', false)
     _this.$store.dispatch('userSetting/clearUser')
     _this.$router.push({ name: 'v2-login' })
+  },
+
+  /**
+   * add stream into connection
+   * @param stream
+   * @param callBack
+   */
+  addStreamIntoConnection: function (stream, callBack) {
+    let _this = this
+    Manis.addSecondStreamToConnection(stream, function (res) {
+      if (res.errorCode === _this.noErr) {
+        if (callBack && typeof callBack === 'function') {
+          callBack(res)
+        }
+      } else {
+        console.error('-----failedToAddStreamIntoConnection----', res)
+      }
+    })
   }
 }

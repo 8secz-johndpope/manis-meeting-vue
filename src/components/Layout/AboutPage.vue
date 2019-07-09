@@ -24,7 +24,7 @@
 <script>
 import xqLogo from '../../assets/img/logo/xq/logo.png'
 import scLogo from '../../assets/img/logo/sc/logo.png'
-const {app} = require('electron').remote // @TODO uncomment this before publish
+// const {app} = require('electron').remote // @TODO uncomment this before publish
 
 export default {
   name: 'about-page',
@@ -40,7 +40,7 @@ export default {
   methods: {
     getVersion () {
       // @TODO uncomment this before publish
-      this.version = app.getVersion()
+      // this.version = app.getVersion()
     },
     getAppLogo () {
       /**
@@ -48,14 +48,14 @@ export default {
        * @BeforePublish
        * uncomment this before publish to repository
        */
-      let appName = app.getName()
-      if (appName.indexOf('scmeeting') > -1) {
-        this.appName = 'SCMeeting'
-        this.logoImgUrl = scLogo
-      } else if (appName.indexOf('xiaoqiang') > -1) {
-        this.appName = '小强在线'
-        this.logoImgUrl = xqLogo
-      }
+      // let appName = app.getName()
+      // if (appName.indexOf('scmeeting') > -1) {
+      //   this.appName = 'SCMeeting'
+      //   this.logoImgUrl = scLogo
+      // } else if (appName.indexOf('xiaoqiang') > -1) {
+      //   this.appName = '小强在线'
+      //   this.logoImgUrl = xqLogo
+      // }
     }
   },
   mounted: function () {
