@@ -68,7 +68,6 @@ export default {
           // console.log('set scroll top: ', height)
           element.scrollTop = height
         }
-
       }, 1000)
     }
   },

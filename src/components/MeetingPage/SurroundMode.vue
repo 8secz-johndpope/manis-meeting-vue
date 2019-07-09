@@ -123,7 +123,7 @@ export default {
       return this.$store.state.conferenceRoom.mode
     },
     subVideos () {
-      return this.showVideos.filter(function(item,index){
+      return this.showVideos.filter(function (item, index) {
         if (index) {
           return item
         }
