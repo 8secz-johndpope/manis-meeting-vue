@@ -83,7 +83,7 @@ const mutations = {
       }
     }
     // remove the window which more than balance
-    if (state.showStreams.length > displaySort.length) {
+    if (state.showStreams.length > displaySort.length > 1) {
       console.warn('------------showWindowsMoreThanOrderDisplay---------------', state.showStreams.length, '>', displaySort.length)
       for (let i = displaySort.length; i < state.showStreams.length; i++) {
         state.showStreams.splice(i, 1)
