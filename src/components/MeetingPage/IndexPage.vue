@@ -67,7 +67,7 @@
             title="请选择需要分享的窗口"
             :visible.sync="captureDialogVisible"
             :modal="false"
-            width="320px"
+            width="50%"
             :show-close="true"
             :close-on-press-escape="false"
             :close-on-click-modal="false"
