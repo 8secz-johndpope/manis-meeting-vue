@@ -1569,8 +1569,8 @@ export default {
   refreshVerifyImage: function (apiServer, config, callBack) {
     let _this = this
     let url = 'https://' + apiServer +
-    '/clientApi/verifyCode?domain=' + apiServer +
-    '&ticket=' + config.ticket
+      '/clientApi/verifyCode?domain=' + apiServer +
+      '&ticket=' + config.ticket
     window.fetch(url, {
       // headers: {
       // 'userJid': (window.connection ? (window.connection.jid || '') : ''),
@@ -1736,7 +1736,7 @@ export default {
    */
   clearSignInUserInfo: function (_this) {
     if (!_this || !_this.$store || !_this.$router) {
-      console.warn('------_thisIsNotRightAtClearSignInUserInfo------', _this)
+      // console.warn('------_thisIsNotRightAtClearSignInUserInfo------', _this)
       return false
     }
     if (_this.signInForm) {
@@ -1762,8 +1762,64 @@ export default {
           callBack(res)
         }
       } else {
-        console.error('-----failedToAddStreamIntoConnection----', res)
+        // console.error('-----failedToAddStreamIntoConnection----', res)
       }
     })
+  },
+
+  /**
+   * get my friends
+   * @param apiServer
+   * @param callBack
+   * @param userId
+   * @param keywords
+   */
+  getContacts: function (apiServer, callBack, userId, keywords) {
+    let _this = this
+    let url = 'https://' + apiServer +
+      '/clientApi/friends/' + window.config.mUserId
+    window.fetch(url, {
+      headers: {
+        'userJid': (window.connection ? (window.connection.jid || '') : ''),
+        'token': (window.config ? (window.config.token || '') : '')
+      }
+    })
+      .then(_this.checkStatus)
+      .then(_this.parseJSON)
+      .then(result => {
+        if (result.mcode === 200) {
+          return callBack(result)
+        }
+        console.warn('fetch my friends failed: ', result)
+      }).catch((failed) => {
+        console.error(failed)
+      })
+  },
+
+  /**
+   * send invite to some one
+   * @param receiver
+   * @param room
+   * @param pass
+   * @param type
+   * @param callBack
+   */
+  sendInvite: function (receiver, room, pass, type, callBack) {
+    let _this = this
+    Manis.ringUp(
+      receiver,
+      room,
+      pass,
+      success => {
+        if (success.errorCode === _this.noErr) {
+          return callBack(success)
+        }
+        console.warn('send invite failed: ', success)
+      },
+      error => {
+        console.error('send invite in error: ', error)
+      },
+      type
+    )
   }
 }

@@ -52,6 +52,7 @@
             :nickname="nickname"
             :screenSharing="screenSharing"
             :isModerator="isModerator"
+            v-on:showInviteDialog="showInviteDialog"
           ></room-members>
           <text-chat :class="['hidden', {'show': showTextMsg}]" ref="text-chat"></text-chat>
           <device-setting :class="['hidden', {'show': showDeviceSetting}]"></device-setting>
@@ -100,6 +101,19 @@
         <el-container class="annotation-container">
           <annotation ref="annotationComponent"></annotation>
         </el-container>
+        <el-container>
+          <el-dialog
+            title="邀请在线好友加入会议"
+            custom-class="invite-page-dialog"
+            :modal="false"
+            :show-close="true"
+            :close-on-press-escape="false"
+            :close-on-click-modal="false"
+            :visible.sync="inviteDialogVisible"
+          >
+            <invite-page></invite-page>
+          </el-dialog>
+        </el-container>
       </div>
     </el-container>
   </div>
@@ -119,6 +133,7 @@ import AudioPage from './AudioPage'
 import DesktopCapture from '../ShareApps/DesktopCapturer'
 import DrawingBoard from '../ShareApps/DrawingBrand'
 import Annotation from '../ShareApps/Annotation'
+import InvitePage from './InvitePage'
 
 export default {
   name: 'meeting-index-page',
@@ -134,7 +149,8 @@ export default {
     AudioPage,
     DesktopCapture,
     DrawingBoard,
-    Annotation
+    Annotation,
+    InvitePage
   },
   data: function () {
     return {
@@ -157,10 +173,15 @@ export default {
       drawingDialogVisible: false,
       screenSharing: false,
       unreadMsg: false,
-      recorders: {}
+      recorders: {},
+      inviteDialogVisible: false
     }
   },
   methods: {
+    showInviteDialog: function (status) {
+      this.inviteDialogVisible = status
+      this.hideAsideContainer()
+    },
     hideAsideContainer: function () {
       this.showMembers = false
       this.showDeviceSetting = false

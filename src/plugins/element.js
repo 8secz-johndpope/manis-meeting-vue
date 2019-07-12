@@ -1,8 +1,12 @@
 import Vue from 'vue'
 import '../assets/ui-themes/element-#30CA77/index.css'
 import {
+  Avatar,
+  Divider,
   Dialog,
   Checkbox,
+  CheckboxButton,
+  CheckboxGroup,
   Select,
   Option,
   Button,
@@ -42,8 +46,12 @@ import {
 // ...
 } from 'element-ui'
 
+Vue.component(Avatar.name, Avatar)
+Vue.component(Divider.name, Divider)
 Vue.component(Dialog.name, Dialog)
 Vue.component(Checkbox.name, Checkbox)
+Vue.component(CheckboxButton.name, CheckboxButton)
+Vue.component(CheckboxGroup.name, CheckboxGroup)
 Vue.component(Select.name, Select)
 Vue.component(Option.name, Option)
 Vue.component(Button.name, Button)

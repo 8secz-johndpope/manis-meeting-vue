@@ -28,11 +28,14 @@
     <el-row type="flex" justify="center" class="member-row room-member-row">
       <el-col :span="20">
         <el-row class="ctl-all-audio-row" :gutter="10" v-show="isModerator">
-          <el-col :span="12">
-            <el-button type="danger" @click="setRoomAudioMute(true)">全员静音</el-button>
+          <el-col :span="8">
+            <el-button type="default" size="small" @click="openInviteDialog">邀请参会</el-button>
           </el-col>
-          <el-col :span="12">
-            <el-button type="success" @click="setRoomAudioMute(false)">取消静音</el-button>
+          <el-col :span="8">
+            <el-button type="danger" size="small" @click="setRoomAudioMute(true)">全员静音</el-button>
+          </el-col>
+          <el-col :span="8">
+            <el-button type="success" size="small" @click="setRoomAudioMute(false)">取消静音</el-button>
           </el-col>
         </el-row>
         <el-collapse>
@@ -245,6 +248,10 @@ export default {
         console.log('handle set room audio status result: ', res)
         _this.allMute = status
       })
+    },
+
+    openInviteDialog: function () {
+      this.$emit('showInviteDialog', true)
     }
   },
   mounted: function () {

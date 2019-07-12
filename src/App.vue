@@ -387,4 +387,29 @@ export default {
     color: #fff !important;
   }
 
+  .invite-container .el-checkbox-button:first-child .el-checkbox-button__inner {
+    border-radius: 0px !important;
+  }
+
+  .invite-container .el-checkbox-button:last-child .el-checkbox-button__inner {
+    border-radius: 0px !important;
+  }
+
+  .invite-container .el-checkbox-button .el-checkbox-button__inner {
+    border-left: 1px solid #DCDFE6 !important;
+  }
+
+  .invite-container .el-checkbox-button {
+    margin: 5px;
+    border-radius: 0px;
+    border: 0px;
+  }
+
+  .invite-container img {
+    width: 32px;
+    height: 32px;
+    max-width: 32px;
+    max-height: 32px;
+  }
+
 </style>
