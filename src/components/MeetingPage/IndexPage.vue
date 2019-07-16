@@ -111,7 +111,9 @@
             :close-on-click-modal="false"
             :visible.sync="inviteDialogVisible"
           >
-            <invite-page></invite-page>
+            <invite-page
+            v-on:showInviteDialog="showInviteDialog"
+            ></invite-page>
           </el-dialog>
         </el-container>
       </div>

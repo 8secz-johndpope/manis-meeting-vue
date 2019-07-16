@@ -3,7 +3,7 @@
     <el-row>
       <el-col :span="24">
         <div class="text-right refresh">
-          <a href="javascript: void (0);" @click="getOnlineMyFriends">
+          <a href="javascript: void (0);" @click="getOnlineMyFriends(true)">
             <span class="el-icon-refresh"></span>
           </a>
         </div>
@@ -13,7 +13,7 @@
       </el-col>
       <el-col :span="24">
         <div class="grid-content bg-purple">
-          <el-checkbox-group v-model="checkedContacts" v-if="contacts.length" @change="checkedChanged">
+          <el-checkbox-group v-model="checkedContacts" @change="checkedChanged">
             <el-checkbox-button v-for="contact in contacts" :label="contact.nickname" :key="contact.mUserId">
               <el-avatar :size="32" :src="contact.photo" @error="errorHandler">
                 <img src="https://cube.elemecdn.com/e/fd/0fc7d20532fdaf769a25683617711png.png"/>
@@ -21,7 +21,6 @@
               <div class="nickname">{{ contact.nickname }}</div>
             </el-checkbox-button>
           </el-checkbox-group>
-          <div class="text-center" v-else>没有好友在线</div>
         </div>
       </el-col>
       <el-col :span="24">
@@ -47,8 +46,10 @@ export default {
   },
   data: function () {
     return {
+      timer: null,
       checkedContacts: [],
       contacts: [],
+      inRoomUsers: [],
       showCheckNotice: false
     }
   },
@@ -65,9 +66,37 @@ export default {
       }
     },
 
-    getOnlineMyFriends () {
+    getInRoomUsers () {
       let _this = this
-      _this.checkedContacts = []
+      Utils.getParticipateMembers(res => {
+        // console.log('---getInRoomUsers----', res)
+        _this.inRoomUsers = res
+      })
+    },
+
+    checkFriendIsInRoomYet (uid) {
+      let _this = this
+      let inRoom = false
+      if (!_this.inRoomUsers.length) {
+        return inRoom
+      }
+      _this.inRoomUsers.filter(item => {
+        if (item && item.jid) {
+          let jid = item.jid
+          if (jid.indexOf(uid) > -1) {
+            inRoom = true
+          }
+        }
+      })
+      return inRoom
+    },
+
+    getOnlineMyFriends (reset) {
+      let _this = this
+      _this.getInRoomUsers()
+      if (reset) {
+        _this.checkedContacts = []
+      }
       _this.contacts = []
       Utils.getContacts(_this.serverAddr, res => {
         if (res.obj) {
@@ -77,12 +106,20 @@ export default {
             // ignore offline users
             if (friend.clientType) {
               console.log('friend online', friend)
-              // @TODO ignore who was in room
-              _this.contacts.push(friend)
+              if (friend && !_this.checkFriendIsInRoomYet(friend.mUserId.toLowerCase())) {
+                _this.contacts.push(friend)
+              }
             }
           }
         }
       })
+      if (_this.timer) {
+        window.clearTimeout(_this.timer)
+        _this.timer = null
+      }
+      _this.timer = window.setTimeout(() => {
+        _this.getOnlineMyFriends(false)
+      }, 10000)
     },
 
     sendInvites () {
@@ -110,7 +147,7 @@ export default {
           }
         })
       }
-      // @TODO hide invite dialog
+      _this.$emit('showInviteDialog', false)
     }
   },
   computed: {
@@ -119,25 +156,21 @@ export default {
     }
   },
   mounted: function () {
-    this.getOnlineMyFriends()
+    this.getOnlineMyFriends(true)
+  },
+  beforeDestroy: function () {
+    if (this.timer) {
+      window.clearTimeout(this.timer)
+      this.timer = null
+    }
   }
 }
 </script>
 <style scoped>
-  .fetch-admin-row {
-    margin-top: 40px;
-  }
 
-  .number-row {
-    margin-top: 20px;
-  }
-
-  .number-row .grid-content {
+  .invite-container .grid-content {
     text-align: center;
-  }
-
-  .number-group {
-    margin: 20px auto;
+    min-height: 93px;
   }
 
   .el-select {
