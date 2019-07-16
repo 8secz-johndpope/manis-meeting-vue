@@ -13,7 +13,7 @@
 </template>
 <script>
 import Utils from '../../utils/utils'
-const {desktopCapturer} = require('electron')
+// const {desktopCapturer} = require('electron')  // @TODO uncomment this before publish
 
 export default {
   name: 'desktop-capture',
@@ -34,12 +34,13 @@ export default {
         window.clearTimeout(_this.timer)
         _this.timer = null
       }
-      desktopCapturer.getSources(
-        { types: ['window', 'screen'] },
-        (error, sources) => {
-          _this.captureSources = sources
-          _this.timer = window.setTimeout(_this.showSources, 2000)
-        })
+      // @TODO uncomment this before publish
+      // desktopCapturer.getSources(
+      //   { types: ['window', 'screen'] },
+      //   (error, sources) => {
+      //     _this.captureSources = sources
+      //     _this.timer = window.setTimeout(_this.showSources, 2000)
+      //   })
     },
 
     startCapture (id) {
