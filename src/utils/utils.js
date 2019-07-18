@@ -1788,7 +1788,7 @@ export default {
       .then(_this.parseJSON)
       .then(result => {
         if (result.mcode === 200) {
-          return callBack(result)
+          return callBack(result.obj)
         }
         console.warn('fetch my friends failed: ', result)
       }).catch((failed) => {
@@ -1821,5 +1821,99 @@ export default {
       },
       type
     )
+  },
+
+  /**
+   * search for available friends
+   * @param apiServer
+   * @param callBack
+   * @param keywords
+   */
+  searchAvailableFriends: function (apiServer, callBack, keywords) {
+    let _this = this
+    let url = 'https://' + apiServer +
+      '/clientApi/selectFriends/' + window.config.mUserId
+    if (keywords) {
+      url += '?search=' + keywords
+    }
+    window.fetch(url, {
+      headers: {
+        'userJid': (window.connection ? (window.connection.jid || '') : ''),
+        'token': (window.config ? (window.config.token || '') : '')
+      }
+    })
+      .then(_this.checkStatus)
+      .then(_this.parseJSON)
+      .then(result => {
+        if (result.mcode === 200) {
+          return callBack(result.obj)
+        }
+        console.warn('fetch my friends failed: ', result)
+      }).catch((failed) => {
+        console.error(failed)
+      })
+  },
+
+  /**
+   * add or update friend
+   * @param apiServer
+   * @param friendId
+   * @param nickname
+   * @param callBack
+   */
+  saveFriend: function (apiServer, friendId, nickname, callBack) {
+    let _this = this
+    let url = 'https://' + apiServer +
+      '/clientApi/friends/' + window.config.mUserId + '/' + friendId
+    window.fetch(url, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'userJid': (window.connection ? (window.connection.jid || '') : ''),
+        'token': (window.config ? (window.config.token || '') : '')
+      },
+      body: JSON.stringify({
+        nickname: nickname
+      })
+    })
+      .then(_this.checkStatus)
+      .then(_this.parseJSON)
+      .then(result => {
+        if (result.mcode === 200) {
+          return callBack(result)
+        }
+        console.warn('add friend failed: ', result)
+      }).catch((failed) => {
+        console.error(failed)
+      })
+  },
+
+  /**
+   * delete friend
+   * @param apiServer
+   * @param friendId
+   * @param callBack
+   */
+  deleteFriend: function (apiServer, friendId, callBack) {
+    let _this = this
+    let url = 'https://' + apiServer +
+      '/clientApi/friends/' + window.config.mUserId + '/' + friendId
+    window.fetch(url, {
+      method: 'DELETE',
+      headers: {
+        'userJid': (window.connection ? (window.connection.jid || '') : ''),
+        'token': (window.config ? (window.config.token || '') : '')
+      }
+    })
+      .then(_this.checkStatus)
+      .then(_this.parseJSON)
+      .then(result => {
+        if (result.mcode === 200) {
+          return callBack(result)
+        }
+        console.warn('add friend failed: ', result)
+      }).catch((failed) => {
+        console.error(failed)
+      })
   }
 }

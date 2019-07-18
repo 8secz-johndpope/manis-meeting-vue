@@ -412,4 +412,69 @@ export default {
     max-height: 32px;
   }
 
+  .contact-image img{
+    width: 64px;
+    height: 64px;
+    border-radius: 50%;
+    margin: 10px auto;
+  }
+
+  .contact-card .el-input__inner {
+    text-align: center;
+    border: 0px;
+    background: no-repeat;
+    color: #fff;
+    border-bottom: 1px solid;
+    border-radius: 0px;
+    margin-bottom: 10px;
+  }
+
+  .contact-show-box .el-dialog__header, .contact-show-box .el-dialog__title {
+    background: #3E4459;
+    color: #ffffff;
+  }
+
+  .contact-show-box .el-dialog__body {
+    background: -webkit-gradient(
+      linear,
+      10% 10%,
+      100% 100%,
+      color-stop(0.24, rgb(62, 68, 89)),
+      color-stop(0.74, rgb(99, 100, 109)),
+      color-stop(1, rgb(137, 135, 136))
+    ) !important;
+    border: 0px !important;
+    color: #ffffff !important;
+  }
+
+  .contact-add-container .el-autocomplete {
+    width: 100%;
+  }
+
+  .contact-add-container .el-input__inner {
+    border: 0px;
+    background: no-repeat;
+    color: #fff;
+    border-bottom: 1px solid;
+    border-radius: 0px;
+    margin-bottom: 10px;
+  }
+
+  .contact-add-container .el-dialog__header, .contact-add-container .el-dialog__title {
+    background: #3E4459;
+    color: #ffffff;
+  }
+
+  .contact-add-container .el-dialog__body {
+    background: -webkit-gradient(
+      linear,
+      10% 10%,
+      100% 100%,
+      color-stop(0.24, rgb(62, 68, 89)),
+      color-stop(0.74, rgb(99, 100, 109)),
+      color-stop(1, rgb(137, 135, 136))
+    ) !important;
+    border: 0px !important;
+    color: #ffffff !important;
+  }
 </style>

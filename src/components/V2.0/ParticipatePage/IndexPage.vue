@@ -13,8 +13,16 @@
         </el-button>
       </el-header>
       <el-main>
-        <anonymous-page v-show="!authorised" v-on:doAttendIntoRoom="doAttendIntoRoom"></anonymous-page>
-        <authorised-page v-show="authorised" v-on:doAttendIntoRoom="doAttendIntoRoom"></authorised-page>
+        <anonymous-page v-show="!authorised"
+                        v-on:doAttendIntoRoom="doAttendIntoRoom"
+        ></anonymous-page>
+        <authorised-page v-show="authorised"
+                         ref="authorisedPage"
+                         v-on:doAttendIntoRoom="doAttendIntoRoom"
+                         v-on:showContactDetail="showContact"
+                         v-on:callSomeone="callSomeone"
+                         v-on:showAddContactForm="showAddContactForm"
+        ></authorised-page>
         <device-selector-page
         v-on:videoInputChange="videoInChange"
         v-on:audioInputChange="audioInChange"
@@ -27,6 +35,80 @@
     </div>
     <div class="local-audio-box">
       <audio autoplay class="local-audio" id="local-audio"></audio>
+    </div>
+    <div class="contact-show-box">
+      <el-dialog
+        v-if="contactDetail"
+        :title="contactDetail.userName"
+        :visible.sync="contactDialogVisible"
+        width="30%">
+        <div class="contact-detail">
+          <el-row>
+            <el-col :span="24">
+              <div shadow="never" class="contact-card">
+                <el-image :src="contactDetail.photo" class="contact-image">
+                  <div slot="error" class="image-slot">
+                    <i class="el-icon-picture-outline"></i>
+                  </div>
+                </el-image>
+                <div style="padding: 14px;">
+                  <!--<span>{{ contactDetail.nickname }}</span>-->
+                  <div class="bottom clearfix">
+                    <time class="time" v-show="!showEditContact">{{ contactDetail.nickname }}</time>
+                    <el-row :gutter="10" v-show="showEditContact">
+                      <el-col :span="8" :offset="8">
+                        <el-input v-model="contactDetail.nickname" :style="{textAlign: 'center'}" placeholder="请输入新昵称" @keyup.enter.native="updateContactComment"></el-input>
+                      </el-col>
+                    </el-row>
+                    <el-button type="text" class="button" v-show="!showEditContact" @click.stop="showEditContact=true">
+                      <small>编辑</small>
+                    </el-button>
+                  </div>
+                  <div class="bottom clearfix">
+                    <a class="contact-mail-to" :href="'mailto:' + contactDetail.email">{{ contactDetail.email }}</a>
+                  </div>
+                </div>
+              </div>
+            </el-col>
+            <el-col :span="24">
+              <div class="contact-actions text-center">
+                <el-button type="danger" round size="small" @click="deleteContact(contactDetail)">删 除</el-button>
+                <el-button type="primary" round size="small" @click="callSomeone(contactDetail)" :disabled="!contactDetail.onLine">呼 叫</el-button>
+              </div>
+            </el-col>
+          </el-row>
+        </div>
+      </el-dialog>
+    </div>
+    <div class="contact-add-container">
+      <el-dialog
+        title="添加联系人"
+        :visible.sync="contactAddDialogVisible"
+        width="30%">
+        <div class="contact-add-form">
+          <el-form :model="addContactForm" :rules="rules" ref="addContactForm" label-width="0px" class="demo-ruleForm">
+            <el-form-item label="" prop="contactSelector">
+              <el-autocomplete
+                v-model="addContactForm.contactSelector"
+                :fetch-suggestions="querySearchAsync"
+                placeholder="请输入用户名或者邮箱进行搜索"
+                @select="handleContactSelect"
+                clearable
+              ></el-autocomplete>
+            </el-form-item>
+            <el-form-item label="" prop="contactComment">
+              <el-input
+                v-model="addContactForm.contactComment"
+                placeholder="请输入用户备注"
+                clearable
+              ></el-input>
+            </el-form-item>
+            <el-form-item>
+              <el-button type="primary" @click="submitAddContactForm('addContactForm')" size="small" plain round>立即添加</el-button>
+            </el-form-item>
+          </el-form>
+        </div>
+      </el-dialog>
     </div>
   </div>
 </template>
@@ -49,7 +131,25 @@ export default {
       localVideo: null,
       localAudio: null,
       audioMute: false,
-      videoMute: false
+      videoMute: false,
+      contactDialogVisible: false,
+      contactDetail: null,
+      showEditContact: false,
+      contactAddDialogVisible: false,
+      activeFriend: null,
+      addContactForm: {
+        contactSelector: null,
+        contactComment: ''
+      },
+      rules: {
+        contactSelector: [
+          { required: true, message: '请选择需要添加的联系人', trigger: ['blur', 'change'] }
+        ],
+        contactComment: [
+          { required: true, message: '请输入用户备注', trigger: ['blur', 'change'] },
+          { min: 1, max: 16, message: '长度在 3 到 5 个字符', trigger: ['blur', 'change'] }
+        ]
+      }
     }
   },
   methods: {
@@ -209,6 +309,142 @@ export default {
         name: 'meeting',
         params: params
       })
+    },
+
+    /**
+     * show contact
+     * @param contact
+     */
+    showContact (contact) {
+      this.contactDetail = contact
+      this.contactDialogVisible = true
+    },
+
+    /**
+     * show add new contact form
+     */
+    showAddContactForm () {
+      console.log('will show add new contact form ')
+      this.contactAddDialogVisible = true
+    },
+
+    /**
+     * selected friend changed
+     * @param item
+     */
+    handleContactSelect (item) {
+      this.addContactForm.contactSelector = item.value
+      this.addContactForm.contactComment = item.value
+      this.activeFriend = item.obj
+    },
+
+    /**
+     * search friends
+     * @param queryString
+     * @param cb
+     */
+    querySearchAsync (queryString, cb) {
+      let _this = this
+      Utils.searchAvailableFriends(
+        _this.serverAddr,
+        res => {
+          cb(res.map(item => {
+            return {
+              obj: item,
+              value: item.userName
+            }
+          }))
+        },
+        queryString
+      )
+    },
+
+    /**
+     * refresh contacts list
+     */
+    contactsChanged () {
+      this.$refs.authorisedPage.getMyContacts()
+    },
+
+    /**
+     * submit add friend
+     * @param formName
+     */
+    submitAddContactForm (formName) {
+      let _this = this
+      _this.$refs[formName].validate((valid) => {
+        if (valid) {
+          let friendId = _this.activeFriend.mUserId.toLowerCase() || ''
+          if (!friendId) {
+            Utils.notification(_this, '添加好友失败', 'error')
+            return false
+          }
+          Utils.saveFriend(
+            _this.serverAddr,
+            _this.activeFriend.mUserId,
+            _this.addContactForm.contactComment,
+            res => {
+              if (res.mcode === 200) {
+                Utils.notification(_this, '添加联系人成功', 'success')
+              }
+              _this.contactAddDialogVisible = false
+              _this.activeFriend = null
+              _this.addContactForm.contactComment = ''
+              _this.addContactForm.contactSelector = null
+              _this.contactsChanged()
+            }
+          )
+        } else {
+          console.log('error submit!!')
+          return false
+        }
+      })
+    },
+
+    /**
+     * remove someone
+     * @param contact
+     */
+    deleteContact (contact) {
+      let _this = this
+      Utils.deleteFriend(
+        _this.serverAddr,
+        contact.mUserId,
+        res => {
+          console.log('contact ', contact, 'has been removed', res)
+          _this.contactDialogVisible = false
+          _this.contactDetail = null
+          _this.contactsChanged()
+        }
+      )
+    },
+
+    /**
+     * update contact
+     */
+    updateContactComment () {
+      let _this = this
+      console.log('handle update contact comment', this.contactDetail)
+      Utils.saveFriend(
+        _this.serverAddr,
+        _this.contactDetail.mUserId,
+        _this.contactDetail.nickname,
+        res => {
+          console.log(res)
+          Utils.notification(_this, '用户备注已更新')
+          _this.contactsChanged()
+        }
+      )
+      this.showEditContact = false
+    },
+
+    /**
+     * call someone
+     * @param contact
+     */
+    callSomeone (contact) {
+      // @TODO call someone and show loading
+      console.log('will call someone and show loading', contact)
     }
   },
   computed: {
@@ -345,4 +581,17 @@ export default {
     display: none;
   }
 
+  .contact-card {
+    border: 0px;
+    text-align: center;
+  }
+
+  .text-center {
+    text-align: center;
+  }
+
+  a.contact-mail-to, a.contact-mail-to:visited, a.contact-mail-to:focus {
+    text-decoration: none;
+    color: rgba(255, 255, 255, 1);
+  }
 </style>

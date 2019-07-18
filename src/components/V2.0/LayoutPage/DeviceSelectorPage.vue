@@ -147,6 +147,9 @@ export default {
       // console.log('--------------------************************************************-------------------\r\n')
       // console.log('---storeVal---', storeVal, '\r\n --------storeItems-----', storeItems, '\r\n----------storeItems[0]-----', storeItems[0], '\r\n -----------audioInputOptions---------', _this.audioInputOptions)
       // console.log('--------------------************************************************-------------------\r\n')
+      if (!storeItems[0]) {
+        return false
+      }
       this.deviceForm.audioInput = storeItems[0].value
     },
     getStoreAudioOut: function () {
@@ -160,6 +163,9 @@ export default {
       if (!storeItems.length && _this.audioOutputOptions.length) {
         storeItems[0] = _this.audioOutputOptions[0]
       }
+      if (!storeItems[0]) {
+        return false
+      }
       this.deviceForm.audioOutput = storeItems[0].value
     },
     getStoreVideoIn: function () {
@@ -172,6 +178,9 @@ export default {
       })
       if (!storeItems.length && _this.videoInputOptions.length) {
         storeItems[0] = _this.videoInputOptions[0]
+      }
+      if (!storeItems[0]) {
+        return false
       }
       this.deviceForm.videoInput = storeItems[0].value
     },

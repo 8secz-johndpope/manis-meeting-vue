@@ -35,7 +35,9 @@ import {
   Collapse,
   CollapseItem,
   Badge,
-  Card
+  Card,
+  Link,
+  Image
 // OptionGroup,
 // Autocomplete,
 // MenuItemGroup,
@@ -81,6 +83,8 @@ Vue.component(Collapse.name, Collapse)
 Vue.component(CollapseItem.name, CollapseItem)
 Vue.component(Badge.name, Badge)
 Vue.component(Card.name, Card)
+Vue.component(Link.name, Link)
+Vue.component(Image.name, Image)
 // Vue.component(OptionGroup.name, OptionGroup)
 // Vue.component(Autocomplete.name, Autocomplete)
 // Vue.component(MenuItemGroup.name, MenuItemGroup)

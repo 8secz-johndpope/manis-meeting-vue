@@ -98,9 +98,8 @@ export default {
         _this.checkedContacts = []
       }
       _this.contacts = []
-      Utils.getContacts(_this.serverAddr, res => {
-        if (res.obj) {
-          let friends = res.obj
+      Utils.getContacts(_this.serverAddr, friends => {
+        if (friends.length) {
           for (let i = 0; i < friends.length; i++) {
             let friend = friends[i]
             // ignore offline users

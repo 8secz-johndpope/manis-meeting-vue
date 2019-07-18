@@ -20,6 +20,11 @@
                   <small>历史会议</small>
                 </el-col>
               </a>
+              <a href="javascript: void (0);" @click="handleClick('contacts')">
+                <el-col :span="6" :class="['type-tab text-center', {'active-tab': activeName === 'contacts'}]">
+                  <small>联系人</small>
+                </el-col>
+              </a>
               <a href="javascript: void (0);">
                 <el-col :span="5" :offset="7" class="type-tab text-center hidden">
                   <span class="el-icon-date"></span>
@@ -29,7 +34,7 @@
             </el-row>
             <el-row :gutter="10">
               <div class="conferences-list-content">
-                <el-row :gutter="10">
+                <el-row :gutter="10" v-show="activeName !== 'contacts'">
                   <el-col :span="24">
                     <div class="meeting-item" v-for="(item, index) in conferences" :key="index">
                       <el-popover
@@ -95,24 +100,6 @@
                           </el-row>
                         </div>
                         <el-row :gutter="10" slot="reference">
-                          <!--<el-col :span="4">
-                            <div class="text-center conference-status">{{ item | formatMeetingStatus}}</div>
-                          </el-col>
-                          <el-col :span="12">
-                            <div class="meeting-item-date text-center">
-                              <small>{{ item.startTime | formatDateTime }}</small>
-                            </div>
-                            <div class="meeting-item-title text-center">
-                              <span>{{ item.title | formatTitle}}</span>
-                            </div>
-                            <div class="meeting-item-title text-center">
-                              <div>
-                                <span>( </span>
-                                <small>{{ item.cNumber }}</small>
-                                <span>) </span>
-                              </div>
-                            </div>
-                          </el-col>-->
                           <el-col :span="6" class="conference-type">
                             <div class="text-center">
                               <small>{{ item | formatMeetingStatus}}</small>
@@ -148,104 +135,53 @@
                     </div>
                   </el-col>
                 </el-row>
+                <el-row :gutter="10" v-show="activeName === 'contacts'">
+                  <el-col :span="24">
+                    <div class="meeting-item" v-for="(item, index) in contacts" :key="index" @click="showContact(item)">
+                      <el-row :gutter="10" >
+                        <el-col :span="6" class="conference-type">
+                          <div class="text-center">
+                            <small>{{ item.nickname }}</small>
+                          </div>
+                        </el-col>
+                        <el-col :span="12">
+                          <el-col :span="24" class="conference-title">
+                            <small>
+                              <el-link class="off-line-status" v-if="!item.onLine" type="info">off-line</el-link>
+                              <el-link class="on-line-status" v-else type="success">on-line</el-link>
+                            </small>
+                          </el-col>
+                          <el-col :span="24">
+                            <small class="extra-start-time">
+                              {{ item.email }}
+                            </small>
+                          </el-col>
+                        </el-col>
+                        <el-col :span="6" class="conference-join" v-show="item.onLine">
+                          <div class="contact-item-edit">
+                            <el-button class="participate-btn call-btn" type="success" round size="mini" @click.stop="videoCall(item)">
+                              <span>呼 叫</span>
+                            </el-button>
+                          </div>
+                        </el-col>
+                        <el-col :span="6" class="conference-join" v-show="!item.onLine">
+                          <div class="contact-item-edit">
+                            <el-button class="participate-btn" type="success" round size="mini" @click.stop="showContact(item)">
+                              <span>详 情</span>
+                            </el-button>
+                          </div>
+                        </el-col>
+                      </el-row>
+                    </div>
+                  </el-col>
+                  <el-col :span="24">
+                    <div class="add-contact-box text-center">
+                      <el-button class="participate-btn" round type="success"  size="mini" @click="showAddContact">+ 添加联系人</el-button>
+                    </div>
+                  </el-col>
+                </el-row>
               </div>
             </el-row>
-            <!--<el-row :gutter="10" class="tab-title-box">
-              <el-col :span="24">
-                <el-tabs v-model="activeName" @tab-click="handleClick" class="authorised-tabs">
-                  <el-tab-pane label="我的会议" name="upcoming">
-                    <template>
-                      <el-row :gutter="10">
-                        <el-col :span="24">
-                          <div class="meeting-item" v-for="(item, index) in conferences" :key="index">
-                            <el-row :gutter="10">
-                              <el-col :span="4">
-                                <div class="text-center conference-status">{{ item | formatMeetingStatus}}</div>
-                              </el-col>
-                              <el-col :span="12">
-                                <div class="meeting-item-date text-center">
-                                  <small>{{ item.startTime | formatDateTime }}</small>
-                                </div>
-                                <div class="meeting-item-title text-center">
-                                  <span>{{ item.title | formatTitle}}</span>
-                                </div>
-                                <div class="meeting-item-title text-center">
-                                  <div>
-                                    <span>( </span>
-                                    <small>{{ item.cNumber }}</small>
-                                    <span>) </span>
-                                  </div>
-                                </div>
-                              </el-col>
-                              <el-col :span="8">
-                                <div class="meeting-item-participate">
-                                  <el-button round size="mini" @click="joinRoom(item.cNumber)">
-                                    <span>加入会议</span>
-                                  </el-button>
-                                </div>
-                              </el-col>
-                            </el-row>
-                          </div>
-                        </el-col>
-                        <el-col :span="24">
-                          <div class="load-more text-center">
-                            <el-button round :type="moreBtnType" size="mini" @click="getConferences(activePage, conferencesCount)" :disabled="moreBtnDisabled">{{ moreBtnTitle }}</el-button>
-                          </div>
-                        </el-col>
-                      </el-row>
-                    </template>
-                  </el-tab-pane>
-                  <el-tab-pane label="历史会议" name="history">
-                    <template>
-                      <el-row :gutter="10" id="history-conferences">
-                        <el-col :span="24">
-                          <div class="meeting-item" v-for="(item, index) in conferences" :key="index">
-                            <el-row :gutter="10">
-                              <el-col :span="4">
-                                <div class="text-center conference-status">{{ item | formatMeetingStatus}}</div>
-                              </el-col>
-                              <el-col :span="12">
-                                <div class="meeting-item-date text-center">
-                                  <small>{{ item.startTime | formatDateTime }}</small>
-                                </div>
-                                <div class="meeting-item-title text-center">
-                                  <span>{{ item.title | formatTitle}}</span>
-                                </div>
-                                <div class="meeting-item-title text-center">
-                                  <div>
-                                    <span>( </span>
-                                    <small>{{ item.cNumber }}</small>
-                                    <span>) </span>
-                                  </div>
-                                </div>
-                              </el-col>
-                              &lt;!&ndash; <el-col :span="8">
-                                <div class="meeting-item-participate">
-                                  <el-button round size="mini">
-                                    <span>加入会议</span>
-                                  </el-button>
-                                </div>
-                              </el-col> &ndash;&gt;
-                            </el-row>
-                          </div>
-                        </el-col>
-                        <el-col :span="24">
-                          <div class="load-more text-center">
-                            <el-button round :type="moreBtnType" size="mini" @click="getConferences(activePage, conferencesCount)" :disabled="moreBtnDisabled">{{ moreBtnTitle }}</el-button>
-                          </div>
-                        </el-col>
-                      </el-row>
-                    </template>
-                  </el-tab-pane>
-                  <el-tab-pane>
-                    <span slot="label"><v-icon name="regular/calendar-plus"></v-icon></span>
-                    <template>
-                      预约会议表单
-                    </template>
-                  </el-tab-pane>
-                </el-tabs>
-              </el-col>
-            </el-row>-->
           </div>
         </el-col>
         <el-col :span="24">
@@ -299,14 +235,28 @@ export default {
       conferences: [],
       moreBtnTitle: '加载更多...',
       moreBtnDisabled: false,
-      moreBtnType: ''
+      moreBtnType: '',
+      contacts: []
     }
   },
   methods: {
+    showContact (item) {
+      this.$emit('showContactDetail', item)
+    },
+    videoCall (item) {
+      console.log('will send video call to ', item)
+      this.$emit('callSomeone', item)
+    },
+    showAddContact () {
+      this.$emit('showAddContactForm')
+    },
     handleClick (activeType) {
       let _this = this
       _this.activeName = activeType
       console.log('handle tab click event: ', _this.activeName)
+      if (_this.activeName === 'contacts') {
+        _this.getMyContacts()
+      }
       _this.conferences = []
       _this.activePage = 1
       _this.conferencesCount = 0
@@ -315,6 +265,19 @@ export default {
       _this.moreBtnType = ''
       _this.getConferences(_this.activePage, _this.conferencesCount)
     },
+
+    getMyContacts () {
+      let _this = this
+      Utils.getContacts(
+        _this.apiServer,
+        res => {
+          if (res.length) {
+            _this.contacts = res
+          }
+        }
+      )
+    },
+
     getConferences (page, count) {
       let _this = this
       if (!_this.apiServer || !window.config.mUserId) {
@@ -440,6 +403,7 @@ export default {
 
   .conferences-list-content {
     height: calc(100vh - 360px);
+    width: 100%;
     overflow-y: scroll;
     overflow-x: hidden;
     float: left;
@@ -575,6 +539,28 @@ export default {
 
   .hidden {
     display: none;
+  }
+
+  .on-line-status {
+    padding: 0px 6px;
+    color: #37C478;
+    border: 1px solid #37C478;
+    border-radius: 7.5px;
+  }
+
+  .off-line-status {
+    padding: 0px 6px;
+    color: gray;
+    border: 1px solid gray;
+    border-radius: 7.5px;
+  }
+
+  .call-btn {
+    background-color: #37C478 !important;
+  }
+
+  .add-contact-box {
+    padding: 12px;
   }
 
 </style>
