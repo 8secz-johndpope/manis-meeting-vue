@@ -410,7 +410,7 @@ export default {
    * @param stream
    * @returns {*}
    */
-  participantRoom: function (room, pass, succ, err, stream) {
+  participantIntoRoom: function (room, pass, succ, err, stream) {
     return Manis.joinConference(room, pass, succ, err, false, stream)
   },
 
@@ -1797,33 +1797,6 @@ export default {
   },
 
   /**
-   * send invite to some one
-   * @param receiver
-   * @param room
-   * @param pass
-   * @param type
-   * @param callBack
-   */
-  sendInvite: function (receiver, room, pass, type, callBack) {
-    let _this = this
-    Manis.ringUp(
-      receiver,
-      room,
-      pass,
-      success => {
-        if (success.errorCode === _this.noErr) {
-          return callBack(success)
-        }
-        console.warn('send invite failed: ', success)
-      },
-      error => {
-        console.error('send invite in error: ', error)
-      },
-      type
-    )
-  },
-
-  /**
    * search for available friends
    * @param apiServer
    * @param callBack
@@ -1915,5 +1888,155 @@ export default {
       }).catch((failed) => {
         console.error(failed)
       })
+  },
+
+  /**
+   * send invite to some one
+   * @param receiver
+   * @param room
+   * @param pass
+   * @param type
+   * @param callBack
+   */
+  sendInvite: function (receiver, room, pass, type, callBack) {
+    let _this = this
+    Manis.ringUp(
+      receiver,
+      room,
+      pass,
+      success => {
+        if (success.errorCode === _this.noErr) {
+          return callBack(success)
+        }
+        console.warn('send invite failed: ', success)
+      },
+      error => {
+        console.error('send invite in error: ', error)
+      },
+      type
+    )
+  },
+
+  /**
+   * handle invite
+   * @param callBack
+   */
+  onInvite: function (callBack) {
+    let _this = this
+    if (_this.inviteEnv) {
+      _this.inviteEnv = null
+    }
+    _this.inviteEnv = Manis.onRingUp(function (res) {
+      if (res.errorCode === _this.noErr) {
+        callBack(res.response)
+      }
+    })
+  },
+
+  /**
+   * response invite
+   * @param room
+   * @param action
+   * @param inviter
+   * @param callBack
+   */
+  responseInvite: function (room, action, inviter, callBack) {
+    let _this = this
+    Manis.responseRingUp(
+      room,
+      '',
+      (action === 'accept'),
+      inviter,
+      res => {
+        if (res.errorCode === _this.noErr) {
+          _this.broadcastInviteBeMake()
+          return callBack(res)
+        }
+        console.error(res)
+      }
+    )
+  },
+
+  /**
+   * broadcast invite has been make
+   */
+  broadcastInviteBeMake: function () {
+    let _this = this
+    Manis.sendRingCallProcessed(res => {
+      if (res.errorCode === _this.noErr) {
+        return console.log(res)
+      }
+      return console.error(res)
+    })
+  },
+
+  /**
+   * handle invite be make by others, hide ring toast
+   * @param callBack
+   */
+  handleInviteBeMake: function (callBack) {
+    let _this = this
+    if (_this.inviteBeMakeEnv) {
+      _this.inviteBeMakeEnv = null
+    }
+    _this.inviteBeMakeEnv = Manis.onRingCallProcessed(function (res) {
+      if (res.errorCode === _this.noErr) {
+        callBack(res)
+      }
+    })
+  },
+
+  /**
+   * handle invite response
+   * @param callBack
+   */
+  onInviteResponse: function (callBack) {
+    let _this = this
+    if (_this.inviteResponseEnv) {
+      _this.inviteResponseEnv = null
+    }
+    _this.inviteResponseEnv = Manis.onRingUpResponse(function (res) {
+      if (res.errorCode === _this.noErr) {
+        callBack(res.response)
+      }
+    })
+  },
+
+  /**
+   * notice accepter room is ready
+   * @param inviteAccepter
+   * @param room
+   * @param pass
+   * @param callBack
+   */
+  noticeRoomReady: function (inviteAccepter, room, pass, callBack) {
+    let _this = this
+    Manis.sendRoomComplete(
+      inviteAccepter,
+      room,
+      pass,
+      res => {
+        if (res.errorCode === _this.noErr) {
+          return callBack(res)
+        }
+        return console.error(res)
+      }
+    )
+  },
+
+  /**
+   * handle room ready event
+   * @param callBack
+   */
+  onRoomReadyNotice: function (callBack) {
+    let _this = this
+    if (_this.roomReadyEnv) {
+      _this.roomReadyEnv = null
+    }
+    _this.roomReadyEnv = Manis.onRoomComplete(function (res) {
+      if (res.errorCode === _this.noErr) {
+        callBack(res.response)
+      }
+    })
   }
 }

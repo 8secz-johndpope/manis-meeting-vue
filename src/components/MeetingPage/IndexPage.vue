@@ -404,7 +404,7 @@ export default {
       console.log('will do participant room:  ', room)
       let _this = this
       _this.loadingShow()
-      Utils.participantRoom(
+      Utils.participantIntoRoom(
         room,
         _this.roomPass,
         res => {
@@ -517,6 +517,18 @@ export default {
           value: attendRoomNum,
           label: attendRoomNum
         })
+      }
+      let inviteAccepter = _this.$route.params.invite || ''
+      if (inviteAccepter) {
+        let roomPass = _this.$route.params.code || ''
+        Utils.noticeRoomReady(
+          inviteAccepter,
+          attendRoomNum,
+          roomPass,
+          res => {
+            console.log('handle send room ready notification result', res)
+          }
+        )
       }
     },
 

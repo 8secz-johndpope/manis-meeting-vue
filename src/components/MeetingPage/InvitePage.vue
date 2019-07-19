@@ -31,7 +31,7 @@
           <div class="text-danger">请选择您要邀请加入会议的在线好友</div>
         </div>
         <div class="text-right">
-          <el-button type="info" size="small" round plain @click="sendInvites">发送邀请</el-button>
+          <el-button type="info" size="small" round plain @click="sendOnLineInvite">发送邀请</el-button>
         </div>
       </el-col>
     </el-row>
@@ -121,7 +121,7 @@ export default {
       }, 10000)
     },
 
-    sendInvites () {
+    sendOnLineInvite () {
       let _this = this
       if (!_this.checkedContacts.length) {
         _this.showCheckNotice = true

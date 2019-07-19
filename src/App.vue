@@ -201,6 +201,132 @@ export default {
           devices: _this.audioOutputOptions
         })
       })
+    },
+
+    /**
+     * 影藏呼叫/被叫提示框
+     * @param id
+     */
+    hideRingCallToast: function (id) {
+      let _this = this
+      let element = id || '#ring_call_toast'
+      if (element && document.querySelector(element)) {
+        _this.$toast.hide(element)
+      }
+    },
+
+    /**
+     * 注册被叫事件
+     */
+    handleInvite: function () {
+      let _this = this
+      Utils.onInvite(invite => {
+        console.log('----------handleInviteFrom----------', invite)
+        _this.$toast.info(invite.roomName, invite.nickname + '邀请您加入会议: ', {
+          timeout: (1000 * 58),
+          close: false,
+          id: 'ring_call_toast',
+          overlay: true,
+          position: 'center',
+          buttons: [
+            [
+              '<button><b>谢 绝</b></button>',
+              function (instance, toast) {
+                _this.responseInvite(invite, 'reject')
+                instance.hide({transitionOut: 'fadeOut'}, toast, 'button')
+              },
+              true
+            ],
+            [
+              '<button><b>接 受</b></button>',
+              function (instance, toast) {
+                _this.responseInvite(invite, 'accept')
+                instance.hide({transitionOut: 'fadeOut'}, toast, 'button')
+              },
+              true
+            ]
+          ]
+        })
+      })
+    },
+
+    /**
+     * 相应被叫
+     * @param invite
+     * @param action
+     */
+    responseInvite: function (invite, action) {
+      let _this = this
+      if (invite.callType === '2' && action === 'accept') {
+        _this.hideRingCallToast()
+        _this.showPrepare()
+        _this.attendIntoInviteRoom(invite.roomName, invite.password)
+        return false
+      }
+      Utils.responseInvite(
+        invite.roomName,
+        action,
+        invite.uuid,
+        res => {
+          console.log('response invite has been sent', res)
+          _this.hideRingCallToast()
+          if (action === 'accept') {
+            _this.showPrepare()
+          }
+        }
+      )
+    },
+
+    showPrepare: function () {
+      let _this = this
+      _this.$toast.show('初始化资源...', '准备接入会议室: ', {
+        timeout: 3000,
+        close: false,
+        id: 'prepare_toast',
+        overlay: true,
+        position: 'center'
+      })
+    },
+
+    /**
+     * 监听被叫被其他客户端处理
+     */
+    handleInviteBeenMake: function () {
+      let _this = this
+      Utils.handleInviteBeMake(res => {
+        console.log('handle invite been make by other client', res)
+        _this.hideRingCallToast()
+      })
+    },
+
+    /**
+     * 监听房间已经准备好的通知,进入房间
+     */
+    handleRoomReadyNotice: function () {
+      let _this = this
+      Utils.onRoomReadyNotice(res => {
+        console.log('handle room ready event', res)
+        _this.attendIntoInviteRoom(res.roomNumber, res.roomPassword)
+      })
+    },
+
+    /**
+     * 进入邀请我加入的会议
+     * @param room
+     * @param pass
+     */
+    attendIntoInviteRoom: function (room, pass) {
+      let _this = this
+      let params = {
+        roomNumber: room,
+        mode: 'authorised',
+        code: (pass || '')
+      }
+      _this.hideRingCallToast('#prepare_toast')
+      _this.$router.push({
+        name: 'meeting',
+        params: params
+      })
     }
   },
   computed: {
@@ -218,6 +344,9 @@ export default {
       action: 'app-ready'
     })
     this.handleMsgFromIPCMain()
+    this.handleInvite()
+    this.handleInviteBeenMake()
+    this.handleRoomReadyNotice()
   }
 }
 </script>

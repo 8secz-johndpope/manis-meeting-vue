@@ -128,6 +128,8 @@ export default {
   },
   data: function () {
     return {
+      myRoomNum: '',
+      myRoomPass: '',
       localVideo: null,
       localAudio: null,
       audioMute: false,
@@ -153,6 +155,24 @@ export default {
     }
   },
   methods: {
+    /**
+     * get my private room for call
+     */
+    getPrivateMeeting () {
+      let _this = this
+      Utils.getPrivateRoom(
+        _this.serverAddr,
+        window.config,
+        function (res) {
+          console.log('handle private room result: ', res)
+          if (res.mcode === 200) {
+            _this.myRoomNum = window.config.cNumber
+            _this.myRoomPass = res.obj.meetPassword || ''
+          }
+        }
+      )
+    },
+
     /**
        * 变更视频输入设备
        * @param device
@@ -439,12 +459,95 @@ export default {
     },
 
     /**
+     * handle ring call dialog
+     * @param id
+     */
+    hideRingCallToast: function (id) {
+      let _this = this
+      let element = id || '#ring_call_toast'
+      if (element && document.querySelector(element)) {
+        _this.$toast.hide(element)
+      }
+    },
+
+    /**
      * call someone
      * @param contact
      */
     callSomeone (contact) {
-      // @TODO call someone and show loading
+      let _this = this
       console.log('will call someone and show loading', contact)
+      if (!_this.myRoomNum) {
+        console.warn('can not find room for call others')
+        _this.getPrivateMeeting()
+        return false
+      }
+      Utils.sendInvite(
+        contact.mUserId.toLowerCase(),
+        _this.myRoomNum,
+        _this.myRoomPass,
+        '0',
+        res => {
+          if (res.errorCode === '000000') {
+            try {
+              _this.showCallProgress(contact)
+            } catch (e) {
+              console.error(e)
+            }
+          }
+        }
+      )
+    },
+
+    /**
+     * show ring call progress
+     * @param contact
+     */
+    showCallProgress (contact) {
+      let _this = this
+      _this.$toast.show(contact.nickname, '正在呼叫', {
+        timeout: (1000 * 60),
+        close: false,
+        id: 'ring_call_toast',
+        overlay: true,
+        image: contact.photo,
+        position: 'center',
+        buttons: [
+          // [
+          //   '<button><b>取消呼叫</b></button>',
+          //   function (instance, toast) {
+          //     instance.hide({transitionOut: 'fadeOut'}, toast, 'button')
+          //   },
+          //   true
+          // ]
+        ]
+      })
+    },
+
+    /**
+     * handle invite response
+     */
+    handleInviteResponse () {
+      let _this = this
+      Utils.onInviteResponse(res => {
+        _this.hideRingCallToast()
+        if (res.answer === 'reject') {
+          Utils.notification(_this, res.nickname + '拒绝了你的会议邀请', 'error')
+          return false
+        } else if (res.answer === 'busy') {
+          Utils.notification(_this, res.nickname + '正在忙线中')
+          return false
+        } else if (res.answer === 'accept') {
+          Utils.notification(_this, res.nickname + '接受了你的会议邀请, 正在等待加入房间', 'success')
+          _this.doAttendIntoRoom({
+            roomNumber: _this.myRoomNum,
+            mode: 'authorised',
+            code: (_this.myRoomPass || ''),
+            invite: res.uuid
+          })
+          return false
+        }
+      })
     }
   },
   computed: {
@@ -468,6 +571,8 @@ export default {
     if (!this.serverAddr) {
       return this.$router.push({name: 'v2-login'})
     }
+    this.getPrivateMeeting()
+    this.handleInviteResponse()
   },
   beforeDestroy: function () {
     let _this = this
