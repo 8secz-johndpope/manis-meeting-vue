@@ -212,7 +212,7 @@ export default {
       _this.$refs[formName].validate((valid) => {
         if (valid) {
           // start fetch admin
-          Utils.fetchAdminRight(_this.fetchAdminForm.authToken, _this.handleFetchAdminSuccess, _this.handleFetchAdminFailed)
+          Utils.fetchAdminRight(_this.fetchAdminForm.authToken.trim(), _this.handleFetchAdminSuccess, _this.handleFetchAdminFailed)
         } else {
           console.log('error submit!!')
           return false
@@ -447,6 +447,7 @@ export default {
         Utils.notification(_this, '屏幕分享正在进行,请勿切换显示模式')
         return false
       }
+      // _this.$emit('changeDisplayModeAndSort', _mode)  // @TODO 完善选人和布局设定
       Utils.setDisplayMode(
         parseInt(_mode),
         function (res) {
@@ -467,6 +468,10 @@ export default {
     openDrawingBoard: function () {
       if (this.screenShareStatus) {
         Utils.notification(this, '屏幕分享过程中不能进行画板操作', 'error')
+        return false
+      }
+      if (this.displayMode === '5') {
+        Utils.notification(this, '平铺不居模式下不能进行画板操作', 'error')
         return false
       }
       this.$emit('switchDrawingBoard', true)

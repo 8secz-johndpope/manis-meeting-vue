@@ -222,31 +222,35 @@ export default {
       let _this = this
       Utils.onInvite(invite => {
         console.log('----------handleInviteFrom----------', invite)
-        _this.$toast.info(invite.roomName, invite.nickname + '邀请您加入会议: ', {
-          timeout: (1000 * 58),
-          close: false,
-          id: 'ring_call_toast',
-          overlay: true,
-          position: 'center',
-          buttons: [
-            [
-              '<button><b>谢 绝</b></button>',
-              function (instance, toast) {
-                _this.responseInvite(invite, 'reject')
-                instance.hide({transitionOut: 'fadeOut'}, toast, 'button')
-              },
-              true
-            ],
-            [
-              '<button><b>接 受</b></button>',
-              function (instance, toast) {
-                _this.responseInvite(invite, 'accept')
-                instance.hide({transitionOut: 'fadeOut'}, toast, 'button')
-              },
-              true
+        try {
+          _this.$toast.info((invite.roomName || '视频会议'), invite.nickname + '邀请您加入会议: ', {
+            timeout: (1000 * 58),
+            close: false,
+            id: 'ring_call_toast',
+            overlay: true,
+            position: 'center',
+            buttons: [
+              [
+                '<button><b>谢 绝</b></button>',
+                function (instance, toast) {
+                  _this.responseInvite(invite, 'reject')
+                  instance.hide({transitionOut: 'fadeOut'}, toast, 'button')
+                },
+                true
+              ],
+              [
+                '<button><b>接 受</b></button>',
+                function (instance, toast) {
+                  _this.responseInvite(invite, 'accept')
+                  instance.hide({transitionOut: 'fadeOut'}, toast, 'button')
+                },
+                true
+              ]
             ]
-          ]
-        })
+          })
+        } catch (e) {
+          console.error(e)
+        }
       })
     },
 
@@ -295,6 +299,7 @@ export default {
       let _this = this
       Utils.handleInviteBeMake(res => {
         console.log('handle invite been make by other client', res)
+        Utils.notification(_this, '会议邀请已经在其他终端上处理')
         _this.hideRingCallToast()
       })
     },
