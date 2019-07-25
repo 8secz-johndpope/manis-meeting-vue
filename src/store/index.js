@@ -8,8 +8,8 @@ import modules from './modules'
  * @BeforePublish
  * uncomment this before publish to repository
  */
-import { createPersistedState } from 'vuex-electron'
-const plugins = [createPersistedState()]
+// import { createPersistedState } from 'vuex-electron'
+// const plugins = [createPersistedState()]
 
 /**
  * @TODO
@@ -17,7 +17,7 @@ const plugins = [createPersistedState()]
  * comment before publish to repository
  * @type {Array}
  */
-// const plugins = []
+const plugins = []
 
 Vue.use(Vuex)
 
