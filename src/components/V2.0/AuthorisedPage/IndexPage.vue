@@ -568,7 +568,7 @@ export default {
     color: #37C478;
     border: 1px solid #37C478;
     border-radius: 7px;
-    font-size: 12px;
+    font-size: 10px;
   }
 
   .off-line-status {
@@ -576,7 +576,7 @@ export default {
     color: gray;
     border: 1px solid gray;
     border-radius: 7px;
-    font-size: 12px;
+    font-size: 10px;
   }
 
   .call-btn {

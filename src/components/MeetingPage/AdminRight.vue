@@ -471,7 +471,7 @@ export default {
         return false
       }
       if (this.displayMode === '5') {
-        Utils.notification(this, '平铺不居模式下不能进行画板操作', 'error')
+        Utils.notification(this, '平铺布局模式下不能进行画板操作', 'error')
         return false
       }
       this.$emit('switchDrawingBoard', true)

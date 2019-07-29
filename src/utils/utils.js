@@ -1984,6 +1984,9 @@ export default {
     }
     _this.inviteBeMakeEnv = Manis.onRingCallProcessed(function (res) {
       if (res.errorCode === _this.noErr) {
+        if (window.incomingCall) {
+          window.incomingCall = false
+        }
         callBack(res)
       }
     })
