@@ -299,8 +299,8 @@ export default {
       let _this = this
       Utils.handleInviteBeMake(res => {
         console.log('handle invite been make by other client', res)
-        Utils.notification(_this, '会议邀请已经在其他终端上处理')
         _this.hideRingCallToast()
+        Utils.notification(_this, '会议邀请已经在其他终端上处理')
       })
     },
 
