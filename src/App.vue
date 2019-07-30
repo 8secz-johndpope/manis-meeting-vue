@@ -211,7 +211,12 @@ export default {
       let _this = this
       let element = id || '#ring_call_toast'
       if (element && document.querySelector(element)) {
-        _this.$toast.hide(element)
+        try {
+          _this.$toast.hide(element)
+          _this.$toast.destroy()
+        } catch (e) {
+          console.log(e)
+        }
       }
     },
 
@@ -221,7 +226,7 @@ export default {
     handleInvite: function () {
       let _this = this
       Utils.onInvite(invite => {
-        console.log('----------handleInviteFrom----------', invite)
+        console.log('handle invite from: ', invite)
         try {
           _this.$toast.info((invite.roomName || '视频会议'), invite.nickname + '邀请您加入会议: ', {
             timeout: (1000 * 58),
@@ -234,7 +239,11 @@ export default {
                 '<button><b>谢 绝</b></button>',
                 function (instance, toast) {
                   _this.responseInvite(invite, 'reject')
-                  instance.hide({transitionOut: 'fadeOut'}, toast, 'button')
+                  try {
+                    instance.hide({transitionOut: 'fadeOut'}, toast, 'button')
+                  } catch (e) {
+                    console.log(e)
+                  }
                 },
                 true
               ],
@@ -242,11 +251,20 @@ export default {
                 '<button><b>接 受</b></button>',
                 function (instance, toast) {
                   _this.responseInvite(invite, 'accept')
-                  instance.hide({transitionOut: 'fadeOut'}, toast, 'button')
+                  try {
+                    instance.hide({transitionOut: 'fadeOut'}, toast, 'button')
+                  } catch (e) {
+                    console.log(e)
+                  }
                 },
                 true
               ]
-            ]
+            ],
+            onClosing: () => {
+              if (window.incomingCall) {
+                window.incomingCall = false
+              }
+            }
           })
         } catch (e) {
           console.error(e)
@@ -264,6 +282,7 @@ export default {
       if (invite.callType === '2' && action === 'accept') {
         _this.hideRingCallToast()
         _this.showPrepare()
+        Utils.broadcastInviteBeMake()
         _this.attendIntoInviteRoom(invite.roomName, invite.password)
         return false
       }

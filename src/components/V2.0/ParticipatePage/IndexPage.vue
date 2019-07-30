@@ -467,7 +467,12 @@ export default {
       let _this = this
       let element = id || '#ring_call_toast'
       if (element && document.querySelector(element)) {
-        _this.$toast.hide(element)
+        try {
+          _this.$toast.hide(element)
+          _this.$toast.destroy()
+        } catch (e) {
+          console.log('hide toast in error: ', e)
+        }
       }
     },
 
@@ -551,9 +556,12 @@ export default {
     handleInviteResponse () {
       let _this = this
       Utils.onInviteResponse(res => {
+        console.log('handle invite response: ', res)
         _this.hideRingCallToast()
-        // console.log('--------------handleInviteResponse-------------', res)
-        if (res.answer === 'cancel') {
+        if (res.answer === 'timeout') {
+          Utils.notification(_this, '对方无人应答')
+          return false
+        } else if (res.answer === 'cancel') {
           Utils.notification(_this, res.nickname + '取消了会议邀请')
           return false
         } else if (res.answer === 'reject') {
