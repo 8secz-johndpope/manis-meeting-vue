@@ -14,25 +14,56 @@
       </el-row>
       <el-row class="surround-sub" :gutter="10">
         <el-col :span="3"  v-for="(videoParticipant, index) in subVideos" :key="index">
-          <div class="surround-sub-stream" @click="setMainDisplay(videoParticipant)">
-            <video v-if="videoParticipant && !videoParticipant.video_muted" :id="'surround-video-'+ streamSSRC(videoParticipant.stream)" class="surround-sub-video"  autoplay muted></video>
-            <div class="no-video-status sub-status">
-              <div class="surround-sub-nickname" v-if="videoParticipant">
-                <el-row>
-                  <el-col :span="12" class="surround-sub-nickname">
-                    {{ videoParticipant.info.resource | getNickname(participants) }}
-                  </el-col>
-                  <el-col :span="12" class="surround-sub-audio-status">
-                    <i v-if="videoParticipant.audio_muted"  class="icon-icons8_Mute_Unmute"></i>
-                  </el-col>
-                </el-row>
-              </div>
-              <div class="no-video-status-container surround-sub-status">
-                <i v-if="videoParticipant.video_muted" class="icon-icons8_No_Video"></i>
-                <i v-if="videoParticipant.is_phone" class="icon-icons8_Ringer_Volume_1"></i>
+          <el-popover
+            placement="top-start"
+            width="200"
+            trigger="hover">
+            <div class="sub-participant-status">
+              <el-row :gutter="10">
+                <el-col :span="10">Nickname: </el-col>
+                <el-col :span="14" v-if="videoParticipant.info">{{ videoParticipant.info.nickname }}</el-col>
+              </el-row>
+              <el-row :gutter="10">
+                <el-col :span="10">Resolution: </el-col>
+                <el-col :span="14">{{ videoParticipant | getResolution }}</el-col>
+              </el-row>
+              <!--<el-row :gutter="10">
+                <el-col :span="10">Update: </el-col>
+                <el-col :span="14">{{ videoParticipant | getStatus('uBit') }}</el-col>
+              </el-row>
+              <el-row :gutter="10">
+                <el-col :span="10">Download: </el-col>
+                <el-col :span="14">{{ videoParticipant | getStatus('dBit') }}</el-col>
+              </el-row>-->
+              <el-row :gutter="10">
+                <el-col :span="10">Lost<i class="el-icon-upload2 status-label text-primary"></i>: </el-col>
+                <el-col :span="14">{{ videoParticipant | getStatus('uLost') }}</el-col>
+              </el-row>
+              <el-row :gutter="10">
+                <el-col :span="10">Lost<i class="el-icon-download status-label text-danger"></i>: </el-col>
+                <el-col :span="14">{{ videoParticipant | getStatus('dLost') }}</el-col>
+              </el-row>
+            </div>
+            <div  slot="reference" class="surround-sub-stream" @click="setMainDisplay(videoParticipant)">
+              <video v-if="videoParticipant && !videoParticipant.video_muted" :id="'surround-video-'+ streamSSRC(videoParticipant.stream)" class="surround-sub-video"  autoplay muted></video>
+              <div class="no-video-status sub-status">
+                <div class="surround-sub-nickname" v-if="videoParticipant">
+                  <el-row>
+                    <el-col :span="12" class="surround-sub-nickname">
+                      {{ videoParticipant.info.resource | getNickname(participants) }}
+                    </el-col>
+                    <el-col :span="12" class="surround-sub-audio-status">
+                      <i v-if="videoParticipant.audio_muted"  class="icon-icons8_Mute_Unmute"></i>
+                    </el-col>
+                  </el-row>
+                </div>
+                <div class="no-video-status-container surround-sub-status">
+                  <i v-if="videoParticipant.video_muted" class="icon-icons8_No_Video"></i>
+                  <i v-if="videoParticipant.is_phone" class="icon-icons8_Ringer_Volume_1"></i>
+                </div>
               </div>
             </div>
-          </div>
+          </el-popover>
         </el-col>
       </el-row>
   </div>
@@ -141,6 +172,36 @@ export default {
         }
       }
       return Utils.formatNickname(nickname)
+    },
+
+    getResolution: function (obj) {
+      if (!obj || !obj.media_sources || !obj.media_sources.video || !obj.media_sources.video.resolution) {
+        return 'NaN'
+      }
+      return obj.media_sources.video.resolution.width + 'X' + obj.media_sources.video.resolution.height
+    },
+
+    getStatus: function (data, key) {
+      let res = 'NaN'
+      if (!data.status) {
+        res = '0'
+      }
+      let status = data.status
+      switch (key) {
+        case 'dBit':
+          res = (status.downloadBitrate || 0) + 'KB'
+          break
+        case 'uBit':
+          res = (status.uploadBitrate || 0) + 'KB'
+          break
+        case 'uLost':
+          res = (status.packageUploadLost || 0) + '%'
+          break
+        case 'dLost':
+          res = (status.packageDownloadLost || 0) + '%'
+          break
+      }
+      return res
     }
   },
   watch: {
@@ -268,4 +329,19 @@ export default {
     overflow: hidden;
   }
 
+  .sub-participant-status {
+    padding: 5px 5px;
+  }
+
+  .status-label{
+    font-weight: bold;
+  }
+
+  .text-primary {
+    color: cornflowerblue;
+  }
+
+  .text-danger {
+    color: red;
+  }
 </style>
