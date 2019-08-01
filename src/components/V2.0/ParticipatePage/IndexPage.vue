@@ -559,7 +559,7 @@ export default {
         console.log('handle invite response: ', res)
         _this.hideRingCallToast()
         if (res.answer === 'timeout') {
-          Utils.notification(_this, '对方无人应答')
+          // Utils.notification(_this, '对方无人应答')
           return false
         } else if (res.answer === 'cancel') {
           Utils.notification(_this, res.nickname + '取消了会议邀请')
