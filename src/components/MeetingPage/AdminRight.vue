@@ -447,19 +447,7 @@ export default {
         Utils.notification(_this, '屏幕分享正在进行,请勿切换显示模式')
         return false
       }
-      // _this.$emit('changeDisplayModeAndSort', _mode)  // @TODO 完善选人和布局设定
-      Utils.setDisplayMode(
-        parseInt(_mode),
-        function (res) {
-          console.log('handle change display mode result : ', res)
-          if (res.errorCode === Utils.noErr) {
-            _this.$store.dispatch('conferenceRoom/updateDisplaySort', {
-              mode: _mode,
-              sort: []
-            })
-          }
-        }
-      )
+      _this.$emit('changeDisplayModeAndSort', _mode)
     },
 
     /**

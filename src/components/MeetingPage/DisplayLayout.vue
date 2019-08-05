@@ -143,13 +143,15 @@ export default {
      */
     getCurrentDisplays () {
       let _this = this
-      let currentShows = _this.showVideos.map(item => {
-        let isPolling = item.info.resource === ''
-        let isValidated = (isPolling !== undefined && item.info.resource !== '')
-        return {
-          endpoint: item.info.resource,
-          polling: isPolling,
-          validated: isValidated
+      let currentShows = _this.displaySort.map(item => {
+        if (item) {
+          let isPolling = (item.endpoint === undefined)
+          let isValidated = (isPolling || item.endpoint !== '')
+          return {
+            endpoint: item.endpoint,
+            polling: isPolling,
+            validated: isValidated
+          }
         }
       })
       _this.displays = currentShows
@@ -195,21 +197,85 @@ export default {
      */
     saveDisplay () {
       let _this = this
-      _this.$emit('saveDisplaySort', {
-        activeMode: _this.activeMode,
-        activeSort: _this.displays
+      let allValidated = true
+      for (let i = 0; i < _this.displays.length; i++) {
+        let item = _this.displays[i]
+        if (!item.validated) {
+          allValidated = false
+        }
+      }
+      if (!allValidated) {
+        return false
+      }
+
+      _this.$emit('saveDisplaySort')
+      _this.requestDisplayMode(_this.activeMode || '0')
+      _this.requestDisplaySort(_this.displays)
+    },
+
+    /**
+     * request display sort
+     * @param data
+     */
+    requestDisplaySort: function (data) {
+      console.log('will post sort data:', data)
+      let sortArr = []
+      for (let i = 0; i < data.length; i++) {
+        var as = data[i]
+        if (as.polling) {
+          sortArr.push('polling')
+        } else {
+          sortArr.push(as.endpoint)
+        }
+      }
+      Utils.sendSortRequest(sortArr.join(','), res => {
+        console.log('handle send display sort request result: ', res)
       })
+    },
+
+    /**
+     * request display mode
+     * @param _mode
+     */
+    requestDisplayMode: function (_mode) {
+      let _this = this
+      Utils.setDisplayMode(
+        parseInt(_mode),
+        function (res) {
+          console.log('handle change display mode result : ', res)
+          if (res.errorCode === Utils.noErr) {
+            _this.$store.dispatch('conferenceRoom/updateDisplaySort', {
+              mode: _mode
+            })
+          }
+        }
+      )
+    },
+
+    /**
+     * reset display
+     */
+    resetDisplay () {
+      this.getCurrentDisplays()
+      this.getAllParticipants()
     }
 
   },
   computed: {
-    showVideos () {
-      return this.$store.state.conferenceRoom.showStreams
+    displaySort () {
+      return this.$store.state.conferenceRoom.displaySort
     }
   },
   mounted: function () {
-    this.getCurrentDisplays()
-    this.getAllParticipants()
+    this.resetDisplay()
+  },
+  watch: {
+    displaySort: function (newSort) {
+      let _this = this
+      if (_this.displays.length !== newSort.length) {
+        _this.resetDisplay()
+      }
+    }
   },
   beforeDestroy: function () {
     let _this = this

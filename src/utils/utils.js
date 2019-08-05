@@ -1262,6 +1262,22 @@ export default {
   },
 
   /**
+   * sent display sort request
+   * @param sortStr
+   * @param callBack
+   */
+  sendSortRequest: function (sortStr, callBack) {
+    let _this = this
+    Manis.selectParticipantsDisplay(sortStr, function (res) {
+      if (res.errorCode === _this.noErr) {
+        callBack(res)
+      } else {
+        console.error(res)
+      }
+    })
+  },
+
+  /**
    * send drawing msg
    * @param action
    * @param data

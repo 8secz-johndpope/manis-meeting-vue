@@ -5,6 +5,7 @@ const state = {
   audioStreams: [],
   showStreams: [],
   textMsg: [],
+  displaySort: [],
   audioMute: false,
   videoMute: false,
   isModerator: false,
@@ -19,6 +20,7 @@ const mutations = {
     state.audioStreams = []
     state.showStreams = []
     state.textMsg = []
+    state.displaySort = []
     state.audioMute = false
     state.videoMute = false
     state.isModerator = false
@@ -66,6 +68,10 @@ const mutations = {
   UPDATE_DISPLAY_MODE: function (state, data) {
     state.mode = data.mode
     let displaySort = data.sort
+    if (!displaySort) {
+      return false
+    }
+    state.displaySort = displaySort
     for (let i = 0; i < displaySort.length; i++) {
       let sortObj = displaySort[i]
       let obj = Utils.getRightParticipant(state.videoStreams, sortObj.endpoint, sortObj.ssrc)

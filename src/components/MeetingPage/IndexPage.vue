@@ -561,7 +561,8 @@ export default {
 
     handleSourceRemoved: function (res) {
       console.log('handle resource removed: ', res)
-      this.$store.dispatch('conferenceRoom/onSourceRemoved', res.ssrc)
+      let _this = this
+      _this.$store.dispatch('conferenceRoom/onSourceRemoved', res.ssrc)
     },
 
     handleRecordStatusChange: function (res) {
@@ -639,9 +640,10 @@ export default {
 
     handleSomeoneLeft: function (res) {
       console.log('handle some one left: ', res)
-      this.checkLeftGuy(res.resource)
-      this.$store.dispatch('conferenceRoom/onLeaveRoom', res.resource)
-      this.$refs.annotationComponent.checkLeftIsPainter(res.resource)
+      let _this = this
+      _this.checkLeftGuy(res.resource)
+      _this.$store.dispatch('conferenceRoom/onLeaveRoom', res.resource)
+      _this.$refs.annotationComponent.checkLeftIsPainter(res.resource)
     },
 
     checkLeftGuy: function (endpoint) {
@@ -661,12 +663,13 @@ export default {
 
     handleParticipate: function (res) {
       console.log('handle new participant attend: ', res, res.data.info.nickname)
+      let _this = this
       if (res && res.data.stream) {
         // store resource
-        this.$store.dispatch('conferenceRoom/onJoinRoom', res)
+        _this.$store.dispatch('conferenceRoom/onJoinRoom', res)
       }
       if (res.data.info && res.data.info.nickname) {
-        this.hideCallDialog(res.data.info.nickname)
+        _this.hideCallDialog(res.data.info.nickname)
       }
     },
 
@@ -791,10 +794,9 @@ export default {
       _this.sortDialogVisible = true
     },
 
-    saveDisplaySort: function (data) {
+    saveDisplaySort: function () {
       let _this = this
       _this.sortDialogVisible = false
-      console.log('will post sort and mode data:', data)
     }
 
   },
