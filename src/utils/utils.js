@@ -2060,5 +2060,21 @@ export default {
         callBack(res.response)
       }
     })
+  },
+
+  /**
+   * handle user sign in other places
+   * @param callBack
+   */
+  onSignInSomewhereElse: function (callBack) {
+    let _this = this
+    if (_this.signInSomewhereElseEnv) {
+      _this.signInSomewhereElseEnv = null
+    }
+    _this.signInSomewhereElseEnv = Manis.onEjectByOtherLogin(function (res) {
+      if (res.errorCode === _this.noErr) {
+        callBack(res)
+      }
+    })
   }
 }

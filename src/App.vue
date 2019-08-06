@@ -351,6 +351,22 @@ export default {
         name: 'meeting',
         params: params
       })
+    },
+
+    /**
+     * 账号在其他地方登陆
+     */
+    handleSignInSomewhereELse: function () {
+      let _this = this
+      Utils.onSignInSomewhereElse(res => {
+        Utils.notification(_this, res.msg, 'error')
+        _this.$store.dispatch('userSetting/isInitiativeSignOut', true)
+        _this.clickSignOut()
+        _this.resetConnect()
+        window.setTimeout(function () {
+          _this.$router.push({name: 'v2-login'})
+        }, 1000)
+      })
     }
   },
   computed: {
@@ -371,6 +387,7 @@ export default {
     this.handleInvite()
     this.handleInviteBeenMake()
     this.handleRoomReadyNotice()
+    this.handleSignInSomewhereELse()
   }
 }
 </script>
