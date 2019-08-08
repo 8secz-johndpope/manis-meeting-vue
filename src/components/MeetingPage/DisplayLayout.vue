@@ -297,7 +297,7 @@ export default {
 
   .video-container {
     margin: 5px auto;
-    height: 80px;
+    height: 120px;
     background: #333333;
     text-align: center;
   }
