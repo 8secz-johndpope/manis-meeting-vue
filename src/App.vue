@@ -360,6 +360,9 @@ export default {
       let _this = this
       Utils.onSignInSomewhereElse(res => {
         Utils.notification(_this, res.msg, 'error')
+        Utils.leaveRoom(res => {
+          console.log('handel leave room res: ', res)
+        })
         _this.$store.dispatch('userSetting/isInitiativeSignOut', true)
         _this.clickSignOut()
         _this.resetConnect()
