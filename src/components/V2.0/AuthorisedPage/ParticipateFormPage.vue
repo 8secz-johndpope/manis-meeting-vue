@@ -24,7 +24,7 @@
                           clearable></el-input>-->
                         <el-autocomplete
                           class="auth-attend-form-item auto-complete-room"
-                          v-model="authorisedJoinForm.roomCode"
+                          v-model.trim="authorisedJoinForm.roomCode"
                           :fetch-suggestions="querySearch"
                           placeholder="房间号"
                           @select="handleSelect"
@@ -86,13 +86,13 @@ export default {
   methods: {
     querySearch (queryString, cb) {
       let _this = this
-      let histories = _this.histories
+      let histories = _this.histories || []
       let results = queryString ? _this.createFilter(queryString, histories) : histories
       cb(results)
     },
     createFilter (queryString, histories) {
       let res = histories.filter(history => {
-        if (history.value && history.value.indexOf(queryString) === 0) {
+        if (history.value && history.value.indexOf(queryString) > -1) {
           return history
         }
       })

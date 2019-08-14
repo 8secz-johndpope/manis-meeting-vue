@@ -2,15 +2,29 @@
   <div class="wrapper">
     <div class="bg-img"></div>
     <el-container>
-      <el-header class="participate-control-header hidden">
-        <el-button circle :class="{'active': videoMute}" :disabled="!localVideo" @click="switchVideoMute">
-          <i class="icon-icons8_No_Video btn-icon" v-if="videoMute"></i>
-          <i class="icon-icons8_Video_Call btn-icon" v-else></i>
-        </el-button>
-        <el-button circle :class="{'active': audioMute}" :disabled="!localAudio" @click="switchAudioMute">
-          <i class="icon-icons8_Mute_Unmute btn-icon" v-if="audioMute"></i>
-          <i class="icon-icons8_Microphone btn-icon" v-else></i>
-        </el-button>
+      <el-header class="participate-control-header">
+        <el-row :gutter="10">
+          <el-col :span="8" :offset="8" class="text-center hidden">
+            <el-button circle :class="{'active': videoMute}" :disabled="!localVideo" @click="switchVideoMute">
+              <i class="icon-icons8_No_Video btn-icon" v-if="videoMute"></i>
+              <i class="icon-icons8_Video_Call btn-icon" v-else></i>
+            </el-button>
+            <el-button circle :class="{'active': audioMute}" :disabled="!localAudio" @click="switchAudioMute">
+              <i class="icon-icons8_Mute_Unmute btn-icon" v-if="audioMute"></i>
+              <i class="icon-icons8_Microphone btn-icon" v-else></i>
+            </el-button>
+          </el-col>
+          <el-col :span="8" :offset="16" class="text-right auth-user-nickname-container" v-show="authorised">
+            <el-popover
+              placement="bottom"
+              v-model="signOutVisible">
+              <div class="sign-out-container text-center" @click="clickSignOut">
+                <div @click="signOutVisible = false">退 出</div>
+              </div>
+              <span slot="reference">{{ userNickname }}</span>
+            </el-popover>
+          </el-col>
+        </el-row>
       </el-header>
       <el-main>
         <anonymous-page v-show="!authorised"
@@ -129,8 +143,10 @@ export default {
   },
   data: function () {
     return {
+      signOutVisible: false,
       myRoomNum: '',
       myRoomPass: '',
+      userNickname: window.config.nickname || '',
       localVideo: null,
       localAudio: null,
       audioMute: false,
@@ -156,6 +172,13 @@ export default {
     }
   },
   methods: {
+    clickSignOut () {
+      let _this = this
+      Utils.clearSignInUserInfo(_this)
+      window.setTimeout(function () {
+        window.location.reload()
+      }, 1000)
+    },
     /**
      * get my private room for call
      */
@@ -692,7 +715,7 @@ export default {
     position: absolute;
     width: 100%;
     margin-top: 20px;
-    text-align: center;
+    /*text-align: center;*/
     z-index: 2;
   }
 
@@ -726,6 +749,19 @@ export default {
 
   .text-center {
     text-align: center;
+  }
+
+  .text-right {
+    text-align: right;
+  }
+
+  .sign-out-container {
+    padding: 10px 20px;
+  }
+
+  .auth-user-nickname-container {
+    line-height: 50px;
+    padding-right: 50px !important;
   }
 
   a.contact-mail-to, a.contact-mail-to:visited, a.contact-mail-to:focus {

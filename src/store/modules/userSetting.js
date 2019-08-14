@@ -14,6 +14,8 @@ const mutations = {
     if (!state.remember) {
       state.username = ''
       state.password = ''
+    }
+    if (state.initiativeSignOut) {
       state.histories = []
     }
     state.profile = null

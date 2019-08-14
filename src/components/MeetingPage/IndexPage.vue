@@ -129,6 +129,7 @@
             >
               <display-layout-page
               :activeMode="targetMode"
+              ref="displayLayoutSet"
               v-on:saveDisplaySort="saveDisplaySort"
               ></display-layout-page>
             </el-dialog>
@@ -536,8 +537,8 @@ export default {
       let attendRoomNum = _this.$route.params.roomNumber || ''
       if (attendRoomNum) {
         _this.$store.dispatch('userSetting/commitHistory', {
-          value: attendRoomNum,
-          label: attendRoomNum
+          value: attendRoomNum.toString(),
+          label: attendRoomNum.toString()
         })
       }
       let inviteAccepter = _this.$route.params.invite || ''
@@ -644,6 +645,11 @@ export default {
       _this.checkLeftGuy(res.resource)
       _this.$store.dispatch('conferenceRoom/onLeaveRoom', res.resource)
       _this.$refs.annotationComponent.checkLeftIsPainter(res.resource)
+      if (_this.$refs['displayLayoutSet']) {
+        setTimeout(function () {
+          _this.$refs['displayLayoutSet'].resetDisplay()
+        }, 2000)
+      }
     },
 
     checkLeftGuy: function (endpoint) {

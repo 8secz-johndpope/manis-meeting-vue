@@ -700,7 +700,7 @@ export default {
   beforeDestroy () {
     console.log('will destroy white drawing board')
     let _this = this
-    _this.doCloseDrawingBoard()
+    // _this.doCloseDrawingBoard()
     if (_this.hartbeat) {
       window.clearTimeout(_this.hartbeat)
       _this.hartbeat = null

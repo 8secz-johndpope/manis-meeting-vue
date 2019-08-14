@@ -15,6 +15,9 @@
             <h5 class="text-center">{{ version }}</h5>
             <!-- <h4 class="text-center">Xiaoqiang-io Co.,Ltd.</h4> -->
           </div>
+          <div class="check-update">
+            <el-button round @click="click4UpdateCheck">检查更新</el-button>
+          </div>
         </div>
       </el-col>
     </el-row>
@@ -38,6 +41,9 @@ export default {
     }
   },
   methods: {
+    click4UpdateCheck () {
+      this.$emit('showUpdatePage')
+    },
     getVersion () {
       // @TODO uncomment this before publish
       this.version = app.getVersion()

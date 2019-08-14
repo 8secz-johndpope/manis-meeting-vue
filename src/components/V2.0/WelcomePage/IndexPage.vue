@@ -1,6 +1,16 @@
 <template>
   <div class="wrapper">
     <div class="bg-img"></div>
+    <div class="help-container">
+      <div class="help-icon">
+        <i class="el-icon-question" @click="clickShowAboutPage"></i>
+      </div>
+    </div>
+    <div class="setting-container">
+      <div class="setting-icon">
+        <i class="el-icon-setting" @click="clickShowSettingPage"></i>
+      </div>
+    </div>
     <el-container class="welcome-container">
       <el-main>
         <el-row :gutter="10" class="row-title">
@@ -220,6 +230,12 @@ export default {
     }
   },
   methods: {
+    clickShowAboutPage () {
+      this.$emit('showAboutPage')
+    },
+    clickShowSettingPage () {
+      this.$emit('showSettingPage')
+    },
     showVerifyImage () {
       let _this = this
       let verifyCodeData = window.config.verifyCode
@@ -515,6 +531,24 @@ export default {
     background: rgba(77, 94, 121, 0.2) none repeat scroll !important;
     background: #364049;
     filter: Alpha(opacity=80);
+  }
+
+  .help-container {
+    height: 48px;
+    width: 48px;
+    position: fixed;
+    top: 28px;
+    right: 42px;
+    font-size: 1.2rem;
+  }
+
+  .setting-container {
+    height: 48px;
+    width: 48px;
+    position: fixed;
+    bottom: 48px;
+    right: 42px;
+    font-size: 1.2rem;
   }
 
   .bg-img {

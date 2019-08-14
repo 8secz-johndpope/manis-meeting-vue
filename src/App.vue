@@ -1,7 +1,10 @@
 <template>
   <div id="app">
     <router-view
-      v-on:signStateChange="signStateChanged"></router-view>
+      v-on:signStateChange="signStateChanged"
+      v-on:showAboutPage="showAbouts"
+      v-on:showSettingPage="showSettings"
+    ></router-view>
     <el-dialog
       title="关于应用"
       :visible.sync="showAboutPage"
@@ -10,7 +13,9 @@
       custom-class="open-window-page"
       width="480px"
       center>
-      <about-page></about-page>
+      <about-page
+        v-on:showUpdatePage="showUpdates"
+      ></about-page>
     </el-dialog>
     <el-dialog
       title="设备管理"

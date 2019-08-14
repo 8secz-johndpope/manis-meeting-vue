@@ -29,6 +29,7 @@ import {
   Popover,
   Submenu,
   MenuItem,
+  MenuItemGroup,
   Tabs,
   Slider,
   Progress,
@@ -41,7 +42,6 @@ import {
   Image
 // OptionGroup,
 // Autocomplete,
-// MenuItemGroup,
 // Pagination,
 // Collapse,
 // CollapseItem,
@@ -77,6 +77,7 @@ Vue.component(Menu.name, Menu)
 Vue.component(Popover.name, Popover)
 Vue.component(Submenu.name, Submenu)
 Vue.component(MenuItem.name, MenuItem)
+Vue.component(MenuItemGroup.name, MenuItemGroup)
 Vue.component(Tabs.name, Tabs)
 Vue.component(Slider.name, Slider)
 Vue.component(Progress.name, Progress)
@@ -89,7 +90,6 @@ Vue.component(Link.name, Link)
 Vue.component(Image.name, Image)
 // Vue.component(OptionGroup.name, OptionGroup)
 // Vue.component(Autocomplete.name, Autocomplete)
-// Vue.component(MenuItemGroup.name, MenuItemGroup)
 // Vue.component(Pagination.name, Pagination)
 // Vue.component(Collapse.name, Collapse)
 // Vue.component(CollapseItem.name, CollapseItem)
