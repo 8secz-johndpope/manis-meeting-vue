@@ -41,7 +41,7 @@
                         placement="right"
                         width="240"
                         trigger="hover">
-                        <div class="conference-item-detail">
+                        <div class="conference-item-detail" @click="copyConferenceInfo(item)">
                           <el-row :gutter="10">
                             <el-col class="conference-item-title" :span="24">
                               <div class="text-center">{{ item.title }}</div>
@@ -241,6 +241,30 @@ export default {
     }
   },
   methods: {
+    copyConferenceInfo (info) {
+      let _this = this
+      let content = ''
+      let startAt = ''
+      if (info.startTime) {
+        let date = new Date(info.startTime)
+        startAt = Utils.doFormatDate(date, 'yyyy-MM-dd hh:mm')
+      }
+      console.log('will copy conference information : ', info)
+      content += '会议号: ' + info.cNumber +
+      '\n' +
+      '会议室密码: ' + (info.meetPassword || '') +
+      '\n\n' +
+      '会议主题: ' + info.title +
+      '\n' +
+      '开始时间: ' + startAt +
+      '\n' +
+      '会议状态: ' + Utils.formatConferenceStatus(info)
+      _this.$copyText(content).then(res => {
+        Utils.notification(_this, '会议信息复制成功')
+      }).catch(e => {
+        console.log('copy conference information failed: ', e)
+      })
+    },
     showContact (item) {
       this.$emit('showContactDetail', item)
     },

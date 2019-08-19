@@ -11,7 +11,7 @@
       <el-col :span="24">
         <el-row :gutter="10">
           <el-col :span="16">
-            <a href="javascript: void (0);">
+            <a href="javascript: void (0);" @click="copyMyPrivateRoomInfo">
               <el-row :gutter="0" class="private-room-link">
                 <el-col class="text-center" :span="4" :offset="2">
                   <v-icon name="link"></v-icon>
@@ -46,6 +46,18 @@ export default {
     }
   },
   methods: {
+    copyMyPrivateRoomInfo () {
+      let _this = this
+      let content = ''
+      content += '会议号: ' + _this.privateRoom +
+        '\n' +
+        '会议室密码: ' + (_this.privatePass || '')
+      _this.$copyText(content).then(res => {
+        Utils.notification(_this, '会议信息复制成功')
+      }).catch(e => {
+        console.log('copy conference information failed: ', e)
+      })
+    },
     getPrivateMeeting () {
       let _this = this
       Utils.getPrivateRoom(
