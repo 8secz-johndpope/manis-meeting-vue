@@ -15,14 +15,16 @@
             </el-button>
           </el-col>
           <el-col :span="8" :offset="16" class="text-right auth-user-nickname-container" v-show="authorised">
-            <el-popover
-              placement="bottom"
-              v-model="signOutVisible">
-              <div class="sign-out-container text-center" @click="clickSignOut">
-                <div @click="signOutVisible = false">退 出</div>
-              </div>
-              <span slot="reference">{{ userNickname }}</span>
-            </el-popover>
+            <div class="sign-out-container">
+              <el-row :gutter="10">
+                <el-col :span="10" class="text-right">{{ userNickname }}</el-col>
+                <el-col :span="10" class="text-left">
+                  <a href="javascript: void (0);" @click="clickSignOut">
+                    <span class="sign-out-text">[ 退 出 ]</span>
+                  </a>
+                </el-col>
+              </el-row>
+            </div>
           </el-col>
         </el-row>
       </el-header>
@@ -172,6 +174,10 @@ export default {
     }
   },
   methods: {
+    errorHandler () {
+      return true
+    },
+
     clickSignOut () {
       let _this = this
       Utils.clearSignInUserInfo(_this)
@@ -755,8 +761,18 @@ export default {
     text-align: right;
   }
 
+  .text-left {
+    text-align: left;
+  }
+
   .sign-out-container {
-    padding: 10px 20px;
+    width: 160px;
+    float: right;
+  }
+
+  .sign-out-container a {
+    text-decoration: none;
+    color: #eeeeee;
   }
 
   .auth-user-nickname-container {
