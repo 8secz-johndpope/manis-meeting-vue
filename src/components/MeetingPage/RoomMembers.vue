@@ -122,7 +122,7 @@ export default {
       return Utils.getRole(tag)
     },
     getNickname (nickname) {
-      return Utils.formatNickname(nickname)
+      return Utils.formatNickname(nickname, 5)
     }
   },
   methods: {

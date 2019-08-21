@@ -17,8 +17,8 @@
           <el-col :span="8" :offset="16" class="text-right auth-user-nickname-container" v-show="authorised">
             <div class="sign-out-container">
               <el-row :gutter="10">
-                <el-col :span="10" class="text-right">{{ userNickname }}</el-col>
-                <el-col :span="10" class="text-left">
+                <el-col :span="18" class="text-right">{{ userNickname }}</el-col>
+                <el-col :span="6" class="text-left">
                   <a href="javascript: void (0);" @click="clickSignOut">
                     <span class="sign-out-text">[ 退 出 ]</span>
                   </a>
@@ -766,7 +766,7 @@ export default {
   }
 
   .sign-out-container {
-    width: 160px;
+    width: 100%;
     float: right;
   }
 
