@@ -455,6 +455,8 @@ export default {
         this.appName = 'SCMeeting' + this.appName
       } else if (appName.indexOf('xiaoqiang') > -1) {
         this.appName = '小强在线' + this.appName
+      } else if (appName.indexOf('qst') > -1) {
+        this.appName = '全视通' + this.appName
       }
       this.version = app.getVersion()
     },

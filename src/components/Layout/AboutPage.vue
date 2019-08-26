@@ -27,6 +27,7 @@
 <script>
 import xqLogo from '../../assets/img/logo/xq/logo.png'
 import scLogo from '../../assets/img/logo/sc/logo.png'
+import qstLogo from '../../assets/img/logo/qst/logo.png'
 const {app} = require('electron').remote // @TODO uncomment this before publish
 
 export default {
@@ -35,7 +36,7 @@ export default {
   components: {},
   data: function () {
     return {
-      logoImgUrl: xqLogo || scLogo,
+      logoImgUrl: xqLogo || scLogo || qstLogo,
       version: '1.0.0',
       appName: ''
     }
@@ -61,6 +62,9 @@ export default {
       } else if (appName.indexOf('xiaoqiang') > -1) {
         this.appName = '小强在线'
         this.logoImgUrl = xqLogo
+      } else if (appName.indexOf('qst') > -1) {
+        this.appName = '全视通'
+        this.logoImgUrl = qstLogo
       }
     }
   },

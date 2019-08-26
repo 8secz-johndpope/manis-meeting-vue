@@ -60,6 +60,7 @@
 <script>
 import xqLogo from '../../assets/img/logo/xq/logo.png'
 import scLogo from '../../assets/img/logo/sc/logo.png'
+import qstLogo from '../../assets/img/logo/qst/logo.png'
 // @TODO uncomment this before publish
 const {
   ipcRenderer
@@ -71,7 +72,7 @@ export default {
   components: {},
   data: function () {
     return {
-      logoImgUrl: xqLogo || scLogo,
+      logoImgUrl: xqLogo || scLogo || qstLogo,
       steps: 1,
       notice: '',
       newVersionInfo: null,
@@ -146,6 +147,9 @@ export default {
       } else if (appName.indexOf('xiaoqiang') > -1) {
         this.appName = '小强在线'
         this.logoImgUrl = xqLogo
+      } else if (appName.indexOf('qst') > -1) {
+        this.appName = '全视通'
+        this.logoImgUrl = qstLogo
       }
     }
   },
