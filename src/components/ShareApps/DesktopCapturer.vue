@@ -1,11 +1,13 @@
 <template>
   <div class="desktop-capture">
     <el-row :gutter="20">
-      <el-col :span="6" v-for="(source, index) in captureSources" :key="index">
+      <el-col :span="6" class="desktop-capture-item" v-for="(source, index) in captureSources" :key="index">
         <div class="grid-content bg-purple" @click="startCapture(source.id)">
           <div class="capture-name">{{ source.name }}</div>
-          <img class="thumbnail" :src="source.thumbnail.toDataURL()" alt="thumbnail">
-          <!--<video class="capture-video" :id="'capture-video-'+index" autoplay muted></video>-->
+          <div class="desktop-capture-thumbnail">
+            <img class="thumbnail" :src="source.thumbnail.toDataURL()" alt="thumbnail">
+            <!--<video class="capture-video" :id="'capture-video-'+index" autoplay muted></video>-->
+          </div>
         </div>
       </el-col>
     </el-row>
@@ -104,13 +106,25 @@ export default {
     padding: 10px;
   }
 
+  .desktop-capture-item {
+    height: 128px;
+  }
+
   div.capture-name {
     height: 18px;
     overflow: hidden;
   }
 
+  div.desktop-capture-thumbnail {
+    height: 110px;
+    padding: 5px;
+    line-height: 100px;
+    background: #eeeeee;
+  }
+
   .grid-content .thumbnail {
-    max-width: 100%;
-    max-height: 80%;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
   }
 </style>

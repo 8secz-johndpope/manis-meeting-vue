@@ -109,6 +109,7 @@ export default {
         close: false,
         id: 'question_sign_out',
         zindex: 999,
+        overlay: true,
         position: 'center',
         buttons: [
           [
