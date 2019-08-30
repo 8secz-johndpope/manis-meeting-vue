@@ -30,6 +30,8 @@ import {
   Submenu,
   MenuItem,
   MenuItemGroup,
+  DatePicker,
+  TimeSelect,
   Tabs,
   Slider,
   Progress,
@@ -78,6 +80,8 @@ Vue.component(Popover.name, Popover)
 Vue.component(Submenu.name, Submenu)
 Vue.component(MenuItem.name, MenuItem)
 Vue.component(MenuItemGroup.name, MenuItemGroup)
+Vue.component(DatePicker.name, DatePicker)
+Vue.component(TimeSelect.name, TimeSelect)
 Vue.component(Tabs.name, Tabs)
 Vue.component(Slider.name, Slider)
 Vue.component(Progress.name, Progress)

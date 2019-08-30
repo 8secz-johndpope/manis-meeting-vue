@@ -25,8 +25,8 @@
                   <small>联系人</small>
                 </el-col>
               </a>
-              <a href="javascript: void (0);">
-                <el-col :span="5" :offset="7" class="type-tab text-center hidden">
+              <a href="javascript: void (0);" @click="showReservation">
+                <el-col :span="5" class="type-tab text-center">
                   <span class="el-icon-date"></span>
                   <small>预约</small>
                 </el-col>
@@ -191,6 +191,15 @@
         </el-col>
       </el-row>
     </div>
+    <div class="reservation-container">
+      <el-dialog
+        title="预约会议"
+        width="60%"
+        :visible.sync="reservationDialogFormVisible">
+        <reservation-page
+        v-on:reservationSubmit="reservationSubmit"></reservation-page>
+      </el-dialog>
+    </div>
   </div>
 </template>
 
@@ -198,12 +207,14 @@
 import Utils from '../../../utils/utils'
 import AuthorisedParticipateForm from './ParticipateFormPage'
 import PrivateMeetingForm from './PrivateMeetingPage'
+import ReservationPage from '../Reservation/FormPage'
 
 export default {
   name: 'v2-authorised-index-page',
   components: {
     AuthorisedParticipateForm,
-    PrivateMeetingForm
+    PrivateMeetingForm,
+    ReservationPage
   },
   filters: {
     formatDateTime (time) {
@@ -237,10 +248,38 @@ export default {
       moreBtnDisabled: false,
       moreBtnType: '',
       contacts: [],
-      contactsTimer: null
+      contactsTimer: null,
+      reservationDialogFormVisible: false
     }
   },
   methods: {
+    showReservation () {
+      let _this = this
+      _this.reservationDialogFormVisible = true
+    },
+
+    reservationSubmit () {
+      let _this = this
+      _this.reservationDialogFormVisible = false
+      Utils.notification(_this, '会议预约成功')
+      _this.refreshConferences()
+    },
+
+    refreshConferences () {
+      let _this = this
+      _this.activeName = 'upcoming'
+      _this.conferences = []
+      _this.activePage = 1
+      _this.conferencesCount = 0
+      _this.getConferences(_this.activePage, _this.conferencesCount)
+      if (_this.activeName !== 'contacts') {
+        if (_this.contactsTimer) {
+          window.clearTimeout(_this.contactsTimer)
+          _this.contactsTimer = null
+        }
+      }
+    },
+
     copyConferenceInfo (info) {
       let _this = this
       let content = ''
@@ -289,6 +328,12 @@ export default {
       _this.moreBtnDisabled = false
       _this.moreBtnType = ''
       _this.getConferences(_this.activePage, _this.conferencesCount)
+      if (_this.activeName !== 'contacts') {
+        if (_this.contactsTimer) {
+          window.clearTimeout(_this.contactsTimer)
+          _this.contactsTimer = null
+        }
+      }
     },
 
     sortContacts (items) {

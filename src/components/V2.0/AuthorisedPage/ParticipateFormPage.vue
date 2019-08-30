@@ -22,7 +22,7 @@
                           maxlength="9"
                           @keyup.enter.native="submitForm('authorisedJoinForm')"
                           clearable></el-input>-->
-                        <el-autocomplete
+                        <!--<el-autocomplete
                           class="auth-attend-form-item auto-complete-room"
                           v-model.trim="authorisedJoinForm.roomCode"
                           :fetch-suggestions="querySearch"
@@ -30,7 +30,22 @@
                           @select="handleSelect"
                           @keyup.enter.native="submitForm('authorisedJoinForm')"
                           clearable
-                        ></el-autocomplete>
+                        ></el-autocomplete>-->
+                        <el-select
+                          v-model="authorisedJoinForm.roomCode"
+                          filterable
+                          remote
+                          reserve-keyword
+                          placeholder="房间号"
+                          :remote-method="remoteMethod"
+                          :loading="loading">
+                          <el-option
+                            v-for="item in historyOptions"
+                            :key="item.value"
+                            :label="item.label"
+                            :value="item.value">
+                          </el-option>
+                        </el-select>
                       </el-form-item>
                       <el-form-item label="" prop="roomPass">
                         <el-input placeholder="房间口令(可选)"
@@ -80,10 +95,26 @@ export default {
         roomCode: [
           { validator: validateRoomNum, trigger: ['blur', 'change'] }
         ]
-      }
+      },
+      historyOptions: [],
+      loading: false
     }
   },
   methods: {
+    remoteMethod (query) {
+      if (query !== '') {
+        this.loading = true
+        setTimeout(() => {
+          this.loading = false
+          this.historyOptions = this.histories.filter(item => {
+            return item.label.toLowerCase()
+              .indexOf(query.toLowerCase()) > -1
+          })
+        }, 200)
+      } else {
+        this.historyOptions = []
+      }
+    },
     querySearch (queryString, cb) {
       let _this = this
       let histories = _this.histories || []

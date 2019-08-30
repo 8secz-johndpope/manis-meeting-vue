@@ -54,6 +54,8 @@ export default {
   },
   data () {
     return {
+      textContent: '',
+      textFontSize: '24',
       canvasSize: {
         width: window.screen.availWidth - 80,
         height: window.screen.availHeight
@@ -146,7 +148,7 @@ export default {
       }, {
         name: '文本',
         icon: 'font',
-        fun: 'clear',
+        fun: 'text',
         isChoose: false
       }, {
         name: '保存',
@@ -194,6 +196,8 @@ export default {
         case 'rubber':
           _this.lineTracks.push({action: _action, data: _data, type: _type})
           break
+        case 'text':
+          this.curcursor = 'text'
       }
       // console.log('-------+++++++lineTracks++++++--------', _this.lineTracks)
     },
@@ -326,7 +330,12 @@ export default {
         this.lastXCoordinate = startX
         this.lastYCoordinate = startY
         this.canDraw = true
-        if (graphType === 'pencil') {
+        if (graphType === 'text') {
+          let _this = this
+          _this.drawText(this.context_bak, startX, startY, function () {
+            _this.saveDta2Canvas(e)
+          })
+        } else if (graphType === 'pencil') {
           this.context_bak.beginPath()
         } else if (graphType === 'circle') {
           this.context.beginPath()
@@ -342,20 +351,9 @@ export default {
         e = e || window.event
         // console.log('drawing stop', e, graphType)
         this.canDraw = false
-        let image = new Image()
+        // let image = new Image()
         if (graphType !== 'rubber') {
-          image.src = this.canvas_bak.toDataURL()
-          image.onload = () => {
-            this.context.drawImage(image, 0, 0, image.width, image.height, 0, 0, this.canvasSize.width, this.canvasSize.height)
-            this.clearContext()
-            this.saveImageToAry()
-          }
-          let x = e.clientX - this.canvasLeft
-          let y = e.clientY - this.canvasTop
-          this.context.beginPath()
-          this.context.moveTo(x, y)
-          this.context.lineTo(x + 2, y + 2)
-          this.context.stroke()
+          this.saveDta2Canvas(e)
         }
       }
       // 鼠标移动
@@ -446,7 +444,7 @@ export default {
           this.context_bak.lineWidth = 1
           this.clearContext()
           this.context_bak.beginPath()
-          this.context_bak.strokeStyle = '#000000'
+          this.context_bak.strokeStyle = '#dddddd'
           this.context_bak.moveTo(x - this.penSize * 10, y - this.penSize * 10)
           this.context_bak.lineTo(x + this.penSize * 10, y - this.penSize * 10)
           this.context_bak.lineTo(x + this.penSize * 10, y + this.penSize * 10)
@@ -481,6 +479,83 @@ export default {
       this.canvas_bak.onmouseup = () => mouseup()
       this.canvas_bak.onmouseout = () => mouseout()
     },
+
+    // 将蒙版上的数据持久化到画布
+    saveDta2Canvas (e) {
+      let x = e.clientX - this.canvasLeft
+      let y = e.clientY - this.canvasTop
+      this.canDraw = false
+      let image = new Image()
+      image.src = this.canvas_bak.toDataURL()
+      image.onload = () => {
+        this.context.drawImage(image, 0, 0, image.width, image.height, 0, 0, this.canvasSize.width, this.canvasSize.height)
+        this.clearContext()
+        this.saveImageToAry()
+      }
+      this.context.beginPath()
+      this.context.moveTo(x, y)
+      this.context.lineTo(x + 2, y + 2)
+      this.context.stroke()
+    },
+
+    drawText (ctx, x, y, cb) {
+      let _this = this
+      _this.showTextInput(function (text) {
+        console.log('handle input text: ', text)
+        _this.textContent = ''
+        if (text) {
+          ctx.font = _this.textFontSize + 'px Roboto,Lato,sans-serif'
+          ctx.fillStyle = _this.color.hex
+          ctx.fillText(text, x, y + 6)
+        } else {
+          ctx.stroke()
+          this.clearContext()
+          return 0
+        }
+        if (cb) {
+          cb()
+        }
+      })
+    },
+
+    showTextInput (cb) {
+      let _this = this
+      let selectElement = '<select>'
+      for (let i = 2; i < 32; i++) {
+        let value = 2 * i
+        let selected = (value.toString() === _this.textFontSize) ? 'selected="selected"' : ''
+        let optionItem = '<option value="' + value + '" ' + selected + '>' + value + '</option>'
+        selectElement += optionItem
+      }
+      selectElement += '</select>'
+
+      _this.$toast.info('字号:', '请输入文本文案', {
+        timeout: 0,
+        overlay: true,
+        displayMode: 'once',
+        id: 'draw_text_inputs',
+        zindex: 999,
+        position: 'center',
+        drag: false,
+        inputs: [
+          [selectElement, 'change', function (instance, toast, select, e) {
+            _this.textFontSize = select.value
+          }],
+          ['<input type="text">', 'keyup', function (instance, toast, input, e) {
+            _this.textContent = input.value
+          }, true]
+        ],
+        buttons: [
+          ['<button><b>确定</b></button>', function (instance, toast) {
+            instance.hide({ transitionOut: 'fadeOut' }, toast, 'button')
+            if (cb && _this.textContent) {
+              cb(_this.textContent)
+            }
+          }, false]
+        ]
+      })
+    },
+
     clearContext (type) {
       let _this = this
       if (!type) {

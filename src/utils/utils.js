@@ -2076,5 +2076,75 @@ export default {
         callBack(res)
       }
     })
+  },
+
+  /**
+   * ignore special characters
+   * @param str
+   * @returns {boolean}
+   */
+  ignoreSpecialCharacter: function (str) {
+    let regEn = /[`~!@#$%^&*()_+<>?:"{},./;'[\]]/im
+    let regCn = /[·！#￥（——）：；“”‘、，|《。》？、【】[\]]/im
+    if (regEn.test(str) || regCn.test(str)) {
+      return false
+    }
+    return true
+  },
+
+  /**
+   * search user by username or email
+   * @param apiServer
+   * @param queryStr
+   * @param callBack
+   */
+  searchUsers: function (apiServer, queryStr, callBack) {
+    let _this = this
+    let url = 'https://' + apiServer +
+      '/clientApi/participants/' +
+      window.manisConfg.mUserId + '?search=' + queryStr
+    window.fetch(url, {
+      headers: {
+        'userJid': (window.connection ? (window.connection.jid || '') : ''),
+        'token': (window.config ? (window.config.token || '') : '')
+      }
+    })
+      .then(_this.checkStatus)
+      .then(_this.parseJSON)
+      .then(result => {
+        callBack(result)
+      }).catch((failed) => {
+        console.error(failed)
+      })
+  },
+
+  /**
+   * submit reservation
+   * @param apiServer
+   * @param data
+   * @param callBack
+   */
+  submitReservation: function (apiServer, data, callBack) {
+    let _this = this
+    let url = 'https://' + apiServer +
+      '/clientApi/conferences/' +
+      window.manisConfg.mUserId.toUpperCase()
+    window.fetch(url, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'userJid': (window.connection ? (window.connection.jid || '') : ''),
+        'token': (window.config ? (window.config.token || '') : '')
+      },
+      body: data
+    })
+      .then(_this.checkStatus)
+      .then(_this.parseJSON)
+      .then(result => {
+        callBack(result)
+      }).catch((failed) => {
+        console.error(failed)
+      })
   }
+
 }

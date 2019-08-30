@@ -44,6 +44,11 @@ export default new Router({
       path: '/update',
       name: 'update',
       component: require('../components/Layout/UpdatePage').default
+    },
+    {
+      path: '/reservation',
+      name: 'reservation',
+      component: require('../components/V2.0/Reservation/FormPage').default
     }
   ]
 })

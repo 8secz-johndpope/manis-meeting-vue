@@ -454,9 +454,9 @@ export default {
   }
 
   .drawing-board-dialog .el-dialog__body .body {
-    background: rgba(0, 0, 0, .5) none repeat scroll !important;
+    background: rgba(0, 0, 0, .8) none repeat scroll !important;
     background: #000;
-    filter: Alpha(opacity=50);
+    filter: Alpha(opacity=80);
   }
 
   .drawing-board-dialog .el-dialog__header {
