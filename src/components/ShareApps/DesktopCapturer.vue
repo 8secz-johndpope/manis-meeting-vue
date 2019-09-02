@@ -15,7 +15,7 @@
 </template>
 <script>
 import Utils from '../../utils/utils'
-const {desktopCapturer} = require('electron') // @TODO uncomment this before publish
+// const {desktopCapturer} = require('electron') // @TODO uncomment this before publish
 
 export default {
   name: 'desktop-capture',
@@ -37,19 +37,19 @@ export default {
         _this.timer = null
       }
       // @TODO uncomment this before publish
-      desktopCapturer.getSources(
-        { types: ['window', 'screen'] },
-        (error, sources) => {
-          _this.captureSources = sources.filter(item => {
-            if (item.name.toLowerCase().indexOf('electron') < 0) {
-              return item
-            }
-          })
-          _this.timer = window.setTimeout(_this.showSources, 2000)
-          if (error) {
-            console.warn('get desktop capture sources failed: ', error)
-          }
-        })
+      // desktopCapturer.getSources(
+      //   { types: ['window', 'screen'] },
+      //   (error, sources) => {
+      //     _this.captureSources = sources.filter(item => {
+      //       if (item.name.toLowerCase().indexOf('electron') < 0) {
+      //         return item
+      //       }
+      //     })
+      //     _this.timer = window.setTimeout(_this.showSources, 2000)
+      //     if (error) {
+      //       console.warn('get desktop capture sources failed: ', error)
+      //     }
+      //   })
     },
 
     startCapture (id) {
