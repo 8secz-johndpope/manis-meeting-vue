@@ -62,10 +62,10 @@ import xqLogo from '../../assets/img/logo/xq/logo.png'
 import scLogo from '../../assets/img/logo/sc/logo.png'
 import qstLogo from '../../assets/img/logo/qst/logo.png'
 // @TODO uncomment this before publish
-// const {
-//   ipcRenderer
-// } = require('electron')
-// const {app} = require('electron').remote // @TODO uncomment this before publish
+const {
+  ipcRenderer
+} = require('electron')
+const {app} = require('electron').remote // @TODO uncomment this before publish
 
 export default {
   name: 'update-page',
@@ -90,41 +90,41 @@ export default {
   methods: {
     // @TODO uncomment this before publish
     handleUpdateStatus () {
-      // let _this = this
-      // ipcRenderer.on('update-asynchronous-reply', (event, arg) => {
-      //   console.log('----------------handle-update-asynchronous-reply-----', arg)
-      //   if (arg.steps !== undefined) {
-      //     _this.steps = arg.steps
-      //     switch (arg.action) {
-      //       case 'checking':
-      //         _this.notice = '正在检测升级...'
-      //         break
-      //       case 'available':
-      //         _this.notice = '发现新版本'
-      //         _this.newVersionInfo = arg.data
-      //         break
-      //       case 'downloading':
-      //         _this.notice = '正在下载升级包...'
-      //         _this.downProgress = arg.data
-      //         break
-      //       case 'downloaded':
-      //         _this.notice = '下载完成,重启应用完成升级'
-      //         break
-      //       case 'latested':
-      //         _this.notice = '当前版本为最新版,无需升级'
-      //         break
-      //       case 'error':
-      //         _this.notice = '升级失败'
-      //     }
-      //   }
-      // })
+      let _this = this
+      ipcRenderer.on('update-asynchronous-reply', (event, arg) => {
+        console.log('----------------handle-update-asynchronous-reply-----', arg)
+        if (arg.steps !== undefined) {
+          _this.steps = arg.steps
+          switch (arg.action) {
+            case 'checking':
+              _this.notice = '正在检测升级...'
+              break
+            case 'available':
+              _this.notice = '发现新版本'
+              _this.newVersionInfo = arg.data
+              break
+            case 'downloading':
+              _this.notice = '正在下载升级包...'
+              _this.downProgress = arg.data
+              break
+            case 'downloaded':
+              _this.notice = '下载完成,重启应用完成升级'
+              break
+            case 'latested':
+              _this.notice = '当前版本为最新版,无需升级'
+              break
+            case 'error':
+              _this.notice = '升级失败'
+          }
+        }
+      })
     },
 
     sendMsgToMain (arg) {
       let msg = arg || 'ping'
       // @TODO uncomment this before publish
       console.log('----------------send-update-asynchronous-message-----', msg)
-      // ipcRenderer.send('update-asynchronous-message', msg)
+      ipcRenderer.send('update-asynchronous-message', msg)
     },
 
     installUpdate () {
@@ -140,17 +140,17 @@ export default {
          * @BeforePublish
          * uncomment this before publish to repository
          */
-      // let appName = app.getName()
-      // if (appName.indexOf('scmeeting') > -1) {
-      //   this.appName = 'SCMeeting'
-      //   this.logoImgUrl = scLogo
-      // } else if (appName.indexOf('xiaoqiang') > -1) {
-      //   this.appName = '小强在线'
-      //   this.logoImgUrl = xqLogo
-      // } else if (appName.indexOf('qst') > -1) {
-      //   this.appName = '全视通'
-      //   this.logoImgUrl = qstLogo
-      // }
+      let appName = app.getName()
+      if (appName.indexOf('scmeeting') > -1) {
+        this.appName = 'SCMeeting'
+        this.logoImgUrl = scLogo
+      } else if (appName.indexOf('xiaoqiang') > -1) {
+        this.appName = '小强在线'
+        this.logoImgUrl = xqLogo
+      } else if (appName.indexOf('qst') > -1) {
+        this.appName = '全视通'
+        this.logoImgUrl = qstLogo
+      }
     }
   },
   mounted: function () {

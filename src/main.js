@@ -16,16 +16,15 @@ Vue.http = Vue.prototype.$http = axios
 Vue.config.productionTip = false
 
 // @TODO comment this before publish
-
-new Vue({
-  render: h => h(App),
-  router,
-  store
-}).$mount('#app')
-
-// @TODO uncomment this before publish
-// export default {
+// new Vue({
 //   render: h => h(App),
 //   router,
 //   store
-// }
+// }).$mount('#app')
+
+// @TODO uncomment this before publish
+export default {
+  render: h => h(App),
+  router,
+  store
+}

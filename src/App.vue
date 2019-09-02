@@ -46,7 +46,7 @@ import AboutPage from './components/Layout/AboutPage'
 import SettingPage from './components/Layout/SettingPage'
 import UpdatePage from './components/Layout/UpdatePage'
 // @TODO uncomment this before publish
-// const { ipcRenderer } = require('electron')
+const { ipcRenderer } = require('electron')
 
 export default {
   name: 'manis-meeting-vue',
@@ -68,27 +68,27 @@ export default {
   methods: {
     handleMsgFromIPCMain () {
       // @TODO uncomment this before publish
-      // let _this = this
-      // ipcRenderer.on('ipc-sender-asynchronous-reply', (event, arg) => {
-      //   console.log('-------------handle-ipc-sender-asynchronous-reply-------', arg)
-      //   if (arg && typeof arg === 'object') {
-      //     let action = arg.action || ''
-      //     switch (action) {
-      //       case 'signout':
-      //         _this.clickSignOut()
-      //         break
-      //       case 'abouts':
-      //         _this.showAbouts()
-      //         break
-      //       case 'settings':
-      //         _this.showSettings()
-      //         break
-      //       case 'updates':
-      //         _this.showUpdates()
-      //         break
-      //     }
-      //   }
-      // })
+      let _this = this
+      ipcRenderer.on('ipc-sender-asynchronous-reply', (event, arg) => {
+        console.log('-------------handle-ipc-sender-asynchronous-reply-------', arg)
+        if (arg && typeof arg === 'object') {
+          let action = arg.action || ''
+          switch (action) {
+            case 'signout':
+              _this.clickSignOut()
+              break
+            case 'abouts':
+              _this.showAbouts()
+              break
+            case 'settings':
+              _this.showSettings()
+              break
+            case 'updates':
+              _this.showUpdates()
+              break
+          }
+        }
+      })
     },
 
     showAbouts () {
@@ -120,7 +120,7 @@ export default {
 
     sendMsgToIPCMain (msg) {
       // @TODO uncomment this before publish
-      // ipcRenderer.send('ipc-main-asynchronous-message', msg)
+      ipcRenderer.send('ipc-main-asynchronous-message', msg)
     },
 
     signStateChanged (state) {
