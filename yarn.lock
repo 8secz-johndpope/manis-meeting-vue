@@ -1653,7 +1653,7 @@ cli-width@^2.0.0:
 
 clipboard@^2.0.0:
   version "2.0.4"
-  resolved "https://registry.npm.taobao.org/clipboard.js/download/clipboard.js-2.0.4.tgz#836dafd66cf0fea5d71ce5d5b0bf6e958009112d"
+  resolved "https://registry.npm.taobao.org/clipboard/download/clipboard-2.0.4.tgz#836dafd66cf0fea5d71ce5d5b0bf6e958009112d"
   dependencies:
     good-listener "^1.2.2"
     select "^1.1.2"
@@ -8277,6 +8277,10 @@ uuid@^3.0.1, uuid@^3.3.2:
   version "3.3.2"
   resolved "https://registry.npm.taobao.org/uuid/download/uuid-3.3.2.tgz#1b4af4955eb3077c501c23872fc6513811587131"
 
+v-click-outside@^2.1.3:
+  version "2.1.3"
+  resolved "https://registry.npm.taobao.org/v-click-outside/download/v-click-outside-2.1.3.tgz#b7297abe833a439dc0895e6418a494381e64b5e7"
+
 validate-npm-package-license@^3.0.1:
   version "3.0.4"
   resolved "https://registry.npm.taobao.org/validate-npm-package-license/download/validate-npm-package-license-3.0.4.tgz#fc91f6b9c7ba15c857f4cb2c5defeec39d4f410a"
@@ -8316,7 +8320,7 @@ vue-clipboard2@^0.3.0:
   version "0.3.0"
   resolved "https://registry.npm.taobao.org/vue-clipboard2/download/vue-clipboard2-0.3.0.tgz#b04d3f9a2d46f12ca85178445930b38463640b22"
   dependencies:
-    clipboard.js "^2.0.0"
+    clipboard "^2.0.0"
 
 vue-color@^2.7.0:
   version "2.7.0"
@@ -8388,6 +8392,12 @@ vue-loading-overlay@^3.2.0:
 vue-router@^3.0.6:
   version "3.0.7"
   resolved "https://registry.npm.taobao.org/vue-router/download/vue-router-3.0.7.tgz#b36ca107b4acb8ff5bc4ff824584059c23fcb87b"
+
+vue-simple-context-menu@^3.1.5:
+  version "3.1.5"
+  resolved "https://registry.npm.taobao.org/vue-simple-context-menu/download/vue-simple-context-menu-3.1.5.tgz#dbccfdf21683f48d1ea410fd7bfa4c5e82f9dc91"
+  dependencies:
+    v-click-outside "^2.1.3"
 
 vue-style-loader@^3.0.0, vue-style-loader@^3.0.1:
   version "3.1.2"

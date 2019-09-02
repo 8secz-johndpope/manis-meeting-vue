@@ -1,15 +1,15 @@
 import Vue from 'vue'
 import App from './App.vue'
-import './plugins/element.js'
-import './plugins/clipboard'
+import './plugins/elementUIPlugin.js'
+import './plugins/clipboardPlugin'
 import axios from 'axios'
 import router from './router'
 import store from './store'
-import './plugins/icoMoon'
-import './plugins/toast'
-import './plugins/overlayLoading'
-import './plugins/vueAwesome'
-// import './plugins/customTitlebar' // @TODO uncomment this before publsh
+import './plugins/icoMoonPlugin'
+import './plugins/toastPlugin'
+import './plugins/overlayLoadingPlugin'
+import './plugins/vueAwesomePlugin'
+import './plugins/mouseMenuPlugin'
 import './assets/css/style.css'
 
 Vue.http = Vue.prototype.$http = axios

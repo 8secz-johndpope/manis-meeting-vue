@@ -1,5 +1,5 @@
 // import path from 'path'
-const customTitlebar = require('custom-electron-titlebar')
+const customTitlebarPlugin = require('custom-electron-titlebar')
 const {
   app,
   process
@@ -17,10 +17,10 @@ if (appName.indexOf('scmeeting') > -1) {
 }
 
 if (process.platform !== 'darwin') {
-  const mainTitlebar = new customTitlebar.Titlebar({
-    backgroundColor: customTitlebar.Color.fromHex(bgColor),
+  const mainTitlebar = new customTitlebarPlugin.Titlebar({
+    backgroundColor: customTitlebarPlugin.Color.fromHex(bgColor),
     // icon: iconPath,
-    itemBackgroundColor: customTitlebar.Color.fromHex(bgColor)
+    itemBackgroundColor: customTitlebarPlugin.Color.fromHex(bgColor)
   })
 
   // Setting title explicitly

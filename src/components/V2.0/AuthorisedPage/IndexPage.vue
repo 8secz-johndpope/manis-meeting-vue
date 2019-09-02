@@ -41,7 +41,7 @@
                         placement="right"
                         width="240"
                         trigger="hover">
-                        <div class="conference-item-detail" @click="copyConferenceInfo(item)">
+                        <div class="conference-item-detail" @contextmenu.prevent.stop="handleShowMenuClick($event, item)">
                           <el-row :gutter="10">
                             <el-col class="conference-item-title" :span="24">
                               <div class="text-center">{{ item.title }}</div>
@@ -200,6 +200,12 @@
         v-on:reservationSubmit="reservationSubmit"></reservation-page>
       </el-dialog>
     </div>
+    <vue-simple-context-menu
+      :elementId="'myFirstMenu'"
+      :options="optionsRightMenu"
+      :ref="'vueSimpleContextMenu1'"
+      @option-clicked="menuItemClicked">
+    </vue-simple-context-menu>
   </div>
 </template>
 
@@ -249,10 +255,38 @@ export default {
       moreBtnType: '',
       contacts: [],
       contactsTimer: null,
-      reservationDialogFormVisible: false
+      reservationDialogFormVisible: false,
+      optionsRightMenu: [
+        {
+          name: '复制',
+          slug: 'copy'
+        },
+        {
+          name: '编辑',
+          slug: 'edit',
+          disabled: true
+        },
+        {
+          name: '删除',
+          slug: 'delete',
+          disabled: true
+        }
+      ]
     }
   },
   methods: {
+    handleShowMenuClick (event, item) {
+      this.$refs.vueSimpleContextMenu1.showMenu(event, item)
+    },
+    menuItemClicked (event) {
+      let _this = this
+      // console.log(JSON.stringify(event))
+      if (event.option.slug === 'copy') {
+        _this.copyConferenceInfo(event.item)
+      } else {
+        Utils.notification(_this, '功能持续开放中,敬请期待')
+      }
+    },
     showReservation () {
       let _this = this
       _this.reservationDialogFormVisible = true
@@ -288,7 +322,7 @@ export default {
         let date = new Date(info.startTime)
         startAt = Utils.doFormatDate(date, 'yyyy-MM-dd hh:mm')
       }
-      console.log('will copy conference information : ', info)
+      // console.log('will copy conference information : ', info)
       content += '会议号: ' + info.cNumber +
       '\n' +
       '会议室密码: ' + (info.meetPassword || '') +
