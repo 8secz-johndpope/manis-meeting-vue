@@ -135,8 +135,12 @@
             </el-dialog>
         </el-container>
         <el-container>
-          <el-dialog title="会议延时" :visible.sync="delayDialogFormVisible">
-            <el-form :model="form">
+          <el-dialog title="会议延时"
+                     :visible.sync="delayDialogFormVisible"
+                     width="30%"
+                     :modal="false"
+          >
+            <el-form>
               <el-form-item label="延长时间(分钟)">
                 <el-input type="number" v-model="delayMinutes" autocomplete="off"></el-input>
               </el-form-item>
