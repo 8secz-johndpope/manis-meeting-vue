@@ -134,6 +134,19 @@
               ></display-layout-page>
             </el-dialog>
         </el-container>
+        <el-container>
+          <el-dialog title="会议延时" :visible.sync="delayDialogFormVisible">
+            <el-form :model="form">
+              <el-form-item label="延长时间(分钟)">
+                <el-input type="number" v-model="delayMinutes" autocomplete="off"></el-input>
+              </el-form-item>
+            </el-form>
+            <div slot="footer" class="dialog-footer">
+              <el-button @click="delayDialogFormVisible = false">取 消</el-button>
+              <el-button type="primary" @click="submitDelay">确 定</el-button>
+            </div>
+          </el-dialog>
+        </el-container>
       </div>
     </el-container>
   </div>
@@ -199,7 +212,9 @@ export default {
       inviteDialogVisible: false,
       targetMode: '0',
       targetModeTitle: '环绕模式',
-      sortDialogVisible: false
+      sortDialogVisible: false,
+      delayMinutes: 15,
+      delayDialogFormVisible: false
     }
   },
   methods: {
@@ -534,6 +549,8 @@ export default {
       Utils.handleVideoStatusBeSet(_this.handleVideoStatusBeenSet)
       Utils.onRecordStatusChange(_this.handleRecordStatusChange)
       Utils.onRemoveModerator(_this.handleRemoveModerator)
+      Utils.onModeratorExistChange(_this.handleModeratorExistChange)
+      Utils.onRoomWillCountDwon(_this.handleRoomTimeout)
       let attendRoomNum = _this.$route.params.roomNumber || ''
       if (attendRoomNum) {
         _this.$store.dispatch('userSetting/commitHistory', {
@@ -642,7 +659,7 @@ export default {
     handleSomeoneLeft: function (res) {
       console.log('handle some one left: ', res)
       let _this = this
-      _this.checkLeftGuy(res.resource)
+      // _this.checkLeftGuy(res.resource)
       _this.$store.dispatch('conferenceRoom/onLeaveRoom', res.resource)
       _this.$refs.annotationComponent.checkLeftIsPainter(res.resource)
       if (_this.$refs['displayLayoutSet']) {
@@ -652,12 +669,41 @@ export default {
       }
     },
 
-    checkLeftGuy: function (endpoint) {
+    handleModeratorExistChange: function (response) {
       let _this = this
-      Utils.isModeratorLeft(_this.videoParticipants, endpoint, res => {
-        if (res) Utils.notification(_this, '主持人离开了房间,会议室将在5分钟后关闭', 'error')
+      let timeLeft = response.time || null
+      let appendStr = ''
+      if (timeLeft) {
+        appendStr = ', 会议室即将关闭'
+      }
+      Utils.notification(_this, '主持人离开了房间' + appendStr, 'error')
+    },
+
+    handleRoomTimeout: function (response) {
+      let _this = this
+      let timeLeft = response.countdown || ''
+      Utils.notification(_this, '本地会议还剩下: ' + timeLeft + '分钟, 会议室即将关闭')
+      if (_this.isModerator) {
+        // show delay dialog
+        _this.delayDialogFormVisible = true
+      }
+    },
+
+    submitDelay: function () {
+      let _this = this
+      _this.delayDialogFormVisible = false
+      let minutes = _this.delayMinutes
+      Utils.delayRoom(minutes, function (res) {
+        Utils.notification(_this, '会议延时' + minutes + '分钟')
       })
     },
+
+    // checkLeftGuy: function (endpoint) {
+    //   let _this = this
+    //   Utils.isModeratorLeft(_this.videoParticipants, endpoint, res => {
+    //     if (res) Utils.notification(_this, '主持人离开了房间,会议室将在5分钟后关闭', 'error')
+    //   })
+    // },
 
     updateLocalSSRC: function (obj) {
       this.$store.dispatch('conferenceRoom/updateData', {

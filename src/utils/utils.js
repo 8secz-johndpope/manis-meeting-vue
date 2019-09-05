@@ -2145,6 +2145,53 @@ export default {
       }).catch((failed) => {
         console.error(failed)
       })
+  },
+
+  /**
+   * handle moderator exist status change
+   * @param callBack
+   */
+  onModeratorExistChange: function (callBack) {
+    let _this = this
+    if (_this.moderatorExistEnv) {
+      _this.moderatorExistEnv = null
+    }
+    _this.moderatorExistEnv = Manis.onWithModeratorChanged(function (res) {
+      if (res.errorCode === _this.noErr) {
+        callBack(res.response)
+      }
+    })
+  },
+
+  /**
+   * 会议倒计时通知
+   * @param callBack
+   */
+  onRoomWillCountDwon: function (callBack) {
+    let _this = this
+    if (_this.willCountDownEnv) {
+      _this.willCountDownEnv = null
+    }
+    _this.willCountDownEnv = Manis.onRoomCountdown(function (res) {
+      if (res.errorCode === _this.noErr) {
+        callBack(res.response)
+      }
+    })
+  },
+
+  /**
+   *  会议延时
+   * @param minutes
+   * @param callBack
+   */
+  delayRoom: function (minutes, callBack) {
+    let _this = this
+    Manis.delayRoom(minutes, function (res) {
+      if (res.errorCode === _this.noErr) {
+        return callBack(res)
+      }
+      console.error('delay room failed ', res)
+    })
   }
 
 }
