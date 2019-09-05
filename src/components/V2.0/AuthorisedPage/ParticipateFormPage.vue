@@ -102,7 +102,14 @@ export default {
   },
   methods: {
     remoteMethod (query) {
+      let _this = this
       if (query !== '') {
+        if (query.length === 9) {
+          _this.$store.dispatch('userSetting/commitHistory', {
+            value: query,
+            label: query
+          })
+        }
         this.loading = true
         setTimeout(() => {
           this.loading = false
@@ -144,6 +151,10 @@ export default {
           if (res.mcode === 200) {
             _this.authorisedJoinForm.roomCode = window.config.cNumber
             _this.authorisedJoinForm.roomPass = res.obj.meetPassword || ''
+            _this.$store.dispatch('userSetting/commitHistory', {
+              value: window.config.cNumber.toString(),
+              label: window.config.cNumber.toString()
+            })
           }
         }
       )
