@@ -57,8 +57,8 @@ export default {
       textContent: '',
       textFontSize: '24',
       canvasSize: {
-        width: window.screen.availWidth - 80,
-        height: window.screen.availHeight
+        width: window.screen.width - 80,
+        height: window.screen.height
       },
       showLineSize: false,
       canvas: this.$refs.canvas,
@@ -766,8 +766,8 @@ export default {
     this.canvas_bak.addEventListener('click', this.falseLineSize)
     window.addEventListener('resize', () => {
       this.canvasSize = {
-        width: window.screen.availWidth - 80,
-        height: window.screen.availHeight
+        width: window.screen.width - 80,
+        height: window.screen.height
       }
     })
     this.getStreamFromCanvas()
