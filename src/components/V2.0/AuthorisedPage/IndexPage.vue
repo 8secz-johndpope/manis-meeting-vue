@@ -260,16 +260,6 @@ export default {
         {
           name: '复制',
           slug: 'copy'
-        },
-        {
-          name: '编辑',
-          slug: 'edit',
-          disabled: true
-        },
-        {
-          name: '删除',
-          slug: 'delete',
-          disabled: true
         }
       ]
     }
