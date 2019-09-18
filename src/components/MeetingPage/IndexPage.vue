@@ -555,6 +555,7 @@ export default {
       Utils.onRemoveModerator(_this.handleRemoveModerator)
       Utils.onModeratorExistChange(_this.handleModeratorExistChange)
       Utils.onRoomWillCountDwon(_this.handleRoomTimeout)
+      Utils.onShareWindowClosed(_this.handleShareWindowClosed)
       let attendRoomNum = _this.$route.params.roomNumber || ''
       if (attendRoomNum) {
         _this.$store.dispatch('userSetting/commitHistory', {
@@ -574,6 +575,13 @@ export default {
           }
         )
       }
+    },
+
+    handleShareWindowClosed: function (env) {
+      console.log(env)
+      let _this = this
+      Utils.notification(_this, '分享的窗口已经关闭,结束屏幕分享', 'error')
+      _this.stopShareScreen()
     },
 
     handleRemoveModerator: function (res) {

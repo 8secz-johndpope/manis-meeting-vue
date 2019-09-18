@@ -1103,10 +1103,33 @@ export default {
    */
   startShareScreen: function (stream, callBack) {
     let _this = this
+    if (!stream.oninactive) {
+      stream.oninactive = function (e) {
+        if (_this.shareWindowCloseEnv) {
+          window.dispatchEvent(_this.shareWindowCloseEnv)
+        }
+      }
+    }
     Manis.addSecondStreamToConnection(stream, function (res) {
       if (res.errorCode === _this.noErr) {
         callBack(res)
       }
+    })
+  },
+
+  /**
+   *
+   * @param callBack
+   */
+  onShareWindowClosed: function (callBack) {
+    let _this = this
+    if (_this.shareWindowCloseEnv) {
+      window.removeEventListener('shareWindowClosed')
+      _this.shareWindowCloseEnv = null
+    }
+    _this.shareWindowCloseEnv = new Event('shareWindowClosed')
+    window.addEventListener('shareWindowClosed', function (e) {
+      callBack(e)
     })
   },
 
