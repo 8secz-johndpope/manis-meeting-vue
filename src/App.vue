@@ -55,6 +55,7 @@ export default {
       showAboutPage: false,
       showSettingPage: false,
       showUpdatePage: false,
+      isFullScreened: false,
       audioInputOptions: [],
       audioOutputOptions: [],
       videoInputOptions: []
@@ -116,6 +117,14 @@ export default {
       let _this = this
       Utils.clearSignInUserInfo(_this)
       // window.location.reload()
+    },
+
+    switchFullscreenModel () {
+      let _this = this
+      this.sendMsgToIPCMain({
+        action: 'switchFullscreen'
+      })
+      _this.isFullScreened = !_this.isFullScreened
     },
 
     sendMsgToIPCMain (msg) {
@@ -375,6 +384,17 @@ export default {
           _this.$router.push({name: 'v2-login'})
         }, 1000)
       })
+    },
+
+    handleKeyCode: function () {
+      let _this = this
+      document.onkeydown = function (event) {
+        let currentKey = event.charCode || event.keyCode
+        if (currentKey === 122) {
+          // F11 click
+          _this.switchFullscreenModel()
+        }
+      }
     }
   },
   computed: {
@@ -396,6 +416,7 @@ export default {
     this.handleInviteBeenMake()
     this.handleRoomReadyNotice()
     this.handleSignInSomewhereELse()
+    this.handleKeyCode()
   }
 }
 </script>
