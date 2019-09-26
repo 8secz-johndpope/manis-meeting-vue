@@ -151,7 +151,7 @@ export default {
       } else if (appName.indexOf('qst') > -1) {
         this.appName = '全视通'
         this.logoImgUrl = qstLogo
-      } else if (appName.indexOf('lmt') > -1) {
+      } else if (appName.indexOf('lwt') > -1) {
         this.appName = '蓝卫通'
         this.logoImgUrl = lwtLogo
       }
