@@ -457,6 +457,8 @@ export default {
         this.appName = '小强在线' + this.appName
       } else if (appName.indexOf('qst') > -1) {
         this.appName = '全视通' + this.appName
+      } else if (appName.indexOf('lmt') > -1) {
+        this.appName = '蓝卫通' + this.appName
       }
       this.version = app.getVersion()
     },

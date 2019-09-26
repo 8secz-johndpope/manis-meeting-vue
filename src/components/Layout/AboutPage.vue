@@ -28,6 +28,7 @@
 import xqLogo from '../../assets/img/logo/xq/logo.png'
 import scLogo from '../../assets/img/logo/sc/logo.png'
 import qstLogo from '../../assets/img/logo/qst/logo.png'
+import lwtLogo from '../../assets/img/logo/lwt/logo.png'
 const {app} = require('electron').remote // @TODO uncomment this before publish
 
 export default {
@@ -36,7 +37,7 @@ export default {
   components: {},
   data: function () {
     return {
-      logoImgUrl: xqLogo || scLogo || qstLogo,
+      logoImgUrl: xqLogo || scLogo || qstLogo || lwtLogo,
       version: '1.0.0',
       appName: ''
     }
@@ -65,6 +66,9 @@ export default {
       } else if (appName.indexOf('qst') > -1) {
         this.appName = '全视通'
         this.logoImgUrl = qstLogo
+      } else if (appName.indexOf('lmt') > -1) {
+        this.appName = '蓝卫通'
+        this.logoImgUrl = lwtLogo
       }
     }
   },
