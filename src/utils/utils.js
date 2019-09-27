@@ -1124,8 +1124,9 @@ export default {
   onShareWindowClosed: function (callBack) {
     let _this = this
     if (_this.shareWindowCloseEnv) {
-      window.removeEventListener('shareWindowClosed')
-      _this.shareWindowCloseEnv = null
+      window.removeEventListener('shareWindowClosed', function (e) {
+        _this.shareWindowCloseEnv = null
+      })
     }
     _this.shareWindowCloseEnv = new Event('shareWindowClosed')
     window.addEventListener('shareWindowClosed', function (e) {

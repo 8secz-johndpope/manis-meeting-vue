@@ -450,18 +450,22 @@ export default {
         room,
         _this.roomPass,
         res => {
-          _this.loadingHide()
-          console.log(res)
-          if (res.errorCode === '000000') {
-            let isModerator = res.response.is_moderator || false
-            _this.nickname = res.response.info.nickname || ''
-            _this.$store.dispatch('conferenceRoom/updateControlStatus', isModerator)
+          try {
+            _this.loadingHide()
+            console.log(res)
+            if (res.errorCode === '000000') {
+              let isModerator = res.response.is_moderator || false
+              _this.nickname = res.response.info.nickname || ''
+              _this.$store.dispatch('conferenceRoom/updateControlStatus', isModerator)
+            }
+            _this.handleParticipate({type: 'video', data: res.response})
+            _this.registerEnvHandler()
+          } catch (e) {
+            console.error('register events failed', e)
           }
-          _this.handleParticipate({type: 'video', data: res.response})
-          _this.registerEnvHandler()
         },
         err => {
-          // console.error(err)
+          console.error(err)
           _this.loadingHide()
           if (err.errorCode === '300300') {
             // room password require
