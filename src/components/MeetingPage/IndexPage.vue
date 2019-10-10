@@ -541,6 +541,25 @@ export default {
       }
     },
 
+    actionsAfterJoinRoom: function () {
+      let _this = this
+      let params = _this.$route.params
+      if (params.actions && params.actions.attendNum && params.actions.attendType) {
+        Utils.doClientCall(
+          _this.apiServer,
+          params.roomNumber,
+          params.code,
+          params.actions.attendNum,
+          params.actions.attendType,
+          (params.actions.attendOthersType || params.actions.attendType),
+          params.actions.attendNickname,
+          function (res) {
+            console.log('call after attend', res)
+          }
+        )
+      }
+    },
+
     registerEnvHandler: function () {
       let _this = this
       _this.initMediaDeviceStatus()
@@ -579,6 +598,7 @@ export default {
           }
         )
       }
+      _this.actionsAfterJoinRoom()
     },
 
     handleShareWindowClosed: function (env) {
@@ -877,6 +897,9 @@ export default {
     },
     showVideos () {
       return this.$store.state.conferenceRoom.showStreams
+    },
+    apiServer () {
+      return this.$store.state.serverSetting.serverAddr
     },
     videoParticipants () {
       return this.$store.state.conferenceRoom.videoStreams

@@ -5,6 +5,7 @@
         <el-col :span="24">
           <private-meeting-form
             v-on:participate="joinRoom"
+            v-on:attend="attendRoom"
           ></private-meeting-form>
         </el-col>
         <el-col :span="24">
@@ -187,6 +188,7 @@
         <el-col :span="24">
           <authorised-participate-form
           v-on:participate="joinRoom"
+          v-on:attend="attendRoom"
           ></authorised-participate-form>
         </el-col>
       </el-row>
@@ -206,6 +208,44 @@
       :ref="'vueSimpleContextMenu1'"
       @option-clicked="menuItemClicked">
     </vue-simple-context-menu>
+    <div class="attend-container">
+      <el-dialog
+        width="260px"
+        class="text-center"
+        :title="attendDialogFormTitle"
+        :visible.sync="attendDialogFormVisible">
+        <el-form :model="attendForm" :rules="attendFormRules" ref="attendForm" >
+          <el-form-item label="">
+            <el-select v-model="attendForm.attendType" placeholder="请选择类型">
+              <el-option label="SIP" value="sip" :disabled="!callConfig.sip"></el-option>
+              <el-option label="H323" value="h323" :disabled="!callConfig.h323"></el-option>
+              <el-option label="电话" value="tel" :disabled="!callConfig.tel"></el-option>
+              <el-option label="使用其他终端参会" value="others" :disabled="!callConfig.other"></el-option>
+            </el-select>
+          </el-form-item>
+          <el-form-item label="" prop="attendNum">
+            <el-input v-model="attendForm.attendNum"
+                      autocomplete="off"
+                      :placeholder="(attendForm.attendType != 'tel')? '终端号码':'号码'"
+                      clearable></el-input>
+          </el-form-item>
+          <el-form-item label="" v-show="(attendForm.attendType != 'tel')">
+            <el-input v-model="attendForm.attendNickname" autocomplete="off" placeholder="昵称" clearable></el-input>
+          </el-form-item>
+          <el-form-item label="" v-show="(attendForm.attendType == 'others')" prop="attendOthersType">
+            <el-select v-model="attendForm.attendOthersType">
+              <el-option label="SIP" value="sip" :disabled="!callConfig.sip"></el-option>
+              <el-option label="H323" value="h323" :disabled="!callConfig.h323"></el-option>
+              <el-option label="电话" value="tel" :disabled="!callConfig.tel"></el-option>
+            </el-select>
+          </el-form-item>
+        </el-form>
+        <div slot="footer" class="dialog-footer">
+          <el-button @click="resetForm('attendForm')">取 消</el-button>
+          <el-button type="primary" @click="submitForm('attendForm')">确 定</el-button>
+        </div>
+      </el-dialog>
+    </div>
   </div>
 </template>
 
@@ -244,6 +284,13 @@ export default {
     }
   },
   data: function () {
+    var checkClientType = (rule, value, callback) => {
+      let _this = this
+      if (!value && _this.attendForm.attendType === 'others') {
+        return callback(new Error('请选择需要使用的终端类型'))
+      }
+      callback()
+    }
     return {
       activeName: 'upcoming',
       activePage: 1,
@@ -261,10 +308,83 @@ export default {
           name: '复制',
           slug: 'copy'
         }
-      ]
+      ],
+      attendFormLabelWidth: '120px',
+      attendDialogFormTitle: '加入会议',
+      attendDialogFormVisible: false,
+      attendForm: {
+        attendType: '',
+        attendNum: '',
+        attendNickname: '',
+        attendOthersType: ''
+      },
+      attendRoomNum: '',
+      attendRoomPwd: '',
+      callConfig: window.config.call || {
+        sip: false,
+        h323: false,
+        tel: false,
+        other: false
+      },
+      attendFormRules: {
+        attendNum: [
+          { required: true, message: '请输入需要呼叫的号码', trigger: 'blur' }
+        ],
+        attendOthersType: [
+          { validator: checkClientType, trigger: 'blur' }
+        ]
+      }
     }
   },
   methods: {
+    attendRoom (room, pass, type) {
+      let _this = this
+      _this.attendForm.attendType = type
+      _this.attendRoomNum = room
+      _this.attendRoomPwd = pass || ''
+      _this.attendDialogFormVisible = true
+    },
+
+    joinWithCall () {
+      let _this = this
+      _this.attendDialogFormVisible = false
+      _this.joinRoom(_this.attendRoomNum, _this.attendRoomPwd, _this.attendForm)
+    },
+
+    submitForm (formName) {
+      let _this = this
+      _this.$refs[formName].validate((valid) => {
+        if (valid) {
+          if (_this.attendForm.attendType === 'others') {
+            Utils.doClientCall(
+              _this.apiServer,
+              _this.attendRoomNum,
+              _this.attendRoomPwd,
+              _this.attendForm.attendNum,
+              _this.attendForm.attendType,
+              _this.attendForm.attendOthersType,
+              _this.attendForm.attendNickname,
+              function (res) {
+                console.log('call other client attend', res)
+              }
+            )
+            _this.attendDialogFormVisible = false
+          } else {
+            _this.joinWithCall()
+          }
+        } else {
+          console.log('error submit!!')
+          return false
+        }
+      })
+    },
+
+    resetForm (formName) {
+      let _this = this
+      _this.attendDialogFormVisible = false
+      _this.$refs[formName].resetFields()
+    },
+
     handleShowMenuClick (event, item) {
       this.$refs.vueSimpleContextMenu1.showMenu(event, item)
     },
@@ -428,9 +548,9 @@ export default {
         console.error(err)
       })
     },
-    joinRoom (room, pass) {
+    joinRoom (_room, _pass, _actions) {
       let _this = this
-      if (!room) {
+      if (!_room) {
         return false
       }
       if (!_this.audioIn || !_this.videoIn || !_this.audioOut) {
@@ -447,9 +567,10 @@ export default {
       //   }
       // })
       _this.$emit('doAttendIntoRoom', {
-        roomNumber: room,
+        roomNumber: _room,
         mode: 'authorised',
-        code: (pass || '')
+        code: (_pass || ''),
+        actions: _actions
       })
     }
   },
@@ -569,6 +690,7 @@ export default {
 
   .meeting-item-participate {
     /*padding: 10px 0px;*/
+    text-align: right;
   }
 
   .meeting-item .meeting-item-participate {

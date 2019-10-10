@@ -676,4 +676,35 @@ export default {
     border: 0px !important;
     color: #ffffff !important;
   }
+
+  .attend-dropdown-menu .el-button-group>.el-button:first-child {
+    border-top-left-radius: 18px;
+    border-bottom-left-radius: 18px;
+    background: #3E4459;
+    color: #ffffff;
+    border: 1px solid #3E4459;
+  }
+
+  .attend-dropdown-menu .el-button-group>.el-button:last-child {
+    border-top-right-radius: 18px;
+    border-bottom-right-radius: 18px;
+    background: #3E4459;
+    color: #ffffff;
+    border: 1px solid #3E4459;
+  }
+
+  .attend-dropdown {
+    background: #3E4459;
+    border: 1px solid #3E4459;
+    overflow-y: hidden;
+  }
+
+  .attend-dropdown .el-dropdown-menu__item:not(.is-disabled) {
+    color: #ffffff;
+  }
+
+  .attend-dropdown .el-dropdown-menu__item:focus, .attend-dropdown .el-dropdown-menu__item:not(.is-disabled):hover {
+    background-color: rgba(234, 250, 241, .6);
+    color: rgb(0, 0, 0);
+  }
 </style>

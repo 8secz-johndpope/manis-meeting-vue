@@ -10,7 +10,7 @@
       </el-col>
       <el-col :span="24">
         <el-row :gutter="10">
-          <el-col :span="16">
+          <el-col :span="12">
             <a href="javascript: void (0);" @click="copyMyPrivateRoomInfo">
               <el-row :gutter="0" class="private-room-link">
                 <el-col class="text-center" :span="4" :offset="2">
@@ -22,10 +22,19 @@
               </el-row>
             </a>
           </el-col>
-          <el-col :span="8" class="private-room-submit">
-            <el-button round @click="startPrivateMeeting" class="light-blue">
+          <el-col :span="12" class="private-room-submit">
+            <!--<el-button round @click="startPrivateMeeting" class="light-blue">
               <strong>进入会议</strong>
-            </el-button>
+            </el-button>-->
+            <el-dropdown class="attend-dropdown-menu" split-button round  trigger="click" @click="startPrivateMeeting" @command="handleCommand">
+              进入会议
+              <el-dropdown-menu slot="dropdown" class="attend-dropdown">
+                <el-dropdown-item command="sip" :disabled="!callConfig.sip">呼叫SIP</el-dropdown-item>
+                <el-dropdown-item command="h323" :disabled="!callConfig.h323">呼叫H323</el-dropdown-item>
+                <el-dropdown-item command="tel" :disabled="!callConfig.tel">呼叫电话</el-dropdown-item>
+                <el-dropdown-item command="others" :disabled="!callConfig.other">使用其他终端参会</el-dropdown-item>
+              </el-dropdown-menu>
+            </el-dropdown>
           </el-col>
         </el-row>
       </el-col>
@@ -42,7 +51,13 @@ export default {
   data: function () {
     return {
       privateRoom: '',
-      privatePass: ''
+      privatePass: '',
+      callConfig: window.config.call || {
+        sip: false,
+        h323: false,
+        tel: false,
+        other: false
+      }
     }
   },
   methods: {
@@ -77,6 +92,11 @@ export default {
       if (_this.privateRoom) {
         _this.$emit('participate', _this.privateRoom, _this.privatePass)
       }
+    },
+
+    handleCommand (type) {
+      let _this = this
+      _this.$emit('attend', _this.privateRoom, _this.privatePass, type)
     }
   },
   filters: {

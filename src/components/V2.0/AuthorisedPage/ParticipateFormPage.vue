@@ -7,7 +7,7 @@
               </div>
               <div class="join-room-form-box">
                 <el-row :gutter="10">
-                  <el-col :span="16">
+                  <el-col :span="12">
                     <el-form @submit.native.prevent
                       :model="authorisedJoinForm"
                       :rules="authorisedJoinFormRules"
@@ -57,11 +57,20 @@
                       </el-form-item>
                     </el-form>
                   </el-col>
-                  <el-col :span="8">
+                  <el-col :span="12">
                     <div class="meeting-item-participate join-with-room-id">
-                      <el-button class="participate-room-submit" round @click="submitForm('authorisedJoinForm')" size="mini">
+                      <!--<el-button class="participate-room-submit" round @click="submitForm('authorisedJoinForm')" size="mini">
                         <span>加入会议</span>
-                      </el-button>
+                      </el-button>-->
+                      <el-dropdown class="attend-dropdown-menu" split-button round  trigger="click" @click="submitForm('authorisedJoinForm')" @command="handleCommand">
+                        加入会议
+                        <el-dropdown-menu slot="dropdown" class="attend-dropdown">
+                          <el-dropdown-item command="sip" :disabled="!callConfig.sip">呼叫SIP</el-dropdown-item>
+                          <el-dropdown-item command="h323" :disabled="!callConfig.h323">呼叫H323</el-dropdown-item>
+                          <el-dropdown-item command="tel" :disabled="!callConfig.tel">呼叫电话</el-dropdown-item>
+                          <el-dropdown-item command="others" :disabled="!callConfig.other">使用其他终端参会</el-dropdown-item>
+                        </el-dropdown-menu>
+                      </el-dropdown>
                     </div>
                   </el-col>
                 </el-row>
@@ -97,10 +106,20 @@ export default {
         ]
       },
       historyOptions: [],
-      loading: false
+      loading: false,
+      callConfig: window.config.call || {
+        sip: false,
+        h323: false,
+        tel: false,
+        other: false
+      }
     }
   },
   methods: {
+    handleCommand (type) {
+      let _this = this
+      _this.$emit('attend', _this.authorisedJoinForm.roomCode, _this.authorisedJoinForm.roomPass, type)
+    },
     remoteMethod (query) {
       let _this = this
       if (query !== '') {
@@ -226,6 +245,7 @@ export default {
 
   .join-with-room-id {
     margin-top: 48px;
+    text-align: right;
   }
 
   .participate-room-submit {

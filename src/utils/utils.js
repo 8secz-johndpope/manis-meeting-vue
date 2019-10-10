@@ -2213,6 +2213,44 @@ export default {
       }
       console.error('delay room failed ', res)
     })
+  },
+
+  /**
+   * send call request to admin
+   * @param _server
+   * @param _room
+   * @param _pwd
+   * @param _num
+   * @param _type
+   * @param _client
+   * @param _nickname
+   * @param _cb
+   */
+  doClientCall: function (_server, _room, _pwd, _num, _type, _client, _nickname, _cb) {
+    let _this = this
+    let url = 'https://' + _server +
+      '/clientApi/conference/call?' +
+      'type=' + _type +
+      '&callType=' + _client +
+      '&number=' + _num +
+      '&roomNumber=' + _room +
+      '&roomPwd=' + _pwd +
+      '&nickname=' + _nickname
+    window.fetch(url, {
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json',
+        'userJid': (window.connection ? (window.connection.jid || '') : ''),
+        'token': (window.config ? (window.config.token || '') : '')
+      }
+    })
+      .then(_this.checkStatus)
+      .then(_this.parseJSON)
+      .then(result => {
+        _cb(result)
+      }).catch((failed) => {
+        console.error(failed)
+      })
   }
 
 }
