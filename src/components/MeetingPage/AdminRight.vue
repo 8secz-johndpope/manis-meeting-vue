@@ -259,6 +259,26 @@ export default {
         Utils.notification(_this, '请输入您要呼叫的号码')
         return true
       }
+      if (window.config.call) {
+        console.log('server: ', _this.apiServer, ' room : ', _this.$route.params.roomNumber, ' pwd: ', _this.$route.params.code, ' number: ', _this.clientNumber, ' type: ', _this.clientType)
+        Utils.doClientCall(
+          _this.apiServer,
+          _this.$route.params.roomNumber,
+          _this.$route.params.code,
+          _this.clientNumber,
+          'tel',
+          'tel',
+          '',
+          res => {
+            _this.clientNumber = ''
+            Utils.notification(
+              _this,
+              '呼叫已发送'
+            )
+          }
+        )
+        return true
+      }
       Utils.fetchRightPhoneNum(_this.clientNumber, function (res) {
         Utils.sendClientCall(res.response, function () {
           _this.showCallInProgress(_this.clientNumber, res.response)
@@ -277,6 +297,26 @@ export default {
       let _this = this
       if (!_this.clientNumber) {
         Utils.notification(_this, '请输入您要呼叫的号码')
+        return true
+      }
+      if (window.config.call) {
+        console.log('server: ', _this.apiServer, ' room : ', _this.$route.params.roomNumber, ' pwd: ', _this.$route.params.code, ' number: ', _this.clientNumber, ' type: ', _this.clientType)
+        Utils.doClientCall(
+          _this.apiServer,
+          _this.$route.params.roomNumber,
+          _this.$route.params.code,
+          _this.clientNumber,
+          _this.clientType,
+          _this.clientType,
+          '',
+          res => {
+            _this.clientNumber = ''
+            Utils.notification(
+              _this,
+              '呼叫已发送'
+            )
+          }
+        )
         return true
       }
       let clientNum = _this.clientType + ':' + _this.clientNumber
