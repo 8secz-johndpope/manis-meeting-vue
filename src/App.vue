@@ -694,17 +694,17 @@ export default {
   }
 
   .attend-dropdown {
-    background: #3E4459;
-    border: 1px solid #3E4459;
-    overflow-y: hidden;
+    background: #3E4459 !important;
+    border: 1px solid #3E4459 !important;
+    overflow-y: hidden !important;
   }
 
   .attend-dropdown .el-dropdown-menu__item:not(.is-disabled) {
-    color: #ffffff;
+    color: #ffffff !important;
   }
 
   .attend-dropdown .el-dropdown-menu__item:focus, .attend-dropdown .el-dropdown-menu__item:not(.is-disabled):hover {
-    background-color: rgba(234, 250, 241, .6);
-    color: rgb(0, 0, 0);
+    background-color: rgba(234, 250, 241, .6) !important;
+    color: rgb(0, 0, 0) !important;
   }
 </style>

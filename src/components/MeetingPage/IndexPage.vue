@@ -53,6 +53,7 @@
             :screenSharing="screenSharing"
             :isModerator="isModerator"
             v-on:showInviteDialog="showInviteDialog"
+            v-on:doDTMF="showDTMF"
           ></room-members>
           <text-chat :class="['hidden', {'show': showTextMsg}]" ref="text-chat"></text-chat>
           <device-setting :class="['hidden', {'show': showDeviceSetting}]"></device-setting>
@@ -151,6 +152,91 @@
             </div>
           </el-dialog>
         </el-container>
+        <el-container>
+          <el-dialog :title="dtmfNickname"
+                     :visible.sync="dtmfDialogFormVisible"
+                     :modal="false"
+                     :before-close="closeDTMF"
+                     width="320px"
+                     style="padding: 10px 20px"
+          >
+            <div class="dtmf-container">
+              <el-row :gutter="10">
+                <el-col :span="24">
+                  <div class="dtmf-input" v-show="dtmfInput">{{ dtmfInput }}</div>
+                </el-col>
+              </el-row>
+              <el-row type="flex" class="row-bg dtmf-row" :gutter="10" justify="center">
+                <el-col :span="8">
+                  <div class="grid-content bg-purple">
+                    <el-button @click.stop="sendDTMF('7')">7</el-button>
+                  </div>
+                </el-col>
+                <el-col :span="8">
+                  <div class="grid-content bg-purple">
+                    <el-button @click.stop="sendDTMF('8')">8</el-button>
+                  </div>
+                </el-col>
+                <el-col :span="8">
+                  <div class="grid-content bg-purple">
+                    <el-button @click.stop="sendDTMF('9')">9</el-button>
+                  </div>
+                </el-col>
+              </el-row>
+              <el-row type="flex" class="row-bg dtmf-row" :gutter="10" justify="center">
+                <el-col :span="8">
+                  <div class="grid-content bg-purple">
+                    <el-button @click.stop="sendDTMF('4')">4</el-button>
+                  </div>
+                </el-col>
+                <el-col :span="8">
+                  <div class="grid-content bg-purple">
+                    <el-button @click.stop="sendDTMF('5')">5</el-button>
+                  </div>
+                </el-col>
+                <el-col :span="8">
+                  <div class="grid-content bg-purple">
+                    <el-button @click.stop="sendDTMF('6')">6</el-button>
+                  </div>
+                </el-col>
+              </el-row>
+              <el-row type="flex" class="row-bg dtmf-row" :gutter="10" justify="center">
+                <el-col :span="8">
+                  <div class="grid-content bg-purple">
+                    <el-button @click.stop="sendDTMF('1')">1</el-button>
+                  </div>
+                </el-col>
+                <el-col :span="8">
+                  <div class="grid-content bg-purple">
+                    <el-button @click.stop="sendDTMF('2')">2</el-button>
+                  </div>
+                </el-col>
+                <el-col :span="8">
+                  <div class="grid-content bg-purple">
+                    <el-button @click.stop="sendDTMF('3')">3</el-button>
+                  </div>
+                </el-col>
+              </el-row>
+              <el-row type="flex" class="row-bg dtmf-row" :gutter="10" justify="center">
+                <el-col :span="8">
+                  <div class="grid-content bg-purple">
+                    <el-button @click.stop="sendDTMF('*')">*</el-button>
+                  </div>
+                </el-col>
+                <el-col :span="8">
+                  <div class="grid-content bg-purple">
+                    <el-button @click.stop="sendDTMF('0')">0</el-button>
+                  </div>
+                </el-col>
+                <el-col :span="8">
+                  <div class="grid-content bg-purple">
+                    <el-button @click.stop="sendDTMF('#')">#</el-button>
+                  </div>
+                </el-col>
+              </el-row>
+            </div>
+          </el-dialog>
+        </el-container>
       </div>
     </el-container>
   </div>
@@ -218,10 +304,42 @@ export default {
       targetModeTitle: '环绕模式',
       sortDialogVisible: false,
       delayMinutes: 15,
-      delayDialogFormVisible: false
+      delayDialogFormVisible: false,
+      dtmfDialogFormVisible: false,
+      dtmfInput: '',
+      dtmfItem: null,
+      dtmfNickname: ''
     }
   },
   methods: {
+    showDTMF: function (item) {
+      console.log('show dtmf keyboard for : ', item)
+      this.dtmfItem = item
+      this.dtmfNickname = this.dtmfItem.nickname || ''
+      this.dtmfDialogFormVisible = true
+    },
+
+    sendDTMF: function (code) {
+      let _this = this
+      Utils.sendDTMF(
+        _this.apiServer,
+        _this.dtmfItem,
+        code,
+        res => {
+          console.log('send DTMF code: ', code, ' success and handle result: ', res)
+        }
+      )
+      this.dtmfInput += ('' + code)
+    },
+
+    closeDTMF: function () {
+      console.log('will close dtmf and clean history')
+      this.dtmfInput = ''
+      this.dtmfNickname = ''
+      this.dtmfDialogFormVisible = false
+      this.dtmfItem = null
+    },
+
     showInviteDialog: function (status) {
       this.inviteDialogVisible = status
       this.hideAsideContainer()
@@ -964,4 +1082,18 @@ export default {
     padding: 0px;
   }
 
+  .dtmf-container {
+    text-align: center;
+  }
+  .dtmf-row {
+    margin: 20px auto;
+  }
+
+  div.dtmf-input {
+    margin: 0px 16px;
+    text-align: center;
+    background: #ddd;
+    font-size: 1.6rem;
+    word-break: break-word;
+  }
 </style>

@@ -2011,7 +2011,7 @@ export default {
   },
 
   /**
-   * handle invite be make by others, hide ring toast
+   * handle invite be make by other, hide ring toast
    * @param callBack
    */
   handleInviteBeMake: function (callBack) {
@@ -2236,6 +2236,41 @@ export default {
       '&roomNumber=' + _room +
       '&roomPwd=' + _pwd +
       '&nickname=' + _nickname
+    window.fetch(url, {
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json',
+        'userJid': (window.connection ? (window.connection.jid || '') : ''),
+        'token': (window.config ? (window.config.token || '') : '')
+      }
+    })
+      .then(_this.checkStatus)
+      .then(_this.parseJSON)
+      .then(result => {
+        _cb(result)
+      }).catch((failed) => {
+        console.error(failed)
+      })
+  },
+
+  /**
+   * DTMF
+   * @param _server
+   * @param _item
+   * @param _code
+   * @param _cb
+   * @returns {boolean}
+   */
+  sendDTMF: function (_server, _item, _code, _cb) {
+    if (!_item.jid || _item.jid.indexOf('gateway') < 0) {
+      console.warn('DTMF item is not gateway, ignore : ', _item)
+      return false
+    }
+    let _this = this
+    let url = 'https://' + _server +
+      '/clientApi/conference/call/pin?' +
+      'gatewayJid=' + _item.jid +
+      '&pin=' + _code
     window.fetch(url, {
       method: 'GET',
       headers: {

@@ -32,7 +32,7 @@
                 <el-dropdown-item command="sip" :disabled="!callConfig.sip">呼叫SIP</el-dropdown-item>
                 <el-dropdown-item command="h323" :disabled="!callConfig.h323">呼叫H323</el-dropdown-item>
                 <el-dropdown-item command="tel" :disabled="!callConfig.tel">呼叫电话</el-dropdown-item>
-                <el-dropdown-item command="others" :disabled="!callConfig.other">使用其他终端参会</el-dropdown-item>
+                <el-dropdown-item command="other" :disabled="!callConfig.other">使用其他终端参会</el-dropdown-item>
               </el-dropdown-menu>
             </el-dropdown>
           </el-col>

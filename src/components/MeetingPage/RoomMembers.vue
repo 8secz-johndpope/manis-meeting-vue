@@ -56,9 +56,14 @@
                   <i class="icon-icons8_Video_Call btn-icon"  v-else></i>
                 </a>
               </el-col>
-              <el-col :span="3" class="member-item">
+              <el-col :span="3" class="member-item" v-show="item.resource.indexOf('gateway') < 0">
                 <a href="javascript: void (0);" @click.stop="grantAdministrator(item)">
                   <i class="icon-icons8-master-32"></i>
+                </a>
+              </el-col>
+              <el-col :span="3" class="member-item" v-show="item.resource.indexOf('gateway') > -1">
+                <a href="javascript: void (0);" @click.stop="sendDTMFToParticipant(item)">
+                  <i class="icon-icons8_Keypad"></i>
                 </a>
               </el-col>
               <el-col :span="3" class="member-item">
@@ -126,6 +131,11 @@ export default {
     }
   },
   methods: {
+
+    sendDTMFToParticipant: function (item) {
+      this.$emit('doDTMF', item)
+    },
+
     switchSomeoneAudio: function (item) {
       let _this = this
       console.log('handle switch someone audio', item)

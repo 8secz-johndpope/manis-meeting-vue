@@ -1,12 +1,13 @@
 @font-face {
   font-family: 'icomoon';
-  src:  url('../fonts/icomoon.52133b8c58aa67dd971e966509ecae77.eot?jg94dy');
-  src:  url('../fonts/icomoon.52133b8c58aa67dd971e966509ecae77.eot?jg94dy#iefix') format('embedded-opentype'),
-    url('../fonts/icomoon.5915f5becfe5165755c3e105422905e7.ttf?jg94dy') format('truetype'),
-    url('../fonts/icomoon.614844afd82ec1d8f16dcf15c47d8dcd.woff?jg94dy') format('woff'),
-    url('../fonts/icomoon.9e022e0e70dde9bcc8cafab75424379c.svg?jg94dy#icomoon') format('svg');
+  src:  url('../fonts/icomoon.9050ec77fbfd336058f4a8b22856245d.eot?8wlowv');
+  src:  url('../fonts/icomoon.9050ec77fbfd336058f4a8b22856245d.eot?8wlowv#iefix') format('embedded-opentype'),
+  url('../fonts/icomoon.d91d3b9c2d685dcacd45ac48be40c018.ttf?8wlowv') format('truetype'),
+  url('../fonts/icomoon.70cb5e1dc741ae5c44ab88f91662a5b3.woff?8wlowv') format('woff'),
+  url('../fonts/icomoon.cccaa96a631310ba8a4784907c232742.svg?8wlowv#icomoon') format('svg');
   font-weight: normal;
   font-style: normal;
+  font-display: block;
 }
 
 [class^="icon-"], [class*=" icon-"] {
@@ -24,13 +25,17 @@
   -moz-osx-font-smoothing: grayscale;
 }
 
+.icon-icons8_Keypad:before {
+  content: "\e937";
+  color: #fff;
+}
 .icon-icons8_Ringer_Volume_1:before {
   content: "\e936";
-  /*color: #000000;*/
+  color: #fff;
 }
 .icon-icons8_Video_Record_1:before {
   content: "\e933";
-  /*color: #000000;*/
+  color: #fff;
 }
 .icon-icons8_Video_Record:before {
   content: "\e934";
@@ -38,205 +43,205 @@
 }
 .icon-icons8_HDTV:before {
   content: "\e935";
-  /*color: #000000;*/
+  color: #fff;
 }
 .icon-icons8_Phone:before {
   content: "\e931";
-  /*color: #000000;*/
+  color: #fff;
 }
 .icon-icons8_Sip_Dialer:before {
   content: "\e932";
-  /*color: #000000;*/
+  color: #fff;
 }
 .icon-icons8_add_conference:before {
   content: "\e900";
-  /*color: #71dfc3;*/
+  color: #71dfc3;
 }
 .icon-icons8_Add_User_Male:before {
   content: "\e901";
-  /*color: #71dfc3;*/
+  color: #71dfc3;
 }
 .icon-icons8_Address_Book:before {
   content: "\e902";
-  /*color: #000000;*/
+  color: #fff;
 }
 .icon-icons8_Android_OS_black:before {
   content: "\e903";
 }
 .icon-icons8_Android_OS_white:before {
   content: "\e904";
-  /*color: #000000;*/
+  color: #fff;
 }
 .icon-icons8_Apple_black:before {
   content: "\e905";
 }
 .icon-icons8_Apple_white:before {
   content: "\e906";
-  /*color: #000000;*/
+  color: #fff;
 }
 .icon-icons8_Calendar:before {
   content: "\e907";
-  /*color: #000000;*/
+  color: #fff;
 }
 .icon-icons8_Calendar_Plus_2:before {
   content: "\e908";
-  /*color: #000000;*/
+  color: #fff;
 }
 .icon-icons8_Chat:before {
   content: "\e909";
-  /*color: #000000;*/
+  color: #fff;
 }
 .icon-icons8_Checked_User_Male:before {
   content: "\e90a";
-  /*color: #000000;*/
+  color: #fff;
 }
 .icon-icons8_Collapse:before {
   content: "\e90b";
-  /*color: #000000;*/
+  color: #fff;
 }
 .icon-icons8_End_Call:before {
   content: "\e90c";
-  /*color: #f00;*/
+  color: #f00;
 }
 .icon-icons8_Exit_1:before {
   content: "\e90d";
-  /*color: #000000;*/
+  color: #fff;
 }
 .icon-icons8_Expand:before {
   content: "\e90e";
-  /*color: #000000;*/
+  color: #fff;
 }
 .icon-icons8_Globe:before {
   content: "\e90f";
-  /*color: #000000;*/
+  color: #fff;
 }
 .icon-icons8_Hand:before {
   content: "\e910";
-  /*color: #000000;*/
+  color: #fff;
 }
 .icon-icons8_Home_black:before {
   content: "\e911";
 }
 .icon-icons8_Home_white:before {
   content: "\e912";
-  /*color: #000000;*/
+  color: #fff;
 }
 .icon-icons8_Laptop:before {
   content: "\e913";
-  /*color: #000000;*/
+  color: #fff;
 }
 .icon-icons8_Lecturer:before {
   content: "\e914";
-  /*color: #000000;*/
+  color: #fff;
 }
 .icon-icons8_List:before {
   content: "\e915";
-  /*color: #000000;*/
+  color: #fff;
 }
 .icon-icons8_Lock:before {
   content: "\e916";
-  /*color: #000000;*/
+  color: #fff;
 }
 .icon-icons8_Microphone:before {
   content: "\e917";
-  /*color: #000000;*/
+  color: #fff;
 }
 .icon-icons8_Moderator:before {
   content: "\e918";
-  /*color: #000000;*/
+  color: #fff;
 }
 .icon-icons8_More:before {
   content: "\e919";
-  /*color: #000000;*/
+  color: #fff;
 }
 .icon-icons8_Mute_Unmute:before {
   content: "\e91a";
-  /*color: #000000;*/
+  color: #fff;
 }
 .icon-icons8_No_Video:before {
   content: "\e91b";
-  /*color: #000000;*/
+  color: #fff;
 }
 .icon-icons8_Notification:before {
   content: "\e91c";
-  /*color: #000000;*/
+  color: #fff;
 }
 .icon-icons8_Office_Phone:before {
   content: "\e91d";
-  /*color: #000000;*/
+  color: #fff;
 }
 .icon-icons8_Padlock:before {
   content: "\e91e";
-  /*color: #000000;*/
+  color: #fff;
 }
 .icon-icons8_PC_black:before {
   content: "\e91f";
 }
 .icon-icons8_PC_white:before {
   content: "\e920";
-  /*color: #000000;*/
+  color: #fff;
 }
 .icon-icons8_Photo_Gallery:before {
   content: "\e921";
-  /*color: #000000;*/
+  color: #fff;
 }
 .icon-icons8_Plus_Math:before {
   content: "\e922";
-  /*color: #000000;*/
+  color: #fff;
 }
 .icon-icons8_Record_red:before {
   content: "\e923";
-  /*color: #f00;*/
+  color: #f00;
 }
 .icon-icons8_Record_white:before {
   content: "\e924";
-  /*color: #000000;*/
+  color: #fff;
 }
 .icon-icons8_schedule_meeting:before {
   content: "\e925";
-  /*color: #71dfc3;*/
+  color: #71dfc3;
 }
 .icon-icons8_Settings:before {
   content: "\e926";
-  /*color: #000000;*/
+  color: #fff;
 }
 .icon-icons8_Settings_1:before {
   content: "\e927";
-  /*color: #000000;*/
+  color: #fff;
 }
 .icon-icons8_Share_3:before {
   content: "\e928";
-  /*color: #000000;*/
+  color: #fff;
 }
 .icon-icons8_Star_Filled:before {
   content: "\e929";
-  /*color: #000000;*/
+  color: #fff;
 }
 .icon-icons8_temp_conference:before {
   content: "\e92a";
-  /*color: #71dfc3;*/
+  color: #71dfc3;
 }
 .icon-icons8_Template:before {
   content: "\e92b";
-  /*color: #000000;*/
+  color: #fff;
 }
 .icon-icons8_User_Account:before {
   content: "\e92c";
-  /*color: #000000;*/
+  color: #fff;
 }
 .icon-icons8_Video_Call:before {
   content: "\e92d";
-  /*color: #000000;*/
+  color: #fff;
 }
 .icon-icons8_Video_Chat:before {
   content: "\e92e";
-  /*color: #000000;*/
+  color: #fff;
 }
 .icon-icons8_Whiteboard:before {
   content: "\e92f";
-  /*color: #000000;*/
+  color: #fff;
 }
 .icon-icons8-master-32:before {
   content: "\e930";
-  /*color: #fcfcfc;*/
+  color: #fcfcfc;
 }

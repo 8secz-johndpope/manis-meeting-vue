@@ -220,7 +220,7 @@
               <el-option label="SIP" value="sip" :disabled="!callConfig.sip"></el-option>
               <el-option label="H323" value="h323" :disabled="!callConfig.h323"></el-option>
               <el-option label="电话" value="tel" :disabled="!callConfig.tel"></el-option>
-              <el-option label="使用其他终端参会" value="others" :disabled="!callConfig.other"></el-option>
+              <el-option label="使用其他终端参会" value="other" :disabled="!callConfig.other"></el-option>
             </el-select>
           </el-form-item>
           <el-form-item label="" prop="attendNum">
@@ -232,7 +232,7 @@
           <el-form-item label="" v-show="(attendForm.attendType != 'tel')">
             <el-input v-model="attendForm.attendNickname" autocomplete="off" placeholder="昵称" clearable></el-input>
           </el-form-item>
-          <el-form-item label="" v-show="(attendForm.attendType == 'others')" prop="attendOthersType">
+          <el-form-item label="" v-show="(attendForm.attendType == 'other')" prop="attendOthersType">
             <el-select v-model="attendForm.attendOthersType">
               <el-option label="SIP" value="sip" :disabled="!callConfig.sip"></el-option>
               <el-option label="H323" value="h323" :disabled="!callConfig.h323"></el-option>
@@ -286,7 +286,7 @@ export default {
   data: function () {
     var checkClientType = (rule, value, callback) => {
       let _this = this
-      if (!value && _this.attendForm.attendType === 'others') {
+      if (!value && _this.attendForm.attendType === 'other') {
         return callback(new Error('请选择需要使用的终端类型'))
       }
       callback()
@@ -355,7 +355,7 @@ export default {
       let _this = this
       _this.$refs[formName].validate((valid) => {
         if (valid) {
-          if (_this.attendForm.attendType === 'others') {
+          if (_this.attendForm.attendType === 'other') {
             Utils.doClientCall(
               _this.apiServer,
               _this.attendRoomNum,

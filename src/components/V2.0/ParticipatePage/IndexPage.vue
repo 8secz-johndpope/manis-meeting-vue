@@ -513,7 +513,7 @@ export default {
       let _this = this
       console.log('will call someone and show loading', contact)
       if (!_this.myRoomNum) {
-        console.warn('can not find room for call others')
+        console.warn('can not find room for call other')
         _this.getPrivateMeeting()
         return false
       }
