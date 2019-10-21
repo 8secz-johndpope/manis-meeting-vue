@@ -957,24 +957,27 @@ export default {
         if (mainParticipant) {
           if ((mainParticipant.info && mainParticipant.info.jid === window.connection.jid) || (window.participants && window.participants.length <= 2)) {
             // set resolution with config.resolution
-            _this.changeLocalVideoResolution(window.config.resolution)
+            _this.changeLocalVideoResolution(_this.calculateTargetResolution(0))
           } else {
             // set resolution to 180
-            _this.changeLocalVideoResolution('180')
+            _this.changeLocalVideoResolution(_this.calculateTargetResolution(9))
           }
         }
       } else {
-        // spread mode, caculate resolution with participants count in room
+        // spread mode, calculate resolution with participants count in room
         let videoCount = _this.showVideos.length || 1
-        let targetResolution = '180'
-        if (videoCount >= 6) {
-          targetResolution = '180'
-        } else if (videoCount >= 3) {
-          targetResolution = '540'
-        } else {
-          targetResolution = '720'
-        }
-        _this.changeLocalVideoResolution(targetResolution)
+        _this.changeLocalVideoResolution(_this.calculateTargetResolution(videoCount))
+      }
+    },
+
+    calculateTargetResolution: function (videoCount) {
+      let maxResolution = (window.config && window.config.resolution) ? window.config.resolution.toString() : '1080'
+      if (videoCount >= 6) {
+        return (maxResolution >= '1080') ? '360' : '180'
+      } else if (videoCount >= 3) {
+        return (maxResolution >= '1080') ? '540' : '360'
+      } else {
+        return maxResolution
       }
     },
 
