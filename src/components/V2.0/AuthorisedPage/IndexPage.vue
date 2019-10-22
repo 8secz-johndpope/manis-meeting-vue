@@ -292,6 +292,7 @@ export default {
       callback()
     }
     return {
+      loading: false,
       activeName: 'upcoming',
       activePage: 1,
       conferencesCount: 0,
@@ -460,10 +461,16 @@ export default {
     },
     handleClick (activeType) {
       let _this = this
+      if (_this.loading) {
+        Utils.notification(_this, '正在获取数据,请稍后.')
+        return false
+      }
       _this.activeName = activeType
+      _this.loading = true
       console.log('handle tab click event: ', _this.activeName)
       if (_this.activeName === 'contacts') {
         _this.getMyContacts()
+        _this.loading = false
       }
       _this.conferences = []
       _this.activePage = 1
@@ -534,6 +541,9 @@ export default {
             if (res.data.obj && res.data.obj.length) {
               _this.conferences = _this.conferences.concat(res.data.obj)
               _this.activePage++
+              _this.$nextTick(function () {
+                _this.loading = false
+              })
             }
           } else {
             console.warn('unknown response code: ', res.data)
@@ -541,6 +551,9 @@ export default {
               _this.moreBtnTitle = '没有更多数据了'
               _this.moreBtnDisabled = true
               _this.moreBtnType = 'danger'
+              _this.$nextTick(function () {
+                _this.loading = false
+              })
             }
           }
         }

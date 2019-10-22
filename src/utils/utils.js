@@ -202,6 +202,7 @@ export default {
         _this.$toast.success(msg, title, options)
         break
       case 'error':
+        _this.$toast.destroy()
         _this.$toast.error(msg, title, options)
         break
       default:

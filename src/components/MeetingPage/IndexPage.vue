@@ -1,7 +1,7 @@
 <template>
   <div class="wrapper">
     <el-container>
-      <div class="main-container">
+      <div class="main-container" @click="switchShowController">
         <el-container :class="['top-control-container', {'show': (showAdminRight || showMembers || showTextMsg || showDeviceSetting)}]">
           <top-controls
             :screenShareStatus="screenSharing"
@@ -1006,6 +1006,21 @@ export default {
     saveDisplaySort: function () {
       let _this = this
       _this.sortDialogVisible = false
+    },
+
+    switchShowController: function () {
+      let element = document.querySelector('.top-control-container')
+      if (element) {
+        let elementClass = element.getAttribute('class')
+        if (elementClass.indexOf('show') < 0) {
+          // switch show top controller
+          if (element.style.display !== 'none') {
+            element.style.display = 'none'
+          } else {
+            element.style.display = 'block'
+          }
+        }
+      }
     }
 
   },
@@ -1048,14 +1063,10 @@ export default {
   }
 
   .main-container .top-control-container {
-    display: none;
-  }
-
-  .main-container .top-control-container.show {
     display: block;
   }
 
-  .main-container:hover .top-control-container {
+  .main-container .top-control-container.show {
     display: block;
   }
 
