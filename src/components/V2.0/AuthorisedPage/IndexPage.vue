@@ -42,7 +42,7 @@
                         placement="right"
                         width="240"
                         trigger="hover">
-                        <div class="conference-item-detail" @contextmenu.prevent.stop="handleShowMenuClick($event, item)">
+                        <div class="conference-item-detail">
                           <el-row :gutter="10">
                             <el-col class="conference-item-title" :span="24">
                               <div class="text-center">{{ item.title }}</div>

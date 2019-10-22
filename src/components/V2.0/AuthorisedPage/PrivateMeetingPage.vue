@@ -11,16 +11,14 @@
       <el-col :span="24">
         <el-row :gutter="10">
           <el-col :span="12">
-            <a href="javascript: void (0);" @click="copyMyPrivateRoomInfo">
-              <el-row :gutter="0" class="private-room-link">
-                <el-col class="text-center" :span="4" :offset="2">
-                  <v-icon name="link"></v-icon>
-                </el-col>
-                <el-col :span="12">
-                  <div class="text-center">{{privateRoom | formatRoomNo}}</div>
-                </el-col>
-              </el-row>
-            </a>
+            <el-row :gutter="0" class="private-room-link">
+              <el-col class="text-center" :span="4" :offset="2">
+                <v-icon name="link"></v-icon>
+              </el-col>
+              <el-col :span="12">
+                <div class="text-center">{{privateRoom | formatRoomNo}}</div>
+              </el-col>
+            </el-row>
           </el-col>
           <el-col :span="12" class="private-room-submit">
             <!--<el-button round @click="startPrivateMeeting" class="light-blue">
