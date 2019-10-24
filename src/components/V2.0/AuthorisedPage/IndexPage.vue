@@ -226,11 +226,11 @@
           <el-form-item label="" prop="attendNum">
             <el-input v-model="attendForm.attendNum"
                       autocomplete="off"
-                      :placeholder="(attendForm.attendType != 'tel')? '终端号码':'号码'"
+                      :placeholder="((attendForm.attendType == 'tel') || (attendForm.attendType == 'other' && attendForm.attendOthersType == 'tel') )? '请输入电话号码' :  '请输入终端号码'"
                       clearable></el-input>
           </el-form-item>
           <el-form-item label="" v-show="(attendForm.attendType != 'tel')">
-            <el-input v-model="attendForm.attendNickname" autocomplete="off" placeholder="昵称" clearable></el-input>
+            <el-input v-model="attendForm.attendNickname" autocomplete="off" placeholder="请输入昵称" clearable></el-input>
           </el-form-item>
           <el-form-item label="" v-show="(attendForm.attendType == 'other')" prop="attendOthersType">
             <el-select v-model="attendForm.attendOthersType">
@@ -367,6 +367,7 @@ export default {
               _this.attendForm.attendNickname,
               function (res) {
                 console.log('call other client attend', res)
+                Utils.notification(_this, '呼叫消息已发送')
               }
             )
             _this.attendDialogFormVisible = false
