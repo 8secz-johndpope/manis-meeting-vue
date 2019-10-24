@@ -673,6 +673,7 @@ export default {
           params.actions.attendNickname,
           function (res) {
             console.log('call after attend', res)
+            Utils.notification(_this, '已呼叫, 请等待')
           }
         )
       }
