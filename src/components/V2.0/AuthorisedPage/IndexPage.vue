@@ -217,10 +217,10 @@
         <el-form :model="attendForm" :rules="attendFormRules" ref="attendForm" >
           <el-form-item label="">
             <el-select v-model="attendForm.attendType" placeholder="请选择类型">
-              <el-option label="SIP" value="sip" :disabled="!callConfig.sip"></el-option>
-              <el-option label="H323" value="h323" :disabled="!callConfig.h323"></el-option>
-              <el-option label="电话" value="tel" :disabled="!callConfig.tel"></el-option>
-              <el-option label="使用其他终端参会" value="other" :disabled="!callConfig.other"></el-option>
+              <el-option label="SIP" value="sip" :disabled="!callConfig.sip" v-show="callConfig.sip"></el-option>
+              <el-option label="H323" value="h323" :disabled="!callConfig.h323" v-show="callConfig.h323"></el-option>
+              <el-option label="电话" value="tel" :disabled="!callConfig.tel" v-show="callConfig.tel"></el-option>
+              <el-option label="使用其他终端参会" value="other" :disabled="!callConfig.other" v-show="callConfig.other"></el-option>
             </el-select>
           </el-form-item>
           <el-form-item label="" prop="attendNum">
@@ -234,9 +234,9 @@
           </el-form-item>
           <el-form-item label="" v-show="(attendForm.attendType == 'other')" prop="attendOthersType">
             <el-select v-model="attendForm.attendOthersType">
-              <el-option label="SIP" value="sip" :disabled="!callConfig.sip"></el-option>
-              <el-option label="H323" value="h323" :disabled="!callConfig.h323"></el-option>
-              <el-option label="电话" value="tel" :disabled="!callConfig.tel"></el-option>
+              <el-option label="SIP" value="sip" :disabled="!callConfig.sip" v-show="callConfig.sip"></el-option>
+              <el-option label="H323" value="h323" :disabled="!callConfig.h323" v-show="callConfig.h323"></el-option>
+              <el-option label="电话" value="tel" :disabled="!callConfig.tel"  v-show="callConfig.tel"></el-option>
             </el-select>
           </el-form-item>
         </el-form>

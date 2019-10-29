@@ -65,10 +65,10 @@
                       <el-dropdown class="attend-dropdown-menu" split-button round  trigger="click" @click="submitForm('authorisedJoinForm')" @command="handleCommand">
                         加入会议
                         <el-dropdown-menu slot="dropdown" class="attend-dropdown">
-                          <el-dropdown-item command="sip" :disabled="!callConfig.sip">呼叫SIP</el-dropdown-item>
-                          <el-dropdown-item command="h323" :disabled="!callConfig.h323">呼叫H323</el-dropdown-item>
-                          <el-dropdown-item command="tel" :disabled="!callConfig.tel">呼叫电话</el-dropdown-item>
-                          <el-dropdown-item command="other" :disabled="!callConfig.other">使用其他终端参会</el-dropdown-item>
+                          <el-dropdown-item command="sip" :disabled="!callConfig.sip" v-show="callConfig.sip">呼叫SIP</el-dropdown-item>
+                          <el-dropdown-item command="h323" :disabled="!callConfig.h323" v-show="callConfig.h323">呼叫H323</el-dropdown-item>
+                          <el-dropdown-item command="tel" :disabled="!callConfig.tel" v-show="callConfig.tel">呼叫电话</el-dropdown-item>
+                          <el-dropdown-item command="other" :disabled="!callConfig.other" v-show="callConfig.other">使用其他终端参会</el-dropdown-item>
                         </el-dropdown-menu>
                       </el-dropdown>
                     </div>
