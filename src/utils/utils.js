@@ -2268,10 +2268,11 @@ export default {
       return false
     }
     let _this = this
+    let params = 'gatewayJid=' + _item.jid +
+      '&pin=' + (_code === '#' ? window.encodeURIComponent(_code) : _code)
+
     let url = 'https://' + _server +
-      '/clientApi/conference/call/pin?' +
-      'gatewayJid=' + _item.jid +
-      '&pin=' + _code
+      '/clientApi/conference/call/pin?' + params
     window.fetch(url, {
       method: 'GET',
       headers: {
