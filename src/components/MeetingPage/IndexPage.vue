@@ -315,7 +315,7 @@ export default {
     showDTMF: function (item) {
       console.log('show dtmf keyboard for : ', item)
       this.dtmfItem = item
-      this.dtmfNickname = this.dtmfItem.nickname || ''
+      this.dtmfNickname = Utils.formatNickname((this.dtmfItem.nickname || ''), 15)
       this.dtmfDialogFormVisible = true
     },
 
@@ -974,9 +974,9 @@ export default {
     calculateTargetResolution: function (videoCount) {
       let maxResolution = (window.config && window.config.resolution) ? window.config.resolution.toString() : '1080'
       if (videoCount >= 6) {
-        return (maxResolution >= '1080') ? '360' : '180'
+        return (maxResolution >= '1080') ? '240' : '180'
       } else if (videoCount >= 3) {
-        return (maxResolution >= '1080') ? '540' : '360'
+        return (maxResolution >= '1080') ? '540' : '240'
       } else {
         return maxResolution
       }

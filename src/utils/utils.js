@@ -1494,13 +1494,13 @@ export default {
     if (!str) {
       return ''
     }
+    if (str.indexOf('sip:68') > -1 || str.indexOf('sip:69') > -1) {
+      str = str.replace('sip:68', 'tel:')
+      str = str.replace('sip:69', 'tel:')
+    }
     maxLength = maxLength > 0 ? maxLength : 9
     appendStr = appendStr || (str.length > maxLength ? '...' : '')
     var returnStr = str.toString().substring(0, maxLength) + appendStr
-    if (returnStr.indexOf('sip:68') > -1 || returnStr.indexOf('sip:69') > -1) {
-      returnStr = returnStr.replace('sip:68', 'tel:')
-      returnStr = returnStr.replace('sip:69', 'tel:')
-    }
     return returnStr
   },
 

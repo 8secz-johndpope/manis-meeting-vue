@@ -216,7 +216,7 @@
         :visible.sync="attendDialogFormVisible">
         <el-form :model="attendForm" :rules="attendFormRules" ref="attendForm" >
           <el-form-item label="">
-            <el-select v-model="attendForm.attendType" placeholder="请选择类型">
+            <el-select v-model="attendForm.attendType" placeholder="请选择类型" @change="clientChange">
               <el-option label="SIP" value="sip" :disabled="!callConfig.sip" v-show="callConfig.sip"></el-option>
               <el-option label="H323" value="h323" :disabled="!callConfig.h323" v-show="callConfig.h323"></el-option>
               <el-option label="电话" value="tel" :disabled="!callConfig.tel" v-show="callConfig.tel"></el-option>
@@ -233,7 +233,7 @@
             <el-input v-model="attendForm.attendNickname" autocomplete="off" placeholder="请输入昵称" clearable></el-input>
           </el-form-item>
           <el-form-item label="" v-show="(attendForm.attendType == 'other')" prop="attendOthersType">
-            <el-select v-model="attendForm.attendOthersType">
+            <el-select v-model="attendForm.attendOthersType"  @change="otherClientChange">
               <el-option label="SIP" value="sip" :disabled="!callConfig.sip" v-show="callConfig.sip"></el-option>
               <el-option label="H323" value="h323" :disabled="!callConfig.h323" v-show="callConfig.h323"></el-option>
               <el-option label="电话" value="tel" :disabled="!callConfig.tel"  v-show="callConfig.tel"></el-option>
@@ -350,6 +350,16 @@ export default {
       let _this = this
       _this.attendDialogFormVisible = false
       _this.joinRoom(_this.attendRoomNum, _this.attendRoomPwd, _this.attendForm)
+    },
+
+    clientChange (value) {
+      console.log('client type change to: ', value)
+      this.attendForm.attendNum = ''
+    },
+
+    otherClientChange (value) {
+      console.log('other client type change to: ', value)
+      this.attendForm.attendNum = ''
     },
 
     submitForm (formName) {
