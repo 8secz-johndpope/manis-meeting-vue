@@ -228,7 +228,8 @@ export default {
       if (item.is_moderator) {
         return true
       }
-      _this.$toast.question('此操作将把"' + item.nickname + '"从当前房间移出?', '提示', {
+      let nickname = Utils.formatNickname((item.nickname || ''), 15)
+      _this.$toast.question('此操作将把"' + nickname + '"从当前房间移出?', '提示', {
         timeout: 20000,
         close: false,
         overlay: true,
